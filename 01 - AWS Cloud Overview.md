@@ -1,8 +1,8 @@
 # 1 - AWS Cloud Overview - A Big Picture
 
-![A](../Attachments/Architecture.png)
+![A](./Attachments/Architecture.png)
 
-![](../Attachments/AWS-Architecture.png)
+![](./Attachments/AWS-Architecture.png)
 
 
 ## 1.1 - Cloud Computing and AWS Global Infrastructure
