@@ -642,13 +642,451 @@ The key idea is that **IAM policies define permissions**, and those policies can
 
 # 8 - \[Exercise] Create IAM Group
 
+## 8.1 - IAM Groups for Permission Management
+
+An **IAM group** is a collection of IAM users that can share the same permissions.
+
+Instead of attaching policies individually to each user, you can:
+
+- Create a group such as `developers`, `test-engineers`, `SRE`, or `DevOps`
+- Attach relevant **IAM policies** to the group
+- Add IAM users to that group
+
+Users in the group receive the permissions assigned to the group
+
+**Same permissions for multiple users - Use an IAM group**
+
+## 8.2 - Developers Group Example
+
+In this exercise, a group named `developers` is created
+
+The group is assigned the **AmazonEC2FullAccess** policy
+
+This means users in the developers group can perform EC2-related operations permitted by that policy, such as:
+- Launch EC2 instances
+- Start EC2 instances
+- Stop EC2 instances
+
+A new IAM user named `dev` is then added to the `developers` group.
+
+The EC2 permissions come from the **group**, rather than from a policy attached directly to the user.
+
+## 8.3 - Permissions Are Limited to What Is Granted
+
+The `dev` user receives EC2 permissions through the developers group, but no S3 permissions are granted.
+
+When the user attempts to create an **Amazon S3** bucket, AWS denies the request because the user is not authorized to perform the required S3 action.
+
+However, the same user can successfully launch an **Amazon EC2** instance because the developers group has EC2 full-access permissions.
+
+This demonstrates an important IAM principle:
+
+**A user can perform only the actions that have been explicitly permitted through applicable IAM permissions**.
+
+## 8.4 - Permission Examples from the Exercise
+
+| **IAM User**     | **Permission Source**      | **Effective Access in This Exercise** |
+| ---------------- | -------------------------- | ------------------------------------- |
+| `Chetan / admin` | Administrative permissions | Broad administrative access           |
+| `automation`     | Custom IAM policy          | List, start, and stop EC2 instances   |
+| `Dave`           | `developers` IAM group     | Full EC2 access                       |
+
+The `Dave` user does not receive S3 permissions simply because it has EC2 permissions.
+
+Permissions are granted according to the policies associated with the identity or its group membership.
+
+## 8.5 - Exam Focus
+
+- **IAM group - Collection of IAM users**
+- **Group permissions - Applied to users who belong to the group**
+- **Same permissions for multiple users - Attach the policy to an IAM group**
+- **Developers group with EC2 policy - Users receive EC2 permissions through the group**
+- **No S3 permission - S3 actions are denied**
+- **Allowed EC2 permission - EC2 operations succeed**
+- **IAM authorization - Users can perform only actions permitted by applicable policies**
+
 # 9 - IAM Role - Deep Dive
+
+## 9.1 - Why IAM Roles Are Needed
+
+Applications running on AWS services may need permission to access other AWS services.
+
+For example:
+- An application running on **Amazon EC2** may need to upload or download data from **Amazon S3**
+- An **AWS Lambda** function may need permission to access other AWS services.
+
+One option is to create an IAM user for the application and store its **access keys** on the EC2 instance. However, IAM user credentials are **long-term credentials** and do not automatically change.
+
+Storing long-term credentials on an EC2 instance creates a security risk if those credentials are exposed.
+
+**IAM roles provide a more secure alternative because they use temporary credentials that AWS automatically rotates**.
+
+## 9.2 - IAM Role Permissions
+
+An **IAM role** can have IAM policies attached to it, similar to an IAM user.
+
+The policies define what actions can be performed when the role is used.
+
+For an EC2 workload:
+1. Create an **IAM policy** containing the required permissions.
+2. Create an **IAM role**.
+3. Attach the policy to the role.
+4. Attach the role to the **EC2 instance**.
+5. The application can then access permitted AWS resources without storing long-term IAM user credentials
+
+**EC2 needs access to S3 - Attach an IAM role with the required S3 permissions**
+
+## 9.3 - Temporary vs Long-Term Credentials
+
+| **IAM Identity** | **Credential Type**   | **Key Characteristic**                             |
+| ---------------- | --------------------- | -------------------------------------------------- |
+| **IAM user**     | Long-term credentials | Credentials remain valid until changed or removed  |
+| **IAM role**     | Temporary credentials | Credentials are automatically provided and rotated |
+
+For workloads running on AWS services, roles are preferred because they avoid storing long-term access keys in applications or instances.
+
+## 9.4 - IAM Roles for AWS Services
+
+IAM roles can be used by AWS services that need permission to interact with other AWS services.
+
+Examples include:
+- **Amazon EC2**
+- **AWS Lambda**
+
+The service uses the permissions granted through the role to perform allowed actions.
+
+**AWS service needs permissions to access another AWS service - IAM role**
+
+## 9.5 - Cross-Account Access
+
+IAM roles can also provide **cross-account access**
+
+Suppose:
+- An IAM user exists in **Account A**
+- Resources that the user needs to access exist in **Account B**
+
+Instead of creating another IAM user in Account B and managing separate credentials, Account B can create an **IAM role**.
+
+The user in Account A can then **assume the role** in Account B and receive the permissions assigned to that role.
+
+This reduces the need to create and manage duplicate IAM users across accounts.
+
+**User in one AWS account needs access to another AWS account - Assume an IAM role**
+
+## 9.6 - Role Trust Policy
+
+An IAM role includes a **trust policy** that defines **who is allowed to assume the role**.
+
+For cross-account access, the trust policy can allow:
+- A particular identity from another AWS account
+- An AWS account to use the role as permitted
+
+After the trusted identity assumes the role, it can perform actions allowed by the IAM policies attached to that role.
+
+### Trust vs Permissions
+
+- **Trust policy** - Defines **who can assume the role**
+- **IAM permissions attached to the role** - Define **what the role can do**
+
+## 9.7 - Federated Users
+
+IAM roles can also be used with **federated users**
+
+Federation allows users to authenticate through an external identity provider and then access AWS through an IAM role.
+
+The lesson uses authentication providers such as:
+- Google
+- Facebook
+
+The external provider authenticates the user, while an IAM role provides the permissions needed to access AWS resources.
+
+**Externally authenticated user needs AWS access - Federation with an IAM role**
+
+## 9.8 - Common IAM Role Use Cases
+
+| **Scenario**                             | **IAM Role Use**                           |
+| ---------------------------------------- | ------------------------------------------ |
+| EC2 application needs S3 access          | Assign a role to the EC2 instance          |
+| Lambda needs access to AWS resources     | Assign a role to the Lambda function       |
+| User in another AWS account needs access | User assumes a cross-account role          |
+| Federated user needs AWS access          | Federated user assumes an appropriate role |
+
+The major advantage is that IAM roles provide **temporary credentials** rather than requiring long-term credentials to be stored and managed.
+
+## 9.9 - Exam Focus
+
+- **IAM role - Provides permissions using temporary credentials**
+- **IAM user credentials - Long-term credentials**
+- **AWS workload needs access to another AWS service - Use an IAM role**
+- **EC2 needs S3 access - Attach an IAM role with the required permissions**
+- **Temporary role credentials - Automatically rotated by AWS**
+- **Cross-account access - Assume an IAM role in another AWS account**
+- **Trust policy - Defines who can assume an IAM role**
+- **Role permissions - Define what actions can be performed after assuming the role**
+- **Federated users - Can use IAM roles to obtain AWS access**
+- **Avoid storing long-term access keys on AWS workloads when an IAM role can be used**
 
 # 10 - \[Exercise] IAM Credentials - Access Keys
 
+## 10.1 - IAM Access Keys
+
+**Access keys** are long-term credentials used for **programmatic access** to AWS.
+
+Different access methods use different credentials:
+
+| **Access Method**          | **Credentials**                       |
+| -------------------------- | ------------------------------------- |
+| **AWS Management Console** | Username and password, optionally MFA |
+| **AWS CLI**                | Access keys                           |
+| **AWS SDKs**               | Access keys                           |
+
+Access keys allow applications and command-line tools to authenticate when making requests to AWS APIs.
+
+## 10.2 - Components of an Access Key
+
+An access key consists of two parts:
+- **Access Key ID** - Identifies the user associated with the credentials
+- **Secret Access Key** - Secret value used together with the Access Key ID for authentication
+
+Both values are required for programmatic access.
+
+**Access Key ID + Secret Access Key - IAM access key credentials**
+
+Access keys are **long-term credentials**, similar in concept to a username and password.
+
+## 10.3 - Programmatic Access to AWS
+
+Access keys can be used when accessing AWS through:
+- **AWS Command Line Interface (AWS CLI)**
+- **AWS SDKs**
+- Direct AWS API requests
+
+AWS CLI and SDKs ultimately invoke AWS service APIs
+
+Direct API requests must be signed using **AWS Signature Version 4 (SigV4)**, so the CLI or SDK is typically easier to use.
+
+## 10.4 - Managing Access Keys
+
+Access keys can be generated for:
+- **IAM users**
+- The **root user**
+
+According to the exercise, a user can have a maximum of **two active access keys** at the same time.
+
+Because access keys are long-term credentials, they should be **stored securely**.
+
+The **Secret Access Key is available when the access key is created**. If it is lost, the same secret cannot simply be retrieved again. A new access key must be created.
+
+In the exercise, an access key is created for the `automation` IAM user so that its credentials can later be used with the **AWS CLI**
+
+## 10.5 - Console Credentials vs Access Keys
+
+| **Credential**                        | **Main Use**                                                |
+| ------------------------------------- | ----------------------------------------------------------- |
+| **Username + password**               | Sign in to the AWS Management Console                       |
+| **MFA**                               | Adds an additional authentication factor for console access |
+| **Access Key ID + Secret Access Key** | Programmatic access through AWS CLI or SDKs                 |
+
+The key exam distinction is recognizing that **console credentials and programmatic credentials are different**.
+
+## 10.6 - Exam Focus
+
+- **AWS CLI / AWS SDK programmatic access - Access keys**
+- **AWS Management Console - Username and password**
+- **Access key - Long-term credential**
+- **Access Key ID - Identifies the associated user**
+- **Secret Access Key - Secret portion of the access key credentials**
+- **Access Key ID + Secret Access Key - Used together for programmatic access**
+- **Lost Secret Access Key - Create a new access key**
+- **Access keys - Store securely because they provide AWS API access**
+- **Direct AWS API requests - Signed using AWS Signature Version 4 (SigV4)**
+
 # 11 - \[Exercise] Using AWS CLI
 
+## 11.1 - AWS Command Line Interface (AWS CLI)
+
+The **AWS Command Line Interface (AWS CLI)** allows users to access and manage AWS services from a command line.
+
+For programmatic access through the AWS CLI, the CLI uses **IAM access keys** rather than a console username and password.
+
+Before using the CLI, it must first be installed on the local operating system, such as:
+- Windows
+- Linux
+- macOS
+
+## 11.2 - Configuring the AWS CLI
+
+After installation, the AWS CLI can be configured using:
+
+`aws configure`
+
+The configuration includes:
+- **Access Key ID**
+- **Secret Access Key**
+- **Default AWS Region**
+- **Default output format**
+
+The output format can be configured as formats such as:
+- JSON
+- Text
+
+The **default Region** determines which regional endpoint CLI commands use when no Region is explicitly specified.
+
+A different Region can be provided for an individual command using the `--region` option.
+
+## 11.3 - Using AWS CLI Commands
+
+Once configured, AWS CLI commands can perform operations against AWS services.
+
+Examples from the exercise include:
+
+`aws ec2 describe-instances`
+
+Used to list EC2 instance information in the account.
+
+`aws ec2 start-instances --instance-id <instance-id>`
+
+Used to start a specified EC2 instance.
+
+`aws ec2 stop-instances --instance-id <instance-id>`
+
+Used to stop a specified EC2 instance.
+
+The exact syntax for commands can be found in the AWS documentation or command-line help.
+
+## 11.4 - IAM Permissions Still Apply
+
+Using the AWS CLI does **not bypass IAM permissions**.
+
+The permissions available through the CLI are determined by the IAM identity associated with the configured access keys.
+
+In this exercise, the `automation` IAM user's access keys are used. That user has permission to:
+
+- Describe EC2 instances
+- Start EC2 instances
+- Stop EC2 instances
+
+Therefore, the CLI can perform only those operations permitted by the user's IAM policies.
+
+## 11.5 - Resource Access is Based on Permissions
+
+AWS resources are not permanently associated with the IAM user that originally created them.
+
+For example:
+- One IAM user can launch an EC2 instance
+- Another IAM user can start or stop that instance
+- An administrator can view and manage the same instance
+
+What matters is whether the identity has the required **IAM permissions** for that resource and action.
+
+**Who created the resource does not determine who can manage it - IAM permissions do**
+
+## 11.6 - AWS Console vs AWS CLI
+
+| **Access Method**          | **Main Authentication Method**    | **Interface** |
+| -------------------------- | --------------------------------- | ------------- |
+| **AWS Management Console** | Username/password, optionally MFA | Web browser   |
+| **AWS CLI**                | IAM access keys                   | Command line  |
+
+Both ultimately interact with AWS services, but the method of authentication and interaction is different.
+
+## 11.7 - Exam Focus
+
+- **AWS CLI - Command-line interface for programmatic AWS access**
+- **AWS CLI authentication - Uses IAM access keys**
+- **`aws configure` - Sets access key, secret key, default Region, and output format**
+- **Default Region - Used when a command does not specify another Region**
+- **`--region` - Overrides the default Region for a command**
+- **`describe-instances` - Lists EC2 instance information**
+- **`start-instances` - Starts EC2 instances**
+- **`stop-instances` - Stops EC2 instances**
+- **AWS CLI permissions - Controlled by IAM policies**
+- **Resource management - Depends on IAM permissions, not which user originally created the resource**
+
 # 12 - \[Exercise] Using AWS SDK
+
+## 12.1 - AWS Software Development Kits (SDKs)
+
+An **AWS Software Development Kit (SDK)** allows applications to access AWS services programmatically using a supported programming language.
+
+AWS provides SDKs for many languages, including:
+- Python
+- Java
+- Node.js
+- Other common programming languages
+
+An organization typically chooses the SDK that matches the programming language used by its application.
+
+For example:
+- Java application - Use the **AWS SDK for Java**
+- Python application - Use the **AWS SDK for Python (Boto3)**
+
+## 12.2 - How AWS SDKs Work
+
+AWS SDKs provide a programming-language interface for interacting with AWS services.
+
+The SDK acts as a wrapper around the AWS **HTTP/REST APIs**, allowing developers to call AWS services using normal programming constructs instead of manually making API requests.
+
+The overall process is similar to the **AWS CLI:**
+- **AWS CLI** - Interact with AWS through command-line commands
+- **AWS SDK** - Interact with AWS through application code
+
+Both ultimately invoke AWS service APIs.
+
+## 12.3 - AWS SDK for Python (Boto3)
+
+**Boto3** is the **AWS SDK for Python**.
+
+Applications can use Boto3 functions to perform AWS operations.
+
+In the exercise, a Python program is used to:
+- Start an **Amazon EC2** instance
+- Stop an **Amazon EC2** instance
+
+The program performs essentially the same AWS operations previously performed using the AWS CLI, but through Python code.
+
+SDK documentation provides information about:
+- Available functions
+- Required parameters
+- Supported AWS service operations
+
+## 12.4 - SDK vs CLI
+
+| **Method**  | **How AWS is Accessed**   | **Best Association**                    |
+| ----------- | ------------------------- | --------------------------------------- |
+| **AWS CLI** | Command-line commands     | Scripts and command-line administration |
+| **AWS SDK** | Programming-language code | Applications and custom automation      |
+
+Using an SDK provides the flexibility of a programming language, allowing developers to add:
+- Application logic
+- Parameters
+- Environment variables
+- Integration with other application components
+
+## 12.5 - AWS CloudShell
+
+**AWS CloudShell** provides a **browser-based shell environment** from within the AWS Management Console.
+
+In the exercise, CloudShell is used as the environment for running the Python SDK example.
+
+CloudShell includes tools such as:
+- AWS CLI
+- Python
+- Node.js and related development tools
+
+It can also store files, making it useful for running commands and programs directly from a browser-based terminal.
+
+The lesson also notes that CloudShell is **pre-authenticated** with the AWS identity being used.
+
+## 12.6 - Exam Focus
+
+- **AWS SDK - Programmatically access AWS services using application code**
+- **Boto3 - AWS SDK for Python**
+- **AWS CLI - Command-line access to AWS**
+- **AWS SDK - Programming-language access to AWS**
+- **CLI and SDK - Ultimately interact with AWS service APIs**
+- **CloudShell - Browser-based shell environment provided by AWS**
+- **Application requires custom AWS automation - Use an AWS SDK**
 
 # 13 - Understanding Relation Between AWS APIs, CLI and SDK
 
