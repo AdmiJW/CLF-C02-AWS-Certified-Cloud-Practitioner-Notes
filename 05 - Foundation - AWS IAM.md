@@ -1090,8 +1090,473 @@ The lesson also notes that CloudShell is **pre-authenticated** with the AWS iden
 
 # 13 - Understanding Relation Between AWS APIs, CLI and SDK
 
+## 13.1 - AWS APIs as the Foundation
+
+AWS services are exposed through **AWS APIs**, which use HTTP-based communication.
+
+At the core:
+- AWS services expose APIs
+- Users and applications interact with AWS services by invoking these APIs
+- These API requests are protected by **AWS Identity and Access Management (IAM)**
+
+**AWS APIs - Core interface used to access AWS services**
+
+## 13.2 - Role of AWS SDKs
+
+An **AWS SDK** wraps AWS APIs and handles much of the low-level complexity involved in making API requests.
+
+Without an SDK, an application would need to handle tasks such as:
+- Constructing API requests
+- Authenticating requests
+- Signing requests correctly
+
+SDKs simplify this by exposing programming-language functions that developers can call directly.
+
+For example, instead of manually constructing an AWS API request, an application can call a function from an AWS SDK.
+
+## 13.3 - Application Access Flow
+
+Applications commonly interact with AWS using the following relationship:
+
+**Application - AWS SDK - AWS API - AWS service**
+
+The application calls an SDK function, and the SDK handles the underlying AWS API request.
+
+This allows developers to work with familiar programming-language constructs instead of directly managing low-level API communication.
+
+## 13.4 - IAM Protects AWS API Access
+
+AWS API requests require appropriate **IAM credentials and permissions**.
+
+Before an AWS API action is allowed:
+
+1. The request is authenticated using IAM credentials
+2. AWS evaluates whether the identity has permission to perform the requested action.
+3. The request is allowed or denied
+
+Therefore, whether AWS is accessed through the console, CLI, SDK, or API, **IAM authorization still applies**.
+
+## 13.5 - AWS Console, CLI, SDK, and API Relationship
+
+The lesson presents the following relationship:
+
+| **Access Method**          | **Underlying Interaction**                        |
+| -------------------------- | ------------------------------------------------- |
+| **AWS Management Console** | Uses SDK/API calls behind the graphical interface |
+| **AWS CLI**                | Uses SDK/API calls behind command-line commands   |
+| **AWS SDK**                | Wraps AWS APIs for application code               |
+| **AWS API**                | Core interface used to interact with AWS services |
+
+For example:
+- Clicking **Run instance** in the AWS Management Console ultimately results in an AWS API request.
+- Running an AWS CLI command ultimately results in an AWS API request
+- Calling an SDK function ultimately results in an AWS API request
+
+The difference is primarily the interface used to initiate the request.
+
+## 13.6 - Simplified Request Flow
+
+A simplified view is:
+
+**User or Application - Console / CLI / SDK - IAM authentication and authorization - AWS API - AWS Service**
+
+The important concept is that all of these access methods ultimately rely on AWS APIs and remain subject to **IAM permissions**.
+
+## 13.7 - Exam Focus
+
+- **AWS APIs - Core interface for accessing AWS services**
+- **AWS SDK - Wraps AWS APIs and simplifies programmatic access**
+- **AWS CLI - Command-line interface that ultimately invokes AWS APIs**
+- **AWS Management Console - Graphical interface that ultimately invokes AWS APIs**
+- **IAM - Protects and authorizes AWS API requests**
+- **Regardless of console, CLI, or SDK - IAM permissions still apply**
+- **Application code - Commonly uses an AWS SDK instead of directly handling low-level API requests**
+
 # 14 - IAM Audit
+
+## 14.1 - IAM Credential Report
+
+An **IAM credential report** provides information about the credentials and authentication activity of IAM users in an AWS account.
+
+It helps administrators audit how users access AWS and identify potential security risks.
+
+The report includes information such as:
+- **Last sign-in activity** - When a user last signed in to AWS
+- **Access key usage** - When access keys were last used
+- **Password information** - Password-related security details
+- **Access key age** - How old the access keys are and information useful for reviewing key rotation
+
+### Common Use Case
+
+If an IAM user has not signed in for a long period, the account administrator can investigate whether that user still requires access.
+
+Unnecessary IAM users and credentials should be removed to reduce security risks.
+
+**Audit IAM user credentials and usage - IAM credential report**
+
+## 14.2 - IAM Access Analyzer
+
+**IAM Access Analyzer** helps identify security risks and improve permissions across AWS resources and IAM policies
+
+It provides several important capabilities
+
+### External Access Analysis
+
+Identifies AWS resources that can be accessed by external identities, including identities from other AWS accounts.
+
+For example:
+- An **Amazon S3** bucket is accessible from another AWS account.
+- IAM Access Analyzer can identify this external access
+
+**Identify resources accessible from outside the account - IAM Access Analyzer**
+
+### Unused Access Analysis
+
+Identifies permissions or credentials that have not been used for a period of time.
+
+For example:
+- An IAM user has access keys that have not been used recently.
+- These unused credentials can be reviewed and potentially removed
+
+This supports the **principle of least privilege** by helping reduce unnecessary access.
+
+### IAM Policy Validation
+
+IAM Access Analyzer can analyze IAM policies and identify potential security concerns.
+
+For example:
+- Policies granting overly broad access using wildcards (`*`)
+- Policies that do not meet applicable security guidelines.
+
+The findings help administrators review and improve IAM policies
+
+### IAM Policy Generation
+
+IAM Access Analyzer can help generate IAM policies based on previously observed AWS activity.
+
+It uses activity information recorded by **AWS CloudTrail** to identify actions that have been used.
+
+This helps create more granular policies based on actual usage rather than granting unnecessary permissions.
+
+**Generate policies based on observed access activity - IAM Access Analyzer**
+
+## 14.3 - IAM Access Advisor
+
+**IAM Access Advisor** provides information about AWS service access associated with IAM permissions.
+
+It helps administrators identify permissions that may no longer be necessary.
+
+### Example
+
+Suppose an IAM user has permission to access:
+- Amazon EC2
+- Amazon S3
+- Amazon SQS
+
+However, the user has never accessed **Amazon SQS**.
+
+Access Advisor can show service last-accessed information, helping an administrator determine whether the SQS permissions should be removed.
+
+This helps enforce the **principle of least privilege**
+
+**Review service last-accessed information - IAM Access Advisor**
+
+## 14.4 - IAM Auditing Tools Comparison
+
+| **Tool**                  | **Main Purpose**                                          | **Exam Clue**                                                |
+| ------------------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| **IAM Credential Report** | Reports IAM user credential status and usage              | Audit passwords, access keys, and sign-in activity           |
+| **IAM Access Analyzer**   | Analyzes external access, unused access, and IAM policies | Identify external resource access or unnecessary permissions |
+| **IAM Access Advisor**    | Shows service last-accessed information                   | Determine which AWS service permissions may be unnecessary   |
+| **AWS CloudTrail**        | Records AWS API activity                                  | Audit actions performed in an AWS account                    |
+
+These tools provide complementary information for **security auditing and least-privilege access management**
+
+## 14.5 - Exam Focus
+
+- **Audit IAM user credentials - IAM Credential Report**
+- **Check last sign-in and access key usage - IAM Credential Report**
+- **Identify AWS resources accessible by external accounts - IAM Access Analyzer**
+- **Identify unused permissions or access - IAM Access Analyzer**
+- **Validate IAM policies for security concerns - IAM Access Analyzer**
+- **Generate policies using observed activity - IAM Access Analyzer**
+- **Review AWS service last-accessed information - IAM Access Advisor**
+- **Record AWS API activity - AWS CloudTrail**
+- **Least privilege - Remove unnecessary permissions and unused credentials**
 
 # 15 - AWS IAM - Section Summary
 
+## 15.1 - AWS IAM Fundamentals
+
+**AWS Identity and Access Management (IAM)** manages identities and permissions within an AWS account.
+
+- **Root user** - Created with the AWS account and has unrestricted access. Avoid using it for day-to-day operations.
+- **IAM user** - Individual identity with permissions controlled by IAM policies
+- **IAM group** - Collection of IAM users that can share permissions.
+- **IAM role** - Provides temporary credentials, commonly used by AWS services, cross-account users, and federated users.
+- **MFA (Multi-Factor Authentication)** - Adds an additional authentication factor to strengthen sign-in security.
+
+### IAM Policies
+
+An **IAM policy** is a JSON document that defines permissions
+
+| **Element**   | **Purpose**                                  |
+| ------------- | -------------------------------------------- |
+| **Principal** | Who is allowed or denied access              |
+| **Effect**    | Allow or Deny                                |
+| **Action**    | AWS actions that can be performed            |
+| **Resource**  | AWS resources affected                       |
+| **Condition** | Optional conditions for applying permissions |
+
+IAM policies can be attached to **users, groups, and roles**
+
+**Least privilege - Grant only the permissions necessary to perform a task**
+
+## 15.2 - IAM Credentials and AWS Access Methods
+
+| **Access Method**          | **Purpose**                                  | **Authentication**                      |
+| -------------------------- | -------------------------------------------- | --------------------------------------- |
+| **AWS Management Console** | Browser-based AWS management                 | Username, password, optionally MFA      |
+| **AWS CLI**                | Command-line access                          | IAM credentials                         |
+| **AWS SDK**                | Programmatic access through application code | IAM credentials                         |
+| **AWS CloudShell**         | Pre-authenticated browser-based shell        | Uses the signed-in AWS console identity |
+
+### Access Keys vs IAM Roles
+
+- **IAM access keys** - Long-term credentials consisting of an **Access Key ID** and **Secret Access Key**
+- **IAM roles** - Provide temporary credentials that AWS automatically rotates
+- **AWS CLI and SDKs** - Can use IAM credentials to access AWS APIs
+
+**AWS service needs access to another AWS service - Prefer an IAM role instead of storing long-term access keys.**
+
+## 15.3 - IAM Auditing and Governance
+
+| **Tool**                  | **Main Purpose**                                                      |
+| ------------------------- | --------------------------------------------------------------------- |
+| **IAM Credential Report** | Audit IAM user credentials, passwords, and access key usage           |
+| **IAM Access Analyzer**   | Identify external access, unused access, and policy security concerns |
+| **IAM Access Advisor**    | Review AWS service last-accessed information                          |
+| **AWS CloudTrail**        | Record AWS API activity for auditing                                  |
+
+These tools help identify unnecessary permissions, unused credentials, and potential security risks
+
+## 15.4 - Exam Focus
+
+- **Manage AWS identities and permissions - AWS IAM**
+- **Unrestricted AWS account access - Root user**
+- **Additional sign-in security - MFA**
+- **Group multiple users with shared permissions - IAM group**
+- **Define allowed and denied actions - IAM policy**
+- **Temporary credentials for AWS services - IAM role**
+- **Access resources in another AWS account - Assume an IAM role**
+- **Programmatic access using long-term IAM user credentials - Access keys**
+- **Command-line AWS access - AWS CLI**
+- **Programming-language AWS access - AWS SDK**
+- **Python AWS SDK - Boto3**
+- **Browser-based, pre-authenticated terminal - AWS CloudShell**
+- **Audit IAM user credentials - IAM Credential Report**
+- **Identify externally accessible resources - IAM Access Analyzer**
+- **Review service last-accessed information - IAM Access Advisor**
+- **Grant only required permissions - Principle of least privilege**
+
 # 16 - AWS IAM - Section Quiz
+
+## 16.1 - Practice Question
+
+### Original Question
+
+An IAM user has two attached IAM policies: one explicitly "Allows" access to an S3 bucket, and the other explicitly "Denies" the same action. What will happen if the user tries to access the bucket?
+
+### Choices
+
+A. Access will be allowed because "Allow" overrides "Deny."
+B. Access will be denied because "Deny" takes precedence over "Allow."
+C. It will depend on which policy is attached last. The final policy will override the earlier policy effect.
+D. As policies have conflicting actions, there will be an error when we try to attach these policies to the same IAM user.
+
+### Correct Answer
+
+**B. Access will be denied because "Deny" takes precedence over "Allow."**
+
+### Why?
+
+In AWS IAM policy evaluation, an **explicit Deny always overrides an Allow**.
+
+- **Explicit Allow** - Grants access when no applicable explicit Deny exists.
+- **Explicit Deny** - Overrides permissions granted by other policies
+- **Implicit Deny** - Access is denied by default unless explicitly allowed
+
+The order in which policies are attached does not matter. IAM can evaluate multiple policies with conflicting permissions.
+
+**Exam clue: Explicit Deny always overrides Allow**.
+
+## 16.2 - Practice Question
+
+### Original Question
+
+Which of the following statements about IAM policy structure is true?
+
+### Choices
+
+A. An IAM policy must include a "Deny" effect.
+B. The "Action" element specifies the resource to which the policy applies.
+C. A "Resource" element must use an ARN format.
+D. The "Condition" element is mandatory in all IAM policies.
+
+### Correct Answer
+
+**C. A "Resource" element must use an ARN format.
+
+### Why?
+
+The **Resource** element identifies the AWS resources to which a policy statement applies.
+
+Resources are commonly identified using an **Amazon Resource Name (ARN)**
+
+However, the resource element **can also use the wildcard `*`**, representing all applicable resources.
+
+Other options are incorrect because:
+- **A** - Policies do not require a Deny effect. They can contain Allow statements.
+- **B** - The Action element specifies API actions, not resources
+- **D** - The Condition element is optional
+
+**Exam clue: Action specifies what can be done; Resource specifies what it can be done to**
+
+## 16.3 - Practice Question
+
+### Original Question
+
+A company wants to allow developers to launch EC2 instances only in the "us-east-1" region. Which IAM policy element should they use to specify this condition?
+
+### Choices
+
+A. Effect
+B. Action
+C. Resource
+D. Condition
+
+### Correct Answer
+
+**D. Condition**
+
+### Why?
+
+The **Condition** element defines additional requirements that must be satisfied for an IAM policy statement to apply.
+
+For example, the condition key `aws:RequestedRegion` can restrict requests to a particular AWS Region.
+
+- **Effect** - Specifies Allow or Deny
+- **Action** - Specifies the AWS API operations
+- **Resource** - Specifies the affected AWS resources
+- **Condition** - Specifies requirements such as the requested AWS Region
+
+**Exam clue: Restrict permissions based on specific requirements - IAM Condition element**
+
+## 16.4 - Practice Question
+
+### Original Question
+
+A company needs to share access to DynamoDB in your account with an external consultant. What is the best approach?
+
+### Choices
+
+A. Use a cross-account IAM Role with a trust policy.
+B. Create an IAM user for the consultant.
+C. Share your root account credentials.
+D. Make the DynamoDB table public.
+
+### Correct Answer
+
+**A. Use a cross-account IAM Role with a trust policy.**
+
+### Why?
+
+A **cross-account IAM role** allows an authorized identity from another AWS account to access resources in your account without creating a separate IAM user.
+
+Two important components are:
+- **Trust policy** - Defines who can assume the IAM role
+- **Permissions policy** - Defines what the assumed role can do, such as accessing Amazon DynamoDB
+
+Other options are less appropriate because creating separate IAM users increases credential management overhead, while sharing root credentials or making resources public creates serious security risks.
+
+**Exam clue: External AWS account needs access to your resources - Cross-account IAM role**
+
+## 16.5 - Practice Question
+
+### Original Question
+
+An admin wants to enforce Multi-Factor Authentication (MFA) for all IAM users. What is the first step?
+
+### Choices
+
+A. Enable MFA on the AWS root account.
+B. Attach an IAM policy requiring MFA to the IAM users.
+C. Create a custom AWS Config rule.
+D. Configure AWS account level setting to enforce MFA for all the users.
+
+### Correct Answer
+
+**B. Attach an IAM policy requiring MFA to the IAM users.**
+
+### Why?
+
+An **IAM policy with MFA-related conditions** can restrict access to AWS actions unless the user has authenticated using MFA.
+
+This helps enforce MFA requirements for IAM users.
+- **A** - Enabling MFA on the root account protects the root user, but does not enforce MFA for all IAM users.
+- **C** - AWS Config can evaluate compliance but does not directly enforce MFA authentication
+- **D** - IAM does not provide a single general account-level MFA enforcement switch for all IAM users.
+
+**Important distinction**: IAM users must also register MFA devices. A policy requiring MFA does not automatically enroll those devices
+
+**Exam clue**: **Enforce MFA-based access requirements - IAM policy with MFA conditions**
+
+
+## 16.6 - Practice Question
+
+### Original Question
+
+A developer is deploying an application on an EC2 instance. This application needs to download some files from an S3 bucket. What is the best way to provide this access?
+
+### Choices
+
+A. Modify the bucket policy to allow public access to the bucket.
+B. Create an IAM user with required S3 permissions and securely store Access key + Secret Access key on the EC2 instance.
+C. Create an IAM role for the EC2 instance with required S3 permissions.
+D. Use EC2 SSH credentials to access S3 bucket.
+
+### Correct Answer
+
+**C. Create an IAM role for the EC2 instance with required S3 permissions.**
+
+### Why?
+
+An **IAM role** provides temporary credentials that an EC2 application can use to access AWS services securely.
+
+Advantages include:
+- No need to store long-term access keys on the EC2 instance.
+- Temporary credentials are automatically rotated by AWS
+- Permissions can be restricted to the required S3 actions
+
+Other options are incorrect because:
+- **A** - Public bucket access is unnecessary and potentially insecure
+- **B** - Storing long-term IAM user access keys on an EC2 instance is not recommended
+- **D** - SSH credentials are used for connecting to instances, not authorizing S3 API requests
+
+**Exam clue: EC2 application needs access to another AWS service - IAM role**
+
+## 16.7 - Exam Focus
+
+- **Explicit Deny** - **Always overrides Allow in IAM policy evaluation**
+- **Implicit Deny - Default when no applicable Allow exists**
+- **IAM Resource element - Identifies AWS resources using ARNs or wildcards**
+- **IAM Action element - Defines permitted or denied AWS actions**
+- **IAM Condition element - Defines additional requirements for permissions**
+- **Region-based restrictions - Use conditions such as `aws:RequestedRegion`**
+- **Cross-account access - IAM role with a trust policy**
+- **Trust policy - Defines who can assume an IAM role**
+- **Enforce MFA requirements - IAM policies with MFA conditions**
+- **AWS Config - Evaluates compliance, rather than directly enforcing MFA**
+- **EC2 accessing S3 - IAM role with required S3 permissions**
+- **IAM role credentials - Temporary and automatically rotated**
+- **Least privilege - Grant only the permissions required for the task**
