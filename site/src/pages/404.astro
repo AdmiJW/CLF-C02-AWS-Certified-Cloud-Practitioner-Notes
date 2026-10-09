@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/config.mjs';
+---
+<BaseLayout title="Page not found" bodyClass="error-page">
+  <section class="error-panel"><p class="eyebrow">404 · A cloud out of place</p><h1>Let’s find your way back.</h1><p>This page could not be found. The study path is a good place to begin again.</p><a class="primary-action" href={withBase('/#chapters')}>Browse chapters →</a></section>
+</BaseLayout>

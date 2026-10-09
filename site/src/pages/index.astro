@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import SkyScene from '../components/SkyScene.astro';
+import { getCatalogue, readingMinutes, withBase } from '../lib/catalog';
+const { notes, introduction } = await getCatalogue();
+const totalWords = notes.reduce((sum, note) => sum + note.wordCount, 0);
+---
+<BaseLayout bodyClass="home-page">
+  <div class="home-wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="little-cloud" aria-hidden="true">☁</span> AWS Certified Cloud Practitioner</p>
+        <h1 id="hero-title">Build your<br/><span>cloud foundations.</span></h1>
+        <p class="hero-description">A clearer view of AWS, one chapter at a time. Explore cloud concepts, services, security, and infrastructure with personal study notes for <strong>CLF-C02</strong>.</p>
+        <div class="hero-actions">
+          <a class="primary-action" href={withBase(introduction.route)}>Start reading <Icon name="arrow-right" size={19}/></a>
+          <button class="secondary-action" type="button" data-search-open data-js-only><Icon name="search" size={18}/> Find a concept</button>
+        </div>
+        <div class="hero-meta"><span>{notes.length} chapters</span><span class="meta-dot" aria-hidden="true"></span><span>{readingMinutes(totalWords)} min of reading</span><span class="meta-dot" aria-hidden="true"></span><span>By <a href="https://github.com/AdmiJW">AdmiJW</a></span></div>
+      </div>
+      <div class="hero-illustration"><SkyScene/><button class="motion-toggle" type="button" data-motion-toggle data-js-only aria-pressed="false">Pause cloud drift</button></div>
+    </section>
+    <section class="chapter-section" id="chapters" aria-labelledby="chapters-title">
+      <div class="section-heading"><div><p class="eyebrow">A little higher, chapter by chapter</p><h2 id="chapters-title">Your study path</h2></div><span class="collection-status"><span aria-hidden="true"></span>Notes in progress</span></div>
+      <p class="section-description">Start at the beginning or jump to what you need. This collection grows as I learn.</p>
+      <ol class="chapter-list">
+        {notes.map(note => (
+          <li><a class="chapter-card" href={withBase(note.route)}>
+            <span class="card-number">{note.number}</span>
+            <span class="card-content"><span class="card-label">{note.isIntroduction ? 'Start here' : 'Chapter ' + note.number}</span><h3>{note.title}</h3><p>{note.description}</p></span>
+            <span class="card-time">{readingMinutes(note.wordCount)} min read</span>
+            <span class="card-arrow"><Icon name="arrow-right" size={20}/></span>
+          </a></li>
+        ))}
+      </ol>
+      <p class="path-note"><Icon name="book" size={17}/> Original Markdown, thoughtfully arranged for reading.</p>
+    </section>
+  </div>
+</BaseLayout>

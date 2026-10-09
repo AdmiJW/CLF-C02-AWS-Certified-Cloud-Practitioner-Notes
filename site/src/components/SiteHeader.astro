@@ -1,0 +1,25 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import { REPOSITORY } from '../lib/catalog';
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <Brand />
+    <nav class="header-actions" aria-label="Site tools">
+      <button class="search-trigger" type="button" data-search-open data-js-only aria-haspopup="dialog" aria-label="Search notes">
+        <Icon name="search" size={18} />
+        <span>Search notes</span>
+        <kbd>Ctrl/⌘ K</kbd>
+      </button>
+      <button class="icon-button theme-toggle" type="button" data-js-only aria-label="Switch to nighttime" title="Switch to nighttime">
+        <span class="theme-icon night-art"><Icon name="sun" /></span>
+        <span class="theme-icon day-art"><Icon name="moon" /></span>
+      </button>
+      <a class="icon-button header-github" href={REPOSITORY} aria-label="View repository on GitHub" title="View repository on GitHub">
+        <Icon name="github" />
+      </a>
+    </nav>
+  </div>
+</header>

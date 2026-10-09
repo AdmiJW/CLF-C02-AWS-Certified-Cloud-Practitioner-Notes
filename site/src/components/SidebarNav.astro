@@ -1,0 +1,17 @@
+---
+import type { NoteRecord } from '../lib/catalog';
+import { withBase } from '../lib/config.mjs';
+interface Props { notes: NoteRecord[]; currentRoute: string; mobile?: boolean; }
+const { notes, currentRoute, mobile = false } = Astro.props;
+---
+<nav class:list={['chapter-nav', { 'chapter-nav-mobile': mobile }]} aria-label="Course chapters">
+  <p class="nav-label">Your study path</p>
+  <ol>
+    {notes.map(note => (
+      <li><a href={withBase(note.route)} aria-current={note.route === currentRoute ? 'page' : undefined}>
+        <span class="chapter-number">{note.number}</span><span>{note.title}</span>
+      </a></li>
+    ))}
+  </ol>
+  <a class="all-chapters" href={withBase('/#chapters')}>← All chapters</a>
+</nav>

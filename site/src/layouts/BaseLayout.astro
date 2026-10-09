@@ -1,0 +1,82 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SkyBackdrop from '../components/SkyBackdrop.astro';
+import { SITE_TITLE, SITE_ORIGIN, withBase } from '../lib/config.mjs';
+interface Props { title?: string; description?: string; canonicalPath?: string; bodyClass?: string; }
+const {
+  title = SITE_TITLE,
+  description = 'An evolving collection of personal AWS Certified Cloud Practitioner (CLF-C02) study notes by AdmiJW.',
+  canonicalPath = Astro.url.pathname, bodyClass = ''
+} = Astro.props;
+const pageTitle = title === SITE_TITLE ? title : title + ' · ' + SITE_TITLE;
+const canonical = new URL(canonicalPath, SITE_ORIGIN);
+---
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="generator" content={Astro.generator}/>
+    <meta name="theme-color" content="#0b1729" media="(prefers-color-scheme: dark)"/>
+    <meta name="theme-color" content="#edf7ff" media="(prefers-color-scheme: light)"/>
+    <meta name="description" content={description}/>
+    <meta property="og:title" content={pageTitle}/>
+    <meta property="og:description" content={description}/>
+    <meta property="og:url" content={canonical}/>
+    <meta property="og:type" content="website"/>
+    <link rel="canonical" href={canonical}/>
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')}/>
+    <title>{pageTitle}</title>
+    <script is:inline>
+      (() => {
+        document.documentElement.classList.remove('no-js');
+        let saved;
+        try { saved = localStorage.getItem('clf-c02-theme'); } catch {}
+        document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved :
+          matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      })();
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <SkyBackdrop/>
+    <SiteHeader/>
+    <main id="main-content"><slot/></main>
+    <SiteFooter/>
+    <SearchDialog/>
+    <noscript><p class="noscript-message">Reading and chapter navigation work without JavaScript. Enable JavaScript to use search and the day/night switch.</p></noscript>
+    <script>
+      const root = document.documentElement;
+      const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+      const device = matchMedia('(prefers-color-scheme: dark)');
+      let manual = false;
+      try { manual = ['light', 'dark'].includes(localStorage.getItem('clf-c02-theme') ?? ''); } catch {}
+      const updateLabel = () => {
+        const label = root.dataset.theme === 'dark' ? 'Switch to daytime' : 'Switch to nighttime';
+        toggle?.setAttribute('aria-label', label);
+        toggle?.setAttribute('title', label);
+      };
+      updateLabel();
+      toggle?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        manual = true;
+        try { localStorage.setItem('clf-c02-theme', next); } catch {}
+        updateLabel();
+      });
+      device.addEventListener('change', () => {
+        if (!manual) { root.dataset.theme = device.matches ? 'dark' : 'light'; updateLabel(); }
+      });
+      const motion = document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
+      motion?.addEventListener('click', () => {
+        const paused = root.classList.toggle('scenery-paused');
+        motion.setAttribute('aria-pressed', String(paused));
+        motion.textContent = paused ? 'Resume cloud drift' : 'Pause cloud drift';
+      });
+    </script>
+  </body>
+</html>

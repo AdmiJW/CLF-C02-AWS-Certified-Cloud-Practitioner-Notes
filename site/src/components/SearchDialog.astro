@@ -1,0 +1,57 @@
+---
+import { withBase, BASE_PATH } from '../lib/config.mjs';
+import Icon from './Icon.astro';
+---
+<dialog class="search-dialog" data-search-dialog aria-labelledby="search-title">
+  <div class="search-panel">
+    <header class="search-panel-header"><div><p class="eyebrow">A clearer view</p><h2 id="search-title">Find a concept</h2></div><button class="icon-button" type="button" data-search-close aria-label="Close search"><Icon name="close"/></button></header>
+    <div id="search-ui" class="search-ui"><p class="search-loading">Preparing search…</p></div>
+    <footer class="search-help"><span><kbd>↑</kbd><kbd>↓</kbd> results</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></footer>
+  </div>
+</dialog>
+<link rel="stylesheet" href={withBase('pagefind/pagefind-ui.css')}/>
+<script is:inline src={withBase('pagefind/pagefind-ui.js')}></script>
+<script is:inline define:vars={{ base: BASE_PATH }}>
+  (() => {
+    const dialog = document.querySelector('[data-search-dialog]');
+    let initialized = false;
+    let previousFocus;
+    const openSearch = () => {
+      if (!dialog || dialog.open) return;
+      previousFocus = document.activeElement;
+      dialog.showModal();
+      document.documentElement.classList.add('dialog-open');
+      if (!initialized) {
+        const loading = dialog.querySelector('.search-loading');
+        try {
+          if (!window.PagefindUI) throw new Error('Search bundle unavailable');
+          loading?.remove();
+          new window.PagefindUI({ element: '#search-ui', bundlePath: base + 'pagefind/', baseUrl: base, showSubResults: true, showImages: false, autofocus: true, translations: { placeholder: 'Search chapters, services, and questions…' } });
+          initialized = true;
+        } catch {
+          document.querySelector('#search-ui').textContent = 'Search could not load. Refresh the page and try again.';
+        }
+      }
+      requestAnimationFrame(() => dialog.querySelector('input')?.focus());
+    };
+    document.querySelectorAll('[data-search-open]').forEach(button => button.addEventListener('click', openSearch));
+    dialog.querySelector('[data-search-close]').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('dialog-open');
+      previousFocus?.focus();
+    });
+    dialog.addEventListener('keydown', event => {
+      if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+      const results = [...dialog.querySelectorAll('.pagefind-ui__result-link, .pagefind-ui__result-nested-link')];
+      if (!results.length) return;
+      event.preventDefault();
+      const index = results.indexOf(document.activeElement);
+      const next = event.key === 'ArrowDown' ? (index + 1) % results.length : (index <= 0 ? results.length - 1 : index - 1);
+      results[next].focus();
+    });
+    document.addEventListener('keydown', event => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); openSearch(); }
+    });
+  })();
+</script>

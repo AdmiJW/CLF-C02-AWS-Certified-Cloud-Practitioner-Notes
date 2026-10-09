@@ -1,0 +1,27 @@
+---
+interface Heading { depth: number; slug: string; text: string; }
+interface Props { headings: Heading[]; mobile?: boolean; }
+const { headings, mobile = false } = Astro.props;
+const sections: { heading: Heading; children: Heading[] }[] = [];
+for (const heading of headings) {
+  if (heading.depth === 2) sections.push({ heading, children: [] });
+  else if (heading.depth === 3 && sections.length) sections[sections.length - 1].children.push(heading);
+}
+---
+{sections.length > 0 && (
+  <nav class:list={['page-outline', { 'page-outline-mobile': mobile }]} aria-label="On this page">
+    <p class="nav-label">On this page</p>
+    <ol>
+      {sections.map(({ heading, children }) => (
+        <li>
+          {children.length ? (
+            <details class="outline-group">
+              <summary><a href={'#' + heading.slug} data-outline-link>{heading.text}</a><span class="outline-chevron" aria-hidden="true">›</span></summary>
+              <ol>{children.map(child => <li><a href={'#' + child.slug} data-outline-link>{child.text}</a></li>)}</ol>
+            </details>
+          ) : <a href={'#' + heading.slug} data-outline-link>{heading.text}</a>}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}

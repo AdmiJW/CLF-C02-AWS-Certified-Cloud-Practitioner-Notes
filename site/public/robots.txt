@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://admijw.github.io/CLF-C02-AWS-Certified-Cloud-Practitioner-Notes/sitemap-index.xml

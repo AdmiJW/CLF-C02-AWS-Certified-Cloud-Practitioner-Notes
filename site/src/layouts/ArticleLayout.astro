@@ -1,0 +1,57 @@
+---
+import type { NoteRecord } from '../lib/catalog';
+import { readingMinutes, withBase } from '../lib/catalog';
+import BaseLayout from './BaseLayout.astro';
+import SidebarNav from '../components/SidebarNav.astro';
+import PageOutline from '../components/PageOutline.astro';
+import Icon from '../components/Icon.astro';
+interface Heading { depth: number; slug: string; text: string; }
+interface Props { note: NoteRecord; notes: NoteRecord[]; headings: Heading[]; previous?: NoteRecord; next?: NoteRecord; }
+const { note, notes, headings, previous, next } = Astro.props;
+---
+<BaseLayout title={note.title} description={note.description} canonicalPath={withBase(note.route)} bodyClass="article-page">
+  <div class="mobile-course-nav">
+    <details><summary><Icon name="menu" size={18}/> Browse chapters</summary><SidebarNav notes={notes} currentRoute={note.route} mobile/></details>
+  </div>
+  <div class="article-shell">
+    <aside class="article-sidebar"><SidebarNav notes={notes} currentRoute={note.route}/></aside>
+    <article class="article-main">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={withBase('/')}>Home</a><span aria-hidden="true">/</span><a href={withBase('/#chapters')}>Study path</a><span aria-hidden="true">/</span><span>Chapter {note.number}</span></nav>
+      <div data-pagefind-body>
+        <header class="article-header">
+          <p class="eyebrow">{note.isIntroduction ? 'The beginning of your journey' : 'Chapter ' + note.number}</p>
+          <h1 data-pagefind-meta="title">{note.title}</h1>
+          <div class="article-meta"><span>{readingMinutes(note.wordCount)} min read</span><span aria-hidden="true">·</span><a href={note.sourceUrl}>View Markdown source <Icon name="external" size={13}/></a></div>
+        </header>
+        <div class="mobile-outline" data-pagefind-ignore><details><summary>On this page <span aria-hidden="true">↓</span></summary><PageOutline headings={headings} mobile/></details></div>
+        <div class="prose"><slot/></div>
+      </div>
+      <nav class="article-pagination" aria-label="Adjacent chapters">
+        {previous ? <a href={withBase(previous.route)}><Icon name="arrow-left"/><span><small>Previous chapter</small>{previous.title}</span></a> : <span/>}
+        {next && <a class="pagination-next" href={withBase(next.route)}><span><small>Next chapter</small>{next.title}</span><Icon name="arrow-right"/></a>}
+      </nav>
+      <a class="back-to-top" href="#main-content">Back to top ↑</a>
+    </article>
+    <aside class="article-toc"><PageOutline headings={headings}/></aside>
+  </div>
+  <script>
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-outline-link]')];
+    const sections = [...document.querySelectorAll<HTMLHeadingElement>('.prose h2[id], .prose h3[id]')];
+    let queued = false;
+    let activeId = '';
+    const update = () => {
+      queued = false;
+      const active = [...sections].reverse().find(section => section.getBoundingClientRect().top <= 160) ?? sections[0];
+      if (!active) return;
+      links.forEach(link => {
+        const current = decodeURIComponent(link.hash.slice(1)) === active.id;
+        link.classList.toggle('is-active', current);
+        if (current) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
+        if (current && activeId !== active.id) { const group = link.closest('details'); if (group) group.open = true; }
+      });
+      activeId = active.id;
+    };
+    window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  </script>
+</BaseLayout>
