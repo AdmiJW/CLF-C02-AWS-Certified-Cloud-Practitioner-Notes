@@ -36,6 +36,10 @@ import Icon from './Icon.astro';
     };
     document.querySelectorAll('[data-search-open]').forEach(button => button.addEventListener('click', openSearch));
     dialog.querySelector('[data-search-close]').addEventListener('click', () => dialog.close());
+    dialog.querySelector('#search-ui').addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (event.target.closest('a[href]')) dialog.close();
+    });
     dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('dialog-open');
