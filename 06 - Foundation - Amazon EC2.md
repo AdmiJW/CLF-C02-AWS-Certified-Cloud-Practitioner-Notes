@@ -360,6 +360,115 @@ Once connected, the customer can install and run applications.
 
 # 4 - \[Exercise] - Launch Linux EC2 Instance
 
+## 4.1 - Launching a Linux EC2 Instance
+
+An **Amazon EC2 instance** can be launched with a selected operating system, compute capacity, storage, networking, and security configuration.
+
+### Example EC2 Configuration
+
+| **Configuration**  | **Selected Option**          | **Purpose**                                 |
+| ------------------ | ---------------------------- | ------------------------------------------- |
+| **AWS Region**     | Mumbai                       | Geographic location where the instance runs |
+| **AMI**            | Amazon Linux                 | Defines the instance operating system       |
+| **Instance Type**  | `t2.micro`                   | Provides 1 vCPU and 1 GiB memory            |
+| **Key Pair**       | Existing SSH Key Pair        | Authenticates remote SSH connections        |
+| **Networking**     | Default VPC                  | Provides the instance's virtual network     |
+| **Security Group** | SSH from My IP, HTTP enabled | Controls network access                     |
+| **Storage**        | 8 GiB Amazon EBS             | Provides persistent block storage           |
+
+### Important Configuration Concepts
+
+- **Amazon Machine Image (AMI)** - Determines the operating system installed on the instance
+- **Instance Type** - Determines the instance's CPU and memory resources
+- **Amazon EBS** - Provides persistent storage for the instance
+- **Default VPC** - Provides the networking environment for the instance
+- **Security Group** - Controls which network traffic is allowed
+- **Key Pair** - Enables secure SSH authentication
+
+## 4.2 - Connecting to a Linux EC2 Instance
+
+Linux EC2 instances can be accessed remotely using **SSH (Secure Shell)**
+
+### SSH Connection Requirements
+
+To connect to a Linux EC2 instance over the internet, the following are required:
+1. **Public IP Address** - Identifies the instance for internet-based connectivity
+2. **SSH Client** - Software such as PuTTY used to establish an SSH connection
+3. **Private Key** - Authenticates the connection using the corresponding public key
+4. **Security Group Rule** - Allows inbound SSH traffic on **TCP Port 22**
+5. **Username** - Depends on the operating system
+
+### Default Operating System Usernames
+
+| **Operating System** | **Default Username**                           |
+| -------------------- | ---------------------------------------------- |
+| **Amazon Linux**     | `ec2-user`                                     |
+| **Ubuntu**           | `ubuntu`                                       |
+| **Windows**          | `Administrator` (typically accessed using RDP) |
+
+### EC2 Public IP vs. Private IP
+
+- **Public IP Address** - Used to access an appropriately configured EC2 instance over the internet
+- **Private IP Address** - Assigned within the VPC for private network communication
+
+### Security Group Rules
+
+| **Protocol** | **Port** | **Purpose**                           |
+| ------------ | -------- | ------------------------------------- |
+| **SSH**      | TCP 22   | Remote command-line access            |
+| **HTTP**     | TCP 80   | Access a web server through a browser |
+
+**Important**: Restricting SSH access to **My IP** allows connections only from the specified public IP address, reducing unnecessary exposure.
+
+## 4.3 - Running a Web Server on EC2
+
+After connecting to a Linux EC2 instance, applications and services can be installed and executed.
+
+### Example: HTTP Web Server
+
+The exercise demonstrates hosting a simple website using the **Apache HTTP Server** (`httpd`)
+
+The process involves:
+1. Installing the `httpd` package
+2. Starting the Apache service
+3. Creating a webpage at `/var/www/html/index.html`
+4. Accessing the webpage through the instance's public IP address
+
+**Key Concept**: Amazon EC2 provides the virtual server, while the customer installs, configures, and manages the applications running on it.
+
+To access the website over the internet, the **Security Group must allow inbound HTTP traffic on TCP Port 80**, and the instance must have the required public connectivity.
+
+## 4.4 - Terminating EC2 Instances
+
+When an EC2 instance is no longer needed, it should be **terminated** to avoid unnecessary compute charges.
+
+- **Running Instance** - Continues consuming compute resources
+- **Terminated Instance** - Permanently stops the instance and releases its compute resources.
+
+**Important:** Terminating an EC2 instance is different from stopping it. Termination is permanent, and some associated resources may have separate billing or deletion behavior.
+
+## 4.5 - Exam Focus
+
+- **Launch a Linux virtual machine - Amazon EC2**
+- **Select the operating system - Amazon Machine Image (AMI)**
+- **Define CPU and memory - EC2 Instance Type**
+- **Persistent block storage - Amazon EBS**
+- **Remote Linux access - SSH**
+- **SSH authentication - EC2 Key Pair**
+- **SSH access port - TCP 22**
+- **HTTP web traffic port - TCP 80**
+- **Control inbound network access - Security Group**
+- **Amazon Linux default username - `ec2-user`**
+- **Ubuntu default username - `ubuntu`**
+- **Connect over the internet - Public IP with appropriate network access**
+- **Avoid unnecessary EC2 compute charges - Terminate unused instances**
+
+### Key Exam Distinctions:
+
+- **SSH vs. HTTP** - SSH provides remote server access; HTTP serves web content
+- **Public IP vs. Private IP** - Internet-based connectivity vs. private VPC communication
+- **Stop vs. Terminate** - Stop preserves the instance for later use; terminate permanently removes it
+
 # 5 - \[Exercise] - Launch Windows EC2 Instance
 
 # 6 - EC2 Instance Types and Family
