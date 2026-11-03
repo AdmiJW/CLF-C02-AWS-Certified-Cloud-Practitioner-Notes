@@ -1,3 +1,5 @@
+Main Course Reference: [AWS With Chetan](https://www.awswithchetan.com/)
+
 # 1 - Know your Exam
 
 ## 1.1 - Knowing Your Exam
