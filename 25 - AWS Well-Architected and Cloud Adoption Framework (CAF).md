@@ -436,3 +436,55 @@ The **AWS Well-Architected Framework** provides best practices for building secu
 - Supports additional industry-specific and technology-specific **Well-Architected Lenses**.
 - Generates improvement recommendations based on questionnaire responses.
 - Uses **milestones** to track architectural improvements over time.
+
+## **5.2 AWS Cloud Adoption Framework (AWS CAF)**
+
+**AWS CAF** helps organizations improve cloud readiness and achieve digital transformation.
+
+### **Four Transformation Domains**
+
+- Technology
+- Process
+- Organization
+- Product
+
+### **Six CAF Perspectives**
+
+| Perspective    | Key Focus                                          |
+| -------------- | -------------------------------------------------- |
+| **Business**   | Business value and return on investment            |
+| **People**     | Skills, culture and organizational change          |
+| **Governance** | Governance and risk management                     |
+| **Platform**   | Cloud infrastructure and architecture              |
+| **Security**   | Data protection and identity and access management |
+| **Operations** | Operating and maintaining cloud workloads          |
+
+### **Four Cloud Transformation Phases**
+
+| Phase        | Purpose                                                |
+| ------------ | ------------------------------------------------------ |
+| **Envision** | Identify and prioritize transformation opportunities.  |
+| **Align**    | Develop strategies and address capability gaps.        |
+| **Launch**   | Implement and validate pilot initiatives.              |
+| **Scale**    | Expand successful initiatives across the organization. |
+
+These phases form an **iterative transformation process**.
+
+## **5.3 Exam Focus**
+
+- **Architectural best practices - AWS Well-Architected Framework**
+- **Free architectural review and improvement recommendations - AWS Well-Architected Tool**
+- **Specialized architectural best practices - Well-Architected Lenses**
+- **Organizational cloud adoption and digital transformation - AWS CAF**
+- **IAM - CAF Security perspective, not Governance**
+- **CEO and senior business executives - Business perspective**
+- **CTO, architects and engineers - Platform perspective**
+
+**Remember:**
+
+|Framework|Core Components|
+|---|---|
+|**AWS Well-Architected**|6 general design principles and 6 pillars|
+|**AWS CAF**|4 transformation domains, 6 perspectives and 4 transformation phases|
+
+**Transformation sequence:** Envision - Align - Launch - Scale.
