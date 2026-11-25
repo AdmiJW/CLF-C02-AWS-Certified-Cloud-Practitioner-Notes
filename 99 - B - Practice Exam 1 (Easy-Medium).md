@@ -28,7 +28,7 @@ The key requirement is an **encrypted connection between an office network and A
 | Amazon Connect           | Provides a cloud-based contact center for customer service.                                       |
 | **AWS Site-to-Site VPN** | Establishes an encrypted connection between two networks.                                         |
 
-## **1.2 Exam Focus**
+### **Exam Focus**
 
 - **Encrypted office network connection - AWS Site-to-Site VPN**
 - **Dedicated private network connection - AWS Direct Connect**
@@ -66,7 +66,7 @@ The **operations perspective** of the AWS Cloud Adoption Framework (AWS CAF) foc
 | Identity and access management          | Security            | Manages identities, permissions and resource access.           |
 | Application portfolio management        | Governance          | Oversees and manages the organization's application portfolio. |
 
-## **2.2 Exam Focus**
+### **Exam Focus**
 
 |AWS CAF Capability|Perspective|
 |---|---|
@@ -107,7 +107,7 @@ Creating root user access keys introduces unnecessary security risks. Root user 
 |C. Allow administrators to use root credentials|Administrators should use IAM identities with appropriate permissions for daily activities.|
 |D. Access sensitive information|Sensitive information should be protected using restricted IAM permissions and least privilege.|
 
-## **3.2 Exam Focus**
+### **Exam Focus**
 
 - **Avoid creating root user access keys.**
 - Delete existing root user access keys if possible.
@@ -146,7 +146,7 @@ The key requirements are **static image storage** and **cost-effectiveness**.
 |**Amazon S3**|Object storage that is well suited for cost-effective storage of static images and files.|
 |Amazon DynamoDB|NoSQL database designed for key-value and document-based data rather than static image storage.|
 
-## **4.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -190,7 +190,7 @@ The key requirement is to **automatically launch additional EC2 instances when w
 |Elastic Load Balancing|Distributes incoming traffic across multiple targets but does not launch additional EC2 instances.|
 |**Amazon EC2 Auto Scaling**|Automatically adjusts the number of EC2 instances based on workload requirements.|
 
-## **5.2 Exam Focus**
+### **Exam Focus**
 
 ### **EC2 Auto Scaling vs Elastic Load Balancing**
 
@@ -239,7 +239,7 @@ The two applicable security design principles are **enable traceability** and **
 |**Protect data in transit and at rest**|**Security**|Protects data while it is being transmitted or stored.|
 |Deploy globally in minutes|Performance Efficiency|Uses AWS global infrastructure to deploy workloads efficiently.|
 
-## **6.2 Exam Focus**
+### **Exam Focus**
 
 |Design Principle|Well-Architected Pillar|
 |---|---|
@@ -280,7 +280,7 @@ The key requirement is to **run application code without provisioning or managin
 |Amazon ECS|Container orchestration service. Server management depends on the underlying compute platform, such as EC2 or AWS Fargate.|
 |Amazon RDS|Managed relational database service rather than a general-purpose serverless application compute service. Standard RDS instances require capacity selection.|
 
-## **7.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -325,7 +325,7 @@ The **Reliability pillar** of the AWS Well-Architected Framework focuses on ensu
 | Using monolithic architecture             | Creates tightly coupled components. Loosely coupled architectures help isolate failures.          |
 | **Automatically recovering from failure** | Reliability principle that enables recovery without manual intervention.                          |
 
-## **8.2 Exam Focus**
+### **Exam Focus**
 
 |Design Principle|Well-Architected Pillar|
 |---|---|
@@ -372,7 +372,7 @@ The key requirement is to securely connect **individual employee laptops** to AW
 | Amazon Connect     | Cloud-based contact center service for customer support.                                                     |
 | AWS Outposts       | Extends AWS infrastructure and services to customer premises for local processing and low-latency workloads. |
 
-## **9.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Client VPN vs AWS Site-to-Site VPN vs AWS Direct Connect**
 
@@ -426,7 +426,7 @@ The key requirements are to handle **unpredictable seasonal demand** and avoid p
 | AWS shared responsibility model | Defines security responsibilities between AWS and the customer rather than addressing capacity or pricing. |
 | **Pay-as-you-go pricing**       | Allows the company to pay for consumed resources instead of maintaining unused infrastructure.             |
 
-## **10.2 Exam Focus**
+### **Exam Focus**
 
 | Concept                         | Exam Clue                                           |
 | ------------------------------- | --------------------------------------------------- |
@@ -476,7 +476,7 @@ The key requirement is to migrate from a **self-managed database to an AWS manag
 | Refactor           | Re-architects and modifies application code to benefit from cloud-native features. This level of change is unnecessary.          |
 | **Replatform**     | Makes targeted optimizations, such as moving to a managed database service, without changing the core architecture.              |
 
-## **11.2 Exam Focus**
+### **Exam Focus**
 
 |Migration Strategy|Exam Clue|
 |---|---|
@@ -523,7 +523,7 @@ This allows previous object versions to be recovered.
 | **S3 Bucket versioning**  | Maintains multiple object versions and enables recovery from accidental deletion or overwriting.               |
 | S3 Lifecycle policies     | Automates transitions between storage classes and object expiration rather than recovering previous versions.  |
 
-## **12.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|S3 Feature|
 |---|---|
@@ -569,7 +569,7 @@ The key requirements are **petabyte-scale data analytics**, **business intellige
 |Amazon DynamoDB|Managed NoSQL database optimized for high-performance applications with single-digit millisecond latency. It is not designed for large-scale standard SQL analytics.|
 |**Amazon Redshift**|Managed data warehouse designed for petabyte-scale analytics, reporting and business intelligence using SQL.|
 
-## **13.2 Exam Focus**
+### **Exam Focus**
 
 |Database Service|Exam Clue|
 |---|---|
@@ -613,7 +613,7 @@ The key requirements are a **fully managed NoSQL database**, **low latency** and
 | Amazon RDS          | Managed relational database service designed for SQL-based workloads.                                                                  |
 | **Amazon DynamoDB** | Fully managed NoSQL database that provides low latency and supports changing workload demands.                                         |
 
-## **14.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -655,7 +655,7 @@ The key requirement is protection against **network-layer Distributed Denial-of-
 | **AWS Shield**       | Provides managed protection against DDoS attacks, including network-layer and transport-layer attacks.                                                                                       |
 | AWS Firewall Manager | Centrally configures and manages firewall rules and security policies across AWS accounts. It does not independently provide DDoS protection.                                                |
 
-## **15.2 Exam Focus**
+### **Exam Focus**
 
 |Security Service|Exam Clue|
 |---|---|
@@ -707,7 +707,7 @@ This follows AWS security best practices and reduces credential management overh
 |C. Store IAM user access keys in a CLI profile|Still requires storing and managing long-term credentials on the EC2 instance.|
 |D. Attach an IAM role to an administrative IAM user|Does not grant the EC2 instance the permissions it requires. IAM users can assume roles, but roles are not attached to users in this manner.|
 
-## **16.2 Exam Focus**
+### **Exam Focus**
 
 |IAM Concept|Purpose|
 |---|---|
@@ -755,7 +755,7 @@ The key requirement is to **interactively query, search and analyze log data**.
 | Amazon EventBridge           | Serverless event bus that connects application components and routes events rather than providing interactive log analysis.  |
 | CloudWatch Logs streams      | Stores sequences of log events that share the same source but does not independently provide interactive query capabilities. |
 
-## **17.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|Service or Feature|
 |---|---|
@@ -796,7 +796,7 @@ AWS handles various operational tasks depending on the service, allowing IT staf
 | Removal of compliance requirements | Compliance remains a shared responsibility between AWS and the customer.                                           |
 | **Reduced operational overhead**   | AWS handles service-specific management tasks, reducing the operational workload of IT staff.                      |
 
-## **18.2 Exam Focus**
+### **Exam Focus**
 
 - **Managed services - Reduced operational overhead**
 - **Cloud economics - Trade fixed expenses for variable expenses**
@@ -836,7 +836,7 @@ The key requirements are to **set up a multi-account AWS environment** and **gov
 | AWS Security Hub                      | Provides centralized security findings and visibility into compliance with security standards rather than setting up multi-account environments. |
 | AWS Resource Access Manager (AWS RAM) | Enables resource sharing across AWS accounts rather than establishing and governing those accounts.                                              |
 
-## **19.2 Exam Focus**
+### **Exam Focus**
 
 | Requirement                                   | AWS Service                               |
 | --------------------------------------------- | ----------------------------------------- |
@@ -877,7 +877,7 @@ The key requirements are to **visualize, understand and analyze AWS spending and
 | AWS Budgets           | Allows customers to configure custom budgets and receive alerts when spending or usage thresholds are exceeded. Its primary purpose is budget monitoring rather than detailed spending analysis. |
 | AWS Trusted Advisor   | Analyzes AWS environments and provides best practice recommendations, including cost optimization recommendations, rather than visualizing historical spending patterns.                         |
 
-## **20.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Cost Management Tools**
 
@@ -927,7 +927,7 @@ The key requirement is to use existing software licenses that are tied to **phys
 |Reserved Instances|Provides pricing discounts in exchange for a 1-year or 3-year commitment. Does not inherently provide control over physical hardware.|
 |On-Demand Capacity Reservation|Reserves EC2 compute capacity in a specific Availability Zone but does not satisfy physical-core licensing requirements.|
 
-## **21.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|EC2 Option|
 |---|---|
@@ -970,7 +970,7 @@ The two key requirements are **no long-term commitment** and a **workload that c
 | Dedicated Hosts         | Provides dedicated physical servers and supports server-bound licenses but introduces unnecessary costs for this scenario. |
 | Spot Instances          | Provides discounted access to unused EC2 capacity but can be interrupted when AWS needs the capacity back.                 |
 
-## **22.2 Exam Focus**
+### **Exam Focus**
 
 | EC2 Purchasing Option   | Exam Clue                                                   |
 | ----------------------- | ----------------------------------------------------------- |
@@ -1017,7 +1017,7 @@ When a primary endpoint becomes unhealthy, Route 53 can direct subsequent DNS re
 | AWS Trusted Advisor | Provides recommendations for improving AWS environments but does not automatically redirect website traffic.                                               |
 | **Amazon Route 53** | Provides DNS resolution, health checks and failover routing to healthy resources.                                                                          |
 
-## **23.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -1060,7 +1060,7 @@ AWS Enterprise Support includes access to a designated TAM who provides technica
 |AWS Basic Support|Provides basic account and billing support but does not include a designated TAM.|
 |AWS Business Support|Provides technical support for production workloads but does not include a designated TAM.|
 
-## **24.2 Exam Focus**
+### **Exam Focus**
 
 |Support Plan Listed in the Question|Designated TAM|
 |---|---|
@@ -1105,7 +1105,7 @@ It uses IAM permissions to control session access, reducing security risks and a
 |AWS IAM|Manages identities and permissions. IAM can authorize Session Manager access but does not independently establish remote shell sessions.|
 |Network ACLs|Acts as a subnet-level firewall that controls inbound and outbound network traffic rather than providing remote instance access.|
 
-## **25.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service or Feature|
 |---|---|
@@ -1151,7 +1151,7 @@ All four options are governance perspective capabilities, but they address diffe
 |Application portfolio management|Helps organizations plan and manage their application portfolios and determine migration strategies.|
 |**Benefits management**|Defines, tracks and measures business outcomes and value resulting from cloud transformation.|
 
-## **26.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS CAF Governance Perspective Capabilities**
 
@@ -1202,7 +1202,7 @@ These checks help customers identify whether they should request a service quota
 |AWS Health Dashboard|Provides visibility into AWS service health, outages and service-related events rather than service quota usage.|
 |AWS Service Catalog|Allows administrators to create, manage and distribute portfolios of approved IT products to end users.|
 
-## **27.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -1248,7 +1248,7 @@ A default VPC includes preconfigured basic networking components, allowing custo
 |C. Default VPC must be created manually|AWS automatically provides a default VPC in supported Regions for new accounts.|
 |**D. Default VPC available in each Region**|Provides preconfigured networking infrastructure for launching AWS resources.|
 
-## **28.2 Exam Focus**
+### **Exam Focus**
 
 |VPC Concept|Description|
 |---|---|
@@ -1301,7 +1301,7 @@ For Amazon EC2, customers are responsible for configuring their firewalls and pa
 | Decommission deprecated storage devices | AWS            | AWS manages the lifecycle and disposal of physical storage hardware.                |
 | Physically secure data center hardware  | AWS            | AWS manages physical security and access to its data centers.                       |
 
-## **29.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Shared Responsibility Model**
 
@@ -1354,7 +1354,7 @@ These Regions are connected through a redundant, high-performance global network
 |Economies of scale|Aggregates usage across many customers, allowing AWS to achieve lower costs and offer lower prices.|
 |Elasticity|Automatically increases or decreases resource capacity according to changing workload demand.|
 
-## **30.2 Exam Focus**
+### **Exam Focus**
 
 |Cloud Benefit|Exam Clue|
 |---|---|
@@ -1401,7 +1401,7 @@ The key requirement is to **build, train and deploy machine learning (ML) models
 |Amazon Rekognition|Uses computer vision to analyze images and videos.|
 |**Amazon SageMaker**|Provides a managed platform for building, training and deploying machine learning models.|
 
-## **31.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -1449,7 +1449,7 @@ An **S3 bucket policy** defines permissions that allow or deny access to the buc
 | S3 Bucket Versioning       | Preserves previous object versions but does not control who can access them.                                  |
 | **S3 Block Public Access** | Helps prevent unintended public access to buckets and objects.                                                |
 
-## **32.2 Exam Focus**
+### **Exam Focus**
 
 | Requirement                                 | S3 Feature                   |
 | ------------------------------------------- | ---------------------------- |
@@ -1491,7 +1491,7 @@ Highly available architectures minimize downtime through redundancy and the elim
 |**Application remains accessible despite resource failure**|Demonstrates high availability through redundancy and failure resilience.|
 |Making AWS services available by paying on demand|Represents pay-as-you-go pricing rather than high availability.|
 
-## **33.2 Exam Focus**
+### **Exam Focus**
 
 |Concept|Exam Clue|
 |---|---|
@@ -1540,7 +1540,7 @@ The key requirement is to **estimate AWS costs before building a new application
 |Savings Plans|Provides discounted pricing in exchange for a usage spending commitment rather than generating cost estimates.|
 |AWS Cost Explorer|Visualizes and analyzes AWS spending and usage over time. Although it supports forecasting, Pricing Calculator is more appropriate for estimating a new workload.|
 
-## **34.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Cost Management Tools**
 
@@ -1587,7 +1587,7 @@ EBS snapshots are incremental after the initial snapshot, meaning subsequent sna
 | **Create an EBS snapshot**                                 | Provides a built-in point-in-time backup with minimal operational effort.    |
 | Copy the volume to an external server using Direct Connect | Requires additional infrastructure and complex data transfer processes.      |
 
-## **35.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service or Feature|
 |---|---|
@@ -1635,7 +1635,7 @@ It can identify objects that appear in images without requiring customers to dev
 | Bid on object detection jobs               | Amazon Mechanical Turk provides a marketplace for human intelligence tasks, rather than automated image recognition. |
 | **Detect objects that appear in pictures** | Rekognition uses pre-trained machine learning models to identify objects in images.                                  |
 
-## **36.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -1682,7 +1682,7 @@ Availability Zones within the same Region are connected through high-bandwidth, 
 | On-premises instance and AWS Region connected by VPN | Running EC2 on customer premises requires infrastructure such as AWS Outposts. VPN connectivity does not guarantee minimal latency.                   |
 | Separate Regions connected by VPC peering            | Provides geographic separation, but inter-Region communication generally introduces higher latency than communication between AZs in the same Region. |
 
-## **37.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Regions vs Availability Zones**
 
@@ -1733,7 +1733,7 @@ An **Application Load Balancer (ALB)** operates at Layer 7 and handles HTTP and 
 |**Application Load Balancer**|**Layer 7**|Handles HTTP and HTTPS traffic and supports direct integration with AWS WAF.|
 |AWS Lambda|Not applicable|Serverless compute service that executes code. AWS WAF cannot be directly associated with a Lambda function.|
 
-## **38.2 Exam Focus**
+### **Exam Focus**
 
 ### **Elastic Load Balancing Types**
 
@@ -1792,7 +1792,7 @@ Among the listed options, AWS Business Support is the least expensive support pl
 |AWS Basic Support|Provides customer service, documentation and other self-service resources but does not include access to cloud support engineers.|
 |AWS Enterprise Support|Provides 24/7 access to cloud support engineers but is more expensive than Business Support.|
 
-## **39.2 Exam Focus**
+### **Exam Focus**
 
 |AWS Support Plan|Key Feature|
 |---|---|
@@ -1841,7 +1841,7 @@ For Amazon EC2, customers are responsible for **security in the cloud**, includi
 |Updating the operating system|Customer|Customers are responsible for patching and maintaining the EC2 guest operating system.|
 |**Updating the physical hardware**|**AWS**|AWS maintains and secures the underlying physical infrastructure.|
 
-## **40.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Shared Responsibility Model for Amazon EC2**
 
@@ -1899,7 +1899,7 @@ The key requirement is to **authenticate programmatic access to AWS resources us
 |Account password policies|Define password complexity and expiration requirements for IAM users rather than providing programmatic access.|
 |**IAM access keys**|Provide credentials for authenticating programmatic requests to AWS services.|
 
-## **41.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|IAM Feature|
 |---|---|
@@ -1951,7 +1951,7 @@ The **Reliability pillar** focuses on ensuring that workloads perform their inte
 
 Although Operational Excellence involves operational automation and responding to events, **automatic failure recovery** is explicitly a Reliability design principle.
 
-## **42.2 Exam Focus**
+### **Exam Focus**
 
 | Design Principle                   | Well-Architected Pillar    |
 | ---------------------------------- | -------------------------- |
@@ -2003,7 +2003,7 @@ The key requirements are **in-memory data storage** and **fast data access**.
 |Amazon RDS|Managed relational database service designed for SQL-based database workloads.|
 |Amazon DynamoDB|Managed NoSQL database that provides fast access to data stored in durable storage rather than primarily serving as an in-memory cache.|
 
-## **43.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -2061,7 +2061,7 @@ Elastic Beanstalk automatically handles:
 |AWS Control Tower|Sets up and governs multi-account AWS environments rather than deploying web applications.|
 |AWS Auto Scaling|Automatically adjusts resource capacity according to demand but does not independently deploy application versions.|
 
-## **44.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -2107,7 +2107,7 @@ IAM security best practices focus on protecting credentials, reducing unauthoriz
 |Use inline policies instead of customer managed policies|Customer managed policies are reusable across multiple IAM identities. Inline policies are associated with a single identity.|
 |Remove credentials after their first use|Continually deleting and recreating credentials after every use creates unnecessary operational overhead.|
 
-## **45.2 Exam Focus**
+### **Exam Focus**
 
 ### **IAM Security Best Practices**
 
@@ -2160,7 +2160,7 @@ The same CloudFormation template can be reused across multiple Regions to create
 | Amazon ElastiCache     | Provides managed in-memory caching rather than general infrastructure provisioning.                                                          |
 | **AWS CloudFormation** | Uses infrastructure templates to automate consistent and repeatable resource deployments across AWS Regions.                                 |
 
-## **46.2 Exam Focus**
+### **Exam Focus**
 
 | Requirement                               | AWS Service             |
 | ----------------------------------------- | ----------------------- |
@@ -2215,7 +2215,7 @@ A shared control does not necessarily mean that AWS and the customer perform the
 |Configure an Amazon EC2 instance|Customer|Customers configure and manage their EC2 workloads and guest operating systems.|
 |**Provide cloud security awareness training**|**Shared**|AWS and customers each train their respective employees.|
 
-## **47.2 Exam Focus**
+### **Exam Focus**
 
 ### **Types of Controls in the Shared Responsibility Model**
 
@@ -2277,7 +2277,7 @@ Closing a standalone AWS account is also a root user task.
 |Modifying an Amazon EC2 instance type|Can be performed using appropriate EC2 permissions without root user access.|
 |**Closing an AWS account**|Requires root user access for a standalone AWS account.|
 
-## **48.2 Exam Focus**
+### **Exam Focus**
 
 |Task|Required Access|
 |---|---|
@@ -2327,7 +2327,7 @@ The key requirement is to **access AWS services programmatically from applicatio
 |**AWS SDKs**|Enable developers to interact with AWS service APIs directly from application code.|
 |AWS CodeDeploy|Automates application deployments to AWS compute resources and supported on-premises instances.|
 
-## **49.2 Exam Focus**
+### **Exam Focus**
 
 ### **Methods of Accessing AWS Services**
 
@@ -2388,7 +2388,7 @@ For comparable reservation terms, paying the full amount upfront generally provi
 |**All upfront payment**|Requires full payment at the beginning of the reservation term and provides the largest discount among the listed options.|
 |Partial upfront payment|Requires an initial payment followed by additional payments during the reservation term. Provides a smaller discount than All Upfront.|
 
-## **50.2 Exam Focus**
+### **Exam Focus**
 
 ### **Reservation Payment Options**
 
@@ -2442,7 +2442,7 @@ The key requirement is to **monitor and record AWS account activity**, including
 |Amazon Inspector|Scans supported AWS workloads for software vulnerabilities and unintended network exposure.|
 |AWS Trusted Advisor|Provides best practice recommendations for cost optimization, security, performance and availability.|
 
-## **51.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -2494,7 +2494,7 @@ This aligns with the **Cost Optimization pillar** of the AWS Well-Architected Fr
 |Make frequent, small, reversible changes|Operational Excellence|Reduces the risks associated with operational changes.|
 |Scale horizontally for increased workload availability|Reliability|Distributes workloads across multiple resources to improve availability rather than specifically reducing overprovisioning.|
 
-## **52.2 Exam Focus**
+### **Exam Focus**
 
 |Design Principle|Well-Architected Pillar|
 |---|---|
@@ -2548,7 +2548,7 @@ FIFO queues preserve message ordering within each message group and provide mess
 |Amazon Kinesis Data Streams|Processes high-volume streaming data in real time rather than providing a traditional message queue between application components.|
 |Amazon SNS|Provides publish/subscribe messaging and pushes notifications to subscribers rather than providing a consumer-retrieved message queue.|
 
-## **53.2 Exam Focus**
+### **Exam Focus**
 
 ### **SQS Standard vs FIFO Queues**
 
@@ -2604,7 +2604,7 @@ The key requirement is to **convert written text into spoken audio**.
 |Amazon Rekognition|Analyzes images and videos to identify objects, people, activities and other visual content.|
 |Amazon Translate|Translates text between supported languages rather than converting text into audio.|
 
-## **54.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -2665,7 +2665,7 @@ The question contains three important clues:
 |C. On-Demand for base and Spot for peak traffic|Reduces peak traffic costs but misses long-term reservation savings for continuously running workloads.|
 |D. Reserved for base and peak traffic|Commits to peak capacity that is not consistently required, potentially paying for unused capacity outside business hours.|
 
-## **55.2 Exam Focus**
+### **Exam Focus**
 
 ### **EC2 Purchasing Options**
 
@@ -2715,7 +2715,7 @@ Its **consolidated billing** feature allows the management account to consolidat
 |AWS Budgets|Tracks costs and usage against defined budgets and provides threshold alerts rather than consolidating account billing.|
 |Amazon QuickSight|Business intelligence service that provides analytics, visualizations and dashboards rather than establishing consolidated AWS billing.|
 
-## **56.2 Exam Focus**
+### **Exam Focus**
 
 |Requirement|AWS Service|
 |---|---|
@@ -2772,7 +2772,7 @@ AWS is responsible for securing the physical infrastructure and global networkin
 | AWS global infrastructure network security | AWS            | AWS protects the underlying global networking infrastructure.                                       |
 | Hardware security within AWS Regions       | AWS            | AWS secures the physical hardware within its Regions and data centers.                              |
 
-## **57.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Shared Responsibility Model**
 
@@ -2825,7 +2825,7 @@ The key requirement is to **migrate an existing database to Amazon RDS**.
 | Migration Evaluator                | Assesses on-premises environments and provides cost and resource projections to support migration planning and business cases. It does not perform database migrations. |
 | **AWS Database Migration Service** | Migrates databases to AWS services such as Amazon RDS with minimal downtime.                                                                                            |
 
-## **58.2 Exam Focus**
+### **Exam Focus**
 
 | Migration Requirement                            | AWS Service or Tool                   |
 | ------------------------------------------------ | ------------------------------------- |
@@ -2879,7 +2879,7 @@ Macie can generate findings when sensitive information is discovered.
 |AWS Trusted Advisor|Evaluates AWS environments and provides best practice recommendations rather than inspecting S3 object contents for PII.|
 |Amazon GuardDuty|Detects malicious activity, suspicious behavior and potential security threats rather than classifying sensitive data stored in S3.|
 
-## **59.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Security Services**
 
@@ -2941,7 +2941,7 @@ An IAM user can belong to multiple groups and receive permissions from the polic
 | D. New users are automatically added to a default group | IAM does not automatically assign new users to a default group. Group membership must be configured. |
 | E. A user can belong to only one group                  | IAM users can belong to multiple groups simultaneously.                                              |
 
-## **60.2 Exam Focus**
+### **Exam Focus**
 
 ### **IAM Users, Groups, Roles and Policies**
 
@@ -2999,7 +2999,7 @@ It provides low storage costs in exchange for longer retrieval times.
 |S3 Standard-IA|Designed for infrequently accessed data that still requires rapid retrieval when needed.|
 |**S3 Glacier Deep Archive**|Designed for rarely accessed data requiring long-term retention at minimal storage cost.|
 
-## **61.2 Exam Focus**
+### **Exam Focus**
 
 |Storage Class|Exam Clue|
 |---|---|
@@ -3046,7 +3046,7 @@ The key requirement is to maintain a **historical record of AWS resource configu
 |Amazon CloudWatch|Collects metrics and logs to monitor resource and application performance rather than maintaining resource configuration history.|
 |AWS Artifact|Provides access to AWS security and compliance reports and agreements rather than auditing customer resource configuration changes.|
 
-## **62.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Monitoring, Auditing and Compliance Services**
 
@@ -3100,7 +3100,7 @@ AWS allows organizations to provision IT resources within minutes rather than wa
 |**Increased business agility**|Enables rapid resource provisioning, experimentation, development and application deployment.|
 |Increased application security|Helps protect applications and workloads but does not specifically describe faster product development and deployment.|
 
-## **63.2 Exam Focus**
+### **Exam Focus**
 
 ### **Benefits of Cloud Computing**
 
@@ -3157,7 +3157,7 @@ In a standard Multi-AZ DB instance deployment, Amazon RDS maintains a standby da
 |Amazon RDS automated backups|Supports data recovery and point-in-time restoration but does not provide a running standby database for automatic failover.|
 |Amazon ElastiCache|Provides in-memory caching to improve application performance but does not provide automatic database failover for Amazon RDS.|
 
-## **64.2 Exam Focus**
+### **Exam Focus**
 
 ### **RDS Multi-AZ vs Read Replicas**
 
@@ -3215,7 +3215,7 @@ AWS WAF helps protect web applications against common exploits, including SQL in
 |Elastic Load Balancing|Distributes incoming requests across multiple resources. Does not independently detect or block SQL injection attacks.|
 |Security groups|Controls inbound and outbound traffic at the resource level based on network rules rather than inspecting application-layer request contents.|
 
-## **65.2 Exam Focus**
+### **Exam Focus**
 
 ### **AWS Network and Application Security**
 
