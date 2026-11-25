@@ -2,111 +2,24 @@
 
 ## 1.1 High Availability
 
-**High Availability (HA)** means designing an application to remain operational even when some components fail.
-
-In AWS, high availability for **Amazon EC2** typically involves deploying instances across **multiple Availability Zones (AZs)** within a Region.
-
-### How High Availability Works
-
-- Deploy **EC2 instances across multiple Availability Zones**.
-- Use **Elastic Load Balancing (ELB)** to distribute incoming traffic across EC2 instances.
-- If an EC2 instance or an entire Availability Zone becomes unavailable, traffic can be directed to healthy instances in another AZ.
-- This reduces the risk of application downtime caused by a single point of failure.
-
-**Key Concept**: High availability focuses on keeping applications running despite infrastructure failures.
+Run the web tier across Availability Zones so healthy instances can continue serving traffic during a component or AZ failure. See [AWS Global Infrastructure](./04%20-%20AWS%20Global%20Infrastructure.md) for how AZs provide isolation.
 
 ## 1.2 Scalability
 
-**Scalability** is the ability to increase or decrease computing capacity based on application demand.
+| Scaling type | Action | Example |
+| --- | --- | --- |
+| **Vertical** | Resize an existing instance | Increase RAM for a single database server. |
+| **Horizontal** | Add or remove instances | Scale out an EC2 web tier as demand rises, then scale in after the event. |
 
-AWS supports two main types of scaling:
-
-### Vertical Scaling (Scaling Up / Down)
-
-Vertical scaling involves **changing the resources of an existing instance**.
-- **Scaling Up**: Increase CPU, RAM, or instance size to handle more workload.
-- **Scaling Down**: Decrease CPU, RAM, or instance size when fewer resources are needed.
-- For EC2, changing the instance type commonly involves stopping the instance, resizing it, and restarting it.
-
-**Common Use Case**:
-- Relational databases or applications that are difficult to distribute across multiple machines.
-
-**Limitations**:
-- Limited by the maximum resources available for an instance.
-- Increasing instance size does not guarantee proportional performance improvements.
-
-### Horizontal Scaling (Scaling Out / In)
-
-Horizontal scaling involves **adding** or **removing instances** to adjust computing capacity.
-- **Scaling Out**: Add more EC2 instances when demand increases.
-- **Scaling In**: Remove EC2 instances when demand decreases.
-- Commonly used for distributed applications where workloads can be shared across multiple instances.
-
-**Common Use Cases**:
-- Web applications handling varying traffic.
-- Application tiers running across multiple EC2 instances.
-- Big data processing using multiple machines in parallel.
-
-### Vertical vs Horizontal Scaling
-
-| Feature              | Vertical Scaling            | Horizontal Scaling                           |
-| -------------------- | --------------------------- | -------------------------------------------- |
-| **Approach**         | Resize an existing instance | Add or remove instances                      |
-| **Scale Up / Out**   | Increase CPU or RAM         | Add more EC2 instances                       |
-| **Scale Down / In**  | Reduce CPU or RAM           | Remove EC2 instances                         |
-| **Typical Use Case** | Relational databases        | Web applications, distributed systems        |
-| **Limitations**      | Maximum instance size       | Requires workloads that support distribution |
-| **AWS Example**      | Change EC2 instance type    | EC2 Auto Scaling                             |
-
-**Key Distinction**:
-- **Vertical Scaling - Make an existing instance bigger or smaller.**
-- **Horizontal Scaling - Increase or decrease the number of instances.**
+See [scalability and elasticity](./03%20-%20Cloud%20Concepts.md) for the underlying concepts.
 
 ## 1.3 Elastic Load Balancing and EC2 Auto Scaling
 
-AWS commonly combines **Elastic Load Balancing (ELB)** and **Amazon EC2 Auto Scaling** to achieve both high availability and scalability.
-
-### Elastic Load Balancing (ELB)
-
-**Elastic Load Balancing** automatically distributes incoming application traffic across multiple targets, such as EC2 instances.
-- Distributes incoming requests across multiple EC2 instances.
-- Supports applications deployed across multiple Availability Zones.
-- Helps maintain application availability by directing traffic to healthy instances.
-
-**Primary Purpose**: Distribute incoming traffic and improve application availability.
-
-### Amazon EC2 Auto Scaling
-
-**Amazon EC2 Auto Scaling** automatically adjusts the number of EC2 instances based on application demand.
-
-It uses **Auto Scaling groups (ASGs)** to manage EC2 instance capacity.
-- Monitors instance utilization and scaling conditions.
-- **Scales Out**: Launches additional instances when demand increases.
-- **Scales In**: Terminates unnecessary instances when demand decreases.
-- Helps maintain sufficient capacity while avoiding unnecessary resources.
-
-**Primary Purpose**: Automatically adjust EC2 capacity according to demand.
-
-### How They Work Together
-
-A highly available and scalable architecture typically includes
-1. An **Elastic Load Balancer** receiving incoming application traffic.
-2. Multiple **EC2 instances** deployed across different Availability Zones.
-3. An **Auto Scaling group** managing the number of EC2 instances.
-4. The load balancer distributing traffic among healthy instances.
-5. Auto Scaling adding or removing instances as demand changes.
-
-### ELB vs Auto Scaling
-
-| Feature               | Elastic Load Balancing (ELB)                             | EC2 Auto Scaling                                    |
-| --------------------- | -------------------------------------------------------- | --------------------------------------------------- |
-| **Main Purpose**      | Distribute traffic                                       | Adjust computing capacity                           |
-| **Primary Function**  | Route requests to healthy instances                      | Add or remove EC2 instances                         |
-| **High Availability** | Helps maintain availability through traffic distribution | Helps maintain sufficient healthy instance capacity |
-| **Scalability**       | Distributes traffic across available instances           | Automatically scales the number of instances        |
-| **Exam Keyword**      | Traffic distribution                                     | Automatic capacity adjustment                       |
-
-**Important**: ELB does not add or remove EC2 instances. Auto Scaling manages instance capacity, while ELB distributes traffic across those instances.
+| Need | Service behavior |
+| --- | --- |
+| Share requests across available servers | **Elastic Load Balancing** uses target health checks to choose where to route traffic. |
+| Maintain a given number of EC2 instances | **EC2 Auto Scaling** replaces unhealthy instances to restore desired capacity. |
+| Increase or decrease the size of a fleet as demand changes | **EC2 Auto Scaling** changes desired capacity using scaling policies and operates within the group’s minimum and maximum. |
 
 ## 1.4 Exam Focus
 
@@ -463,7 +376,7 @@ It uses **Auto Scaling Groups (ASGs)** to manage EC2 capacity through **Horizont
 - **Scale Out**: Automatically launch additional EC2 instances when demand increases.
 - **Scale In**: Automatically terminate unnecessary EC2 instances when demand decreases.
 - **Maintain Desired Capacity**: Ensure the required number of EC2 instances is running.
-- **Health Monitoring**: Automatically replace unhealthy EC2 instances.
+- **Health Monitoring**: Replace unhealthy instances to maintain desired capacity. EC2 health checks are enabled by default. If you enable ELB health checks on the group, it can also replace instances that the load balancer reports as unhealthy.
 - **Elastic Load Balancing Integration**: Automatically register and deregister EC2 instances with a load balancer.
 - **Cost Optimization**: Run only the required number of EC2 instances to reduce unnecessary costs.
 
@@ -627,37 +540,7 @@ Auto Scaling Groups also help maintain application availability by replacing unh
 
 ## 5.1 Load Balancer and Auto Scaling Summary
 
-**Elastic Load Balancing (ELB)** and **Amazon EC2 Auto Scaling** work together to provide **High Availability, Scalability**, and **Cost Optimization**.
-
-### High Availability and Scalability
-
-- **High Availability**: Deploy EC2 instances across multiple **Availability Zones (AZs)** to reduce downtime.
-- **Elastic Load Balancing (ELB):** Distributes incoming traffic across healthy backend targets, including EC2 instances, containers, IP addresses, and Lambda functions (depending on load balancer type).
-- **EC2 Auto Scaling**: Automatically adds or removes EC2 instances based on demand to maintain the required capacity and optimize costs.
-
-### Types of Load Balancers
-
-| Load Balancer                       | OSI Layer | Primary Use Case             |
-| ----------------------------------- | --------- | ---------------------------- |
-| **Application Load Balancer (ALB)** | Layer 7   | HTTP/HTTPS applications      |
-| **Network Load Balancer (NLB)**     | Layer 4   | TCP/UDP, ultra-low latency   |
-| **Gateway Load Balancer (GWLB)**    | Layer 3   | Security appliances, IDS/IPS |
-| **Classic Load Balancer (CLB)**     | Layer 4/7 | Legacy applications          |
-
-### ELB Troubleshooting
-
-- **ALB cannot connect to backend EC2 instances**: Check the **EC2 Security Group** inbound rules.    
-- **HTTP 503 (Service Unavailable):** Check whether the target group has registered, available targets.
-- **Unhealthy Targets**: ELB uses **Health Checks** to avoid routing normal traffic to unhealthy targets when healthy alternatives exist.
-
-### Auto Scaling Policies
-
-| Policy                 | Purpose                                                        |
-| ---------------------- | -------------------------------------------------------------- |
-| **Manual Scaling**     | Manually adjust desired EC2 capacity                           |
-| **Dynamic Scaling**    | Automatically scale based on metrics                           |
-| **Scheduled Scaling**  | Scale at predefined times                                      |
-| **Predictive Scaling** | Forecast demand using machine learning and historical patterns |
+Read the load balancer type comparison in section 2.3 and the group capacity example in section 4.2. In a web-tier outage, the load balancer shifts traffic to healthy targets while the Auto Scaling group replaces unhealthy instances. A change in demand can separately trigger a change in desired capacity.
 
 ## 5.2 Exam Focus
 

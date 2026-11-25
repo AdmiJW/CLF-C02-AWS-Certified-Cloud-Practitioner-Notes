@@ -19,7 +19,7 @@ Customers build their own internal teams with AWS skills to:
 
 **AWS Support** provides technical assistance to customers experiencing issues with AWS services.
 - The level of assistance and response time depend on the customer's AWS Support plan.
-- Enterprise Support provides access to a designated **Technical Account Manager (TAM)**.
+- Enterprise Support and Unified Operations include a designated **Technical Account Manager (TAM)**. See [AWS Support Plans](./26%20-%20AWS%20Support.md).
 
 ### **AWS Account Team**
 
@@ -94,11 +94,7 @@ The key distinction is **who provides the professional assistance**:
 
 ## **2.2 AWS IQ**
 
-**AWS IQ** connects customers with **AWS Certified third-party experts** for on-demand professional assistance.
-- Provides access to independent professionals rather than AWS employees.
-- Operates similarly to a freelancing platform.
-- Helps customers build and implement solutions on AWS.
-- Can provide a more cost-effective alternative to AWS Professional Services.
+**Historical lecture context:** AWS IQ connected customers with certified freelancers and consulting firms. AWS shut it down in 2026. [AWS service shutdown status](https://docs.aws.amazon.com/general/latest/gr/full_shutdown_services.html)
 
 ## **2.3 AWS Managed Services (AMS)**
 
@@ -113,23 +109,15 @@ The primary focus of AMS is **ongoing operations rather than building new soluti
 
 ## **2.4 AWS Professional Services vs. AWS IQ vs. AWS Managed Services**
 
-| Offering                       | Primary Purpose                            | Service Provider                             |
-| ------------------------------ | ------------------------------------------ | -------------------------------------------- |
-| **AWS Professional Services**  | Build and implement new cloud solutions    | AWS employees                                |
-| **AWS IQ**                     | On-demand assistance with AWS projects     | AWS Certified third-party experts            |
-| **AWS Managed Services (AMS)** | Secure and manage ongoing cloud operations | AWS tools, services, and operational experts |
-
-The key distinctions are:
-- **AWS Professional Services vs. AWS IQ** - AWS employees versus third-party certified experts.
-- **AWS Professional Services and AWS IQ vs. AMS** - Building new solutions versus managing ongoing operations.
+Use **AWS Professional Services** for a scoped transformation or implementation engagement with AWS experts. **AWS Managed Services** helps run day-to-day cloud operations and appears here as lecture context. AWS IQ was a freelancer marketplace and is retired.
 
 ## **2.5 Exam Focus**
 
 - **Build cloud solutions using AWS employees - AWS Professional Services**
-- **Hire AWS Certified third-party experts on demand - AWS IQ**
+- **Historical lecture reference** — AWS IQ previously connected customers with certified freelancers.
 - **Manage ongoing AWS cloud operations - AWS Managed Services (AMS)**
 - **Adopt operational and security best practices - AWS Managed Services (AMS)**
-- **Solution implementation - AWS Professional Services and AWS IQ**
+- **Implementation engagement with AWS experts** — AWS Professional Services.
 - **Operational management - AWS Managed Services (AMS)**
 
 # 3 - AWS Partner Network (APN)
@@ -143,41 +131,13 @@ The **AWS Partner Network (APN)** is a global network of third-party companies t
 
 ## **3.2 AWS Partner Types**
 
-### **AWS Consulting Partners**
+| Need | AWS Partner type |
+| --- | --- |
+| Design, migrate, or integrate a solution for a customer | **Systems integrator** or other AWS Services Partner. The lecture calls many of these consulting partners. |
+| Build and sell a product that runs on or integrates with AWS | **Independent software vendor (ISV)** or other AWS Software Partner. The lecture uses technology partner. |
+| Deliver authorized training | **AWS Training Partner**. |
 
-Help customers design, build, deploy, and manage solutions on AWS.
-
-Common services include:
-- IT consulting.
-- Solution architecture and design.
-- Application development.
-- Managed services and ongoing operations.
-
-### **AWS Technology Partners**
-
-Develop and provide their own technology products and solutions that run on or integrate with AWS.
-
-Examples include:
-- Software built on AWS.
-- Hardware that integrates with AWS services.
-- Database solutions.
-- Software as a Service (SaaS).
-- Platform as a Service (PaaS).
-
-### **AWS Training Partners**
-
-Provide AWS training delivered by certified instructors.
-- Classroom training.
-- Digital training.
-- Help customers develop AWS knowledge and skills.
-
-### **Partner Types Comparison**
-
-| Partner Type           | Primary Purpose                                                                         |
-| ---------------------- | --------------------------------------------------------------------------------------- |
-| **Consulting Partner** | Design, build, and manage customer solutions on AWS.                                    |
-| **Technology Partner** | Provide software, hardware, and technology solutions that run on or integrate with AWS. |
-| **Training Partner**   | Provide instructor-led AWS training.                                                    |
+Partner benefits include training and certification support, events, and program-specific commercial benefits such as eligible discounts. [Work with AWS Partners](https://aws.amazon.com/partners/work-with-partners/) · [AWS Partner Network](https://aws.amazon.com/partners/)
 
 ## **3.3 AWS Competency Program**
 
@@ -218,6 +178,12 @@ Customers can consider both **partner competency** and **partnership tier** when
 - **Partner maturity - Select, Advanced, and Premier tiers**
 - **AWS employees - AWS Professional Services**
 - **Third-party organizations - AWS Partner Network (APN)**
+
+## 3.6 AWS Marketplace
+
+**AWS Marketplace** lets customers discover, buy, and deploy third-party software or procure services from sellers. A buyer can review offers and manage subscriptions, use a negotiated **private offer**, and manage licenses or entitlements for eligible products across accounts. A **Private Marketplace** can constrain which products are approved for procurement.
+
+**Exam cue:** Find a partner to design or deliver the project through **APN**. Buy its eligible software or services through **AWS Marketplace**. [AWS Marketplace Buyer Guide](https://docs.aws.amazon.com/marketplace/latest/buyerguide/)
 
 # 4 - AWS Training and Certification
 
@@ -309,6 +275,8 @@ AWS re:Post is similar to Stack Overflow but focuses specifically on AWS-related
 
 **AWS re:Post Private** enables organizations to build an internal AWS community where employees can discuss technical issues and share knowledge privately.
 
+**Lifecycle note:** AWS re:Post Private reaches end of service on **June 30, 2027**. Public AWS re:Post is the exam’s community Q&A resource. [re:Post Private end of support](https://docs.aws.amazon.com/repostprivate/latest/userguide/repost-private-end-of-support.html)
+
 ## **5.3 AWS Knowledge Center**
 
 The **AWS Knowledge Center** provides official AWS articles containing answers to frequently asked technical questions and guidance for troubleshooting common AWS issues.
@@ -321,6 +289,8 @@ Examples include:
 The key distinction is:
 - **AWS re:Post** - Community-driven questions, answers, and collaboration.
 - **AWS Knowledge Center** - Official AWS troubleshooting articles and solutions.
+
+**AWS Prescriptive Guidance** publishes playbooks, patterns, strategies, and implementation guidance. Use it to plan a migration or apply a proven approach. Use **Knowledge Center** for a scoped support answer and **re:Post** to ask a community question. [AWS Prescriptive Guidance](https://aws.amazon.com/prescriptive-guidance/)
 
 ## **5.4 Exam Focus**
 
@@ -335,26 +305,11 @@ The key distinction is:
 
 ## **6.1 AWS Professional Help**
 
-| Offering                       | Primary Purpose                                                        |
-| ------------------------------ | ---------------------------------------------------------------------- |
-| **AWS Professional Services**  | Design and build cloud solutions using AWS employees.                  |
-| **AWS IQ**                     | Hire AWS Certified third-party experts for on-demand work.             |
-| **AWS Managed Services (AMS)** | Adopt AWS at scale and securely manage ongoing cloud operations.       |
-| **AWS Partner Network (APN)**  | Obtain professional assistance from third-party partner organizations. |
-
-**Key distinction:** AWS Professional Services and AWS IQ focus on building solutions, while AMS focuses on ongoing operations.
+Use the engagement comparison in section 1.3 to choose between an AWS account team, AWS Support, Professional Services, and a partner.
 
 ## **6.2 AWS Partner Network (APN)**
 
-|Partner Type|Primary Purpose|
-|---|---|
-|**Consulting Partner**|Consulting, solution design, application development, and managed services.|
-|**Technology Partner**|Software and technology products that run on or integrate with AWS.|
-|**Training Partner**|AWS training delivered by certified instructors.|
-
-- **AWS Competency Program** - Identifies partners with specialized expertise.
-- **Partner tiers** - Reflect partner maturity and capabilities.
-- **Tier progression** - Registered, Select, Advanced, Premier.
+See sections 3.2 and 3.6 for partner capabilities and Marketplace procurement.
 
 ## **6.3 AWS Training and Certification**
 
@@ -373,13 +328,13 @@ AWS certifications are generally valid for **three years**.
 |Offering|Primary Purpose|
 |---|---|
 |**AWS re:Post**|Free public AWS community for technical questions and answers.|
-|**AWS re:Post Private**|Paid internal knowledge-sharing platform for organizations.|
+|**AWS re:Post Private**|Internal knowledge sharing for existing customers through the re:Post Private transition.|
 |**AWS Knowledge Center**|Official AWS troubleshooting articles and technical answers.|
 
 ## **6.5 Exam Focus**
 
 - **Professional assistance directly from AWS employees - AWS Professional Services**
-- **On-demand certified freelancers - AWS IQ**
+- **AWS IQ** — Historical lecture reference for on-demand certified freelancers.
 - **Secure ongoing cloud operations at scale - AWS Managed Services (AMS)**
 - **Third-party AWS expertise - AWS Partner Network (APN)**
 - **Specialized partner expertise - AWS Competency Program**

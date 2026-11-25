@@ -2,23 +2,7 @@
 
 ## **1.1 AWS Organizations**
 
-**AWS Organizations** is an AWS service that allows you to **centrally manage and govern multiple AWS accounts** within a single organization.
-
-In large enterprises, multiple AWS accounts are commonly used to separate:
-- **Business units** - Finance, HR, IT
-- **Projects** - Project A, Project B
-- **Environments** - Development, Testing, Production
-
-Managing these accounts individually becomes difficult as the number of accounts increases.
-
-**AWS Organizations** simplifies multi-account management by providing:
-- **Centralized account management** - Manage multiple AWS accounts within one organization.
-- **Consolidated billing** - Combine billing across multiple accounts into a single bill.
-- **Centralized policies** - Apply governance and permission restrictions across accounts.
-- **Organizational Units (OUs)** - Logically group accounts for easier management.
-- **Account automation** - Automate the creation and management of AWS accounts.
-
-**Exam clue: Centrally manage and govern multiple AWS accounts - AWS Organizations**
+**AWS Organizations** brings multiple AWS accounts together under a management account. Group workload accounts into organizational units (OUs) so you can apply policies and retain clear account boundaries. Sections 2 and 3 cover service control policies and consolidated billing.
 
 ## **1.2 AWS Organizations Structure**
 
@@ -51,48 +35,7 @@ An **Organizational Unit (OU)** is a logical grouping of AWS accounts within an 
 
 ## **1.3 Key Features of AWS Organizations**
 
-### **1. Consolidated Billing**
-
-**Consolidated Billing** combines charges from multiple AWS accounts into a single bill.
-- Each member account can incur charges independently.
-- The management account receives the consolidated bill.
-- Simplifies billing administration for large organizations.
-- Reduces the risk of missing payments for individual accounts.
-
-**Example:** A company operates 50 AWS accounts across different projects. Instead of paying 50 separate bills, the finance team manages one consolidated bill.
-
-**Exam clue: Single bill for multiple AWS accounts - Consolidated Billing through AWS Organizations**
-
-### **2. Centralized Policies**
-
-AWS Organizations supports centralized governance through organization policies.
-
-One important policy type is the **Service Control Policy (SCP)**.
-- SCPs define **permission guardrails** for AWS accounts.
-- Can restrict which AWS service actions are permitted.
-- Can be applied at different levels:
-    - **Organization root** - Applies broadly across the organization.
-    - **Organizational Unit (OU)** - Applies to accounts within that OU.
-    - **Individual member account** - Applies to a specific account.
-
-**Important distinction:**
-
-- **AWS IAM policies** grant or restrict permissions for identities.
-- **SCPs** establish the maximum permissions available to identities in affected member accounts.
-- **SCPs do not grant permissions by themselves.**
-
-**Exam clue: Restrict AWS permissions across multiple accounts centrally - Service Control Policies (SCPs)**
-
-### **3. Account Automation**
-
-AWS Organizations supports automation for managing AWS accounts at scale.
-- Automate the creation of new AWS accounts.
-- Support account-management operations through APIs.
-- Reduce manual administration when onboarding new projects.
-
-**AWS Control Tower** is another AWS service that helps automate multi-account setup and governance.
-
-For example, large enterprises may use an **Account Factory** to provision standardized AWS accounts on demand.
+Organizations can create and group accounts, apply policies at the root, OU, or account level, and consolidate charges under the management account. For standardized account setup with a landing zone, see AWS Control Tower in section 4.
 
 ## **1.4 Exam Focus**
 
@@ -135,6 +78,8 @@ SCPs establish **permission guardrails** that restrict what actions can be perfo
 **Important:** Even if an SCP allows an action, the IAM user or role must still have the required permission through an **IAM policy**.
 
 **Exam clue: Restrict maximum permissions across AWS accounts - Service Control Policies (SCPs)**
+
+SCPs set the maximum permissions available to affected IAM principals and the **root user of a member account**. SCPs do not grant permissions. The **Organizations management account** and **service-linked roles** are outside SCP restrictions. [How SCPs work](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html)
 
 ## **2.2 SCP vs IAM Policies**
 
@@ -267,6 +212,8 @@ Initially, Account A uses the full commitment. Later, its usage decreases to $5 
 **Important:** Savings Plans and Reserved Instance discounts can be shared across eligible accounts, subject to applicable sharing settings and rules.
 
 **Exam clue: Share eligible Savings Plans and Reserved Instance discounts across multiple AWS accounts - Consolidated Billing**
+
+The management account can control Reserved Instance and Savings Plans discount sharing. An unused billing benefit can apply to eligible usage in another sharing account. A zonal RI’s capacity benefit and its billing discount are distinct. See [EC2 purchasing options](./06%20-%20Foundation%20-%20Amazon%20EC2.md) and [billing reports](./24%20-%20AWS%20Billing%20and%20Cost%20Management.md). [Discount sharing](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ri-turn-off.html)
 
 ## **3.3 AWS Organizations Pricing**
 
@@ -453,7 +400,7 @@ AWS Control Tower integrates with several AWS services to establish and manage i
 
 **AWS IAM Identity Center** also supports integration with external identity providers, such as Microsoft Active Directory environments.
 
-**AWS Service Catalog** enables organizations to offer approved, preconfigured resources for users to deploy.
+See [AWS Service Catalog and License Manager](./16%20-%20Infrastructure%20Management%20&%20Compliance.md) for approved resource deployments. See [IAM Identity Center](./05%20-%20Foundation%20-%20AWS%20IAM.md) for workforce access and permission sets.
 
 These integrations help AWS Control Tower automate **account provisioning, access management, security, and governance**.
 
@@ -597,32 +544,11 @@ This reduces the need to maintain separate copies of the same data.
 
 ## **6.1 AWS Account Management - Section Summary**
 
-AWS provides several services to **centrally manage, govern, and share resources across multiple AWS accounts**.
-
-|AWS Service / Feature|Primary Purpose|Exam Clue|
-|---|---|---|
-|**AWS Organizations**|Centrally manage multiple AWS accounts|Multi-account management|
-|**Organizational Units (OUs)**|Logically group AWS accounts|Account grouping|
-|**Service Control Policies (SCPs)**|Restrict maximum permissions across member accounts|Permission guardrails|
-|**Consolidated Billing**|Combine billing across AWS accounts|Single bill, shared discounts|
-|**AWS Control Tower**|Automate the setup of a well-architected landing zone|Multi-account setup and governance|
-|**AWS Resource Access Manager (RAM)**|Share supported AWS resources across accounts|Cross-account resource sharing|
-
-### **Key Reminders**
-
-**Service Control Policies (SCPs)**
-- Can be applied at the **organization root, OU, or individual account** level.
-- Restrict access to AWS services, resources, or Regions.
-- **Cannot grant additional permissions** - only limit maximum available permissions.
-- Do not restrict permissions in the management account.
-
-**AWS Control Tower**
-- Automates the creation of a **well-architected AWS Landing Zone**.
-- Uses AWS best practices for security, compliance, and multi-account governance.
-
-**AWS Resource Access Manager (RAM)**
-- Shares supported AWS resources across multiple accounts.
-- Supports sharing within an AWS organization and, for eligible resources, with accounts outside the organization.
+- Group and govern multiple AWS accounts → **AWS Organizations**.
+- Set a member account’s maximum permissions → **SCP**.
+- Pay centrally while tracking usage by account → **Consolidated billing**.
+- Set up a governed landing zone → **Control Tower**.
+- Share supported resources across accounts → **AWS RAM**.
 
 ## **6.2 Exam Focus**
 

@@ -192,21 +192,7 @@ Well-Architected Lenses **supplement rather than replace the six pillars** by pr
 
 ## **2.5 AWS Well-Architected Tool**
 
-The **AWS Well-Architected Tool (AWS WA Tool)** is a free, self-service tool available through the AWS Management Console.
-
-It helps customers:
-- Review workloads against AWS architectural best practices.
-- Identify architectural risks and areas for improvement.
-- Evaluate workloads using the six Well-Architected pillars.
-- Apply relevant Well-Architected Lenses.
-
-Customers can conduct reviews independently or engage an experienced **AWS Partner** for assistance.
-
-|Concept|Purpose|
-|---|---|
-|**AWS Well-Architected Framework**|Defines architectural principles and best practices.|
-|**AWS Well-Architected Lenses**|Provides specialized architectural guidance.|
-|**AWS Well-Architected Tool**|Helps customers review and evaluate their workloads.|
+See section 3 for the workload review steps. Use the **Framework** for design principles, a **Lens** for domain-specific guidance, and the **Tool** to record and track the review.
 
 ## **2.6 Exam Focus**
 
@@ -300,6 +286,17 @@ AWS CAF helps organizations:
 - Continuously improve their cloud transformation strategies.
 
 Unlike the AWS Well-Architected Framework, AWS CAF focuses on organizational transformation rather than individual workload architecture.
+
+**AWS CAF business outcomes**
+
+| Outcome | Example |
+| --- | --- |
+| **Reduce business risk** | Apply consistent controls and prepare for disruptions. |
+| **Improve environmental, social, and governance (ESG) performance** | Track sustainability metrics and increase transparency. |
+| **Increase revenue** | Launch differentiated products faster. |
+| **Increase operational efficiency** | Automate repeatable work and use managed services where appropriate. |
+
+Use [migration strategies](./20%20-%20AWS%20Migration%20and%20Hybrid%20Storage.md) to connect a CAF goal to a workload decision. [CAF business outcomes](https://docs.aws.amazon.com/whitepapers/latest/overview-aws-cloud-adoption-framework/accelerating-business-outcomes.html)
 
 ## **4.2 Four Transformation Domains**
 
@@ -418,57 +415,11 @@ Cloud transformation is an **iterative process**, rather than a one-time activit
 
 ## **5.1 AWS Well-Architected Framework**
 
-The **AWS Well-Architected Framework** provides best practices for building secure, high-performing, resilient and efficient workloads.
-
-|Six Pillars|Key Focus|
-|---|---|
-|**Operational Excellence**|Operations, monitoring and continuous improvement|
-|**Security**|Protecting data, systems and assets|
-|**Reliability**|Fault tolerance, scalability and recovery|
-|**Performance Efficiency**|Efficient resource utilization|
-|**Cost Optimization**|Reducing unnecessary costs|
-|**Sustainability**|Reducing environmental impact|
-
-**AWS Well-Architected Tool:**
-
-- Free, self-service architectural assessment tool.
-- Reviews workloads against the six pillars.
-- Supports additional industry-specific and technology-specific **Well-Architected Lenses**.
-- Generates improvement recommendations based on questionnaire responses.
-- Uses **milestones** to track architectural improvements over time.
+Use the six-pillar reference in section 2 to identify which workload decision a question is testing. Review a workload with the Well-Architected Tool in section 3.
 
 ## **5.2 AWS Cloud Adoption Framework (AWS CAF)**
 
-**AWS CAF** helps organizations improve cloud readiness and achieve digital transformation.
-
-### **Four Transformation Domains**
-
-- Technology
-- Process
-- Organization
-- Product
-
-### **Six CAF Perspectives**
-
-| Perspective    | Key Focus                                          |
-| -------------- | -------------------------------------------------- |
-| **Business**   | Business value and return on investment            |
-| **People**     | Skills, culture and organizational change          |
-| **Governance** | Governance and risk management                     |
-| **Platform**   | Cloud infrastructure and architecture              |
-| **Security**   | Data protection and identity and access management |
-| **Operations** | Operating and maintaining cloud workloads          |
-
-### **Four Cloud Transformation Phases**
-
-| Phase        | Purpose                                                |
-| ------------ | ------------------------------------------------------ |
-| **Envision** | Identify and prioritize transformation opportunities.  |
-| **Align**    | Develop strategies and address capability gaps.        |
-| **Launch**   | Implement and validate pilot initiatives.              |
-| **Scale**    | Expand successful initiatives across the organization. |
-
-These phases form an **iterative transformation process**.
+Use the CAF perspectives and transformation phases in section 4 to identify organizational capabilities and the next step in adoption.
 
 ## **5.3 Exam Focus**
 

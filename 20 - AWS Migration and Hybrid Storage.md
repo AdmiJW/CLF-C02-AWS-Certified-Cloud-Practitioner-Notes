@@ -89,6 +89,8 @@ Typical migration activities include:
 
 **Exam clue: Centrally track and manage migration progress - AWS Migration Hub**
 
+**Availability:** AWS Application Discovery Service and AWS Migration Hub closed to new customers on November 7, 2025. Existing customers can continue using them. AWS points new customers to AWS Transform for discovery and migration planning. The CLF-C02 guide still lists these services, so recognize the tasks they perform. [Application Discovery Service availability](https://docs.aws.amazon.com/application-discovery/latest/userguide/application-discovery-service-availability-change.html) · [Migration Hub availability](https://docs.aws.amazon.com/migrationhub-strategy/latest/userguide/migrationhub-availability-change.html)
+
 ## **1.4 AWS Migration Services**
 
 AWS provides specialized services to migrate different types of workloads.
@@ -275,16 +277,7 @@ Unlike server and database migration, data migration focuses on moving existing 
 
 ### **AWS Migration Services Overview**
 
-| Migration Requirement            | AWS Service                                        |
-| -------------------------------- | -------------------------------------------------- |
-| Migrate servers and applications | **AWS Application Migration Service (MGN)**        |
-| Migrate databases                | **AWS Database Migration Service (AWS DMS)**       |
-| Transfer files and stored data   | **AWS DataSync** or **AWS Data Transfer Terminal** |
-
-Data migrated to AWS can be stored in services such as:
-- **Amazon Simple Storage Service (Amazon S3)** - Object storage.
-- **Amazon Elastic File System (Amazon EFS)** - Managed shared file storage.
-- **Amazon FSx** - Managed file systems, including Windows-compatible file storage.
+Use the assessment and migration comparisons in sections 1–2 for workload or database migrations. For files and objects, sections 3–5 cover a transfer with **DataSync**, a physical high-speed transfer at a **Data Transfer Terminal**, and ongoing hybrid access with **Storage Gateway**.
 
 ## **3.2 Data Transfer Considerations**
 
@@ -338,12 +331,7 @@ This approach is useful when large datasets must be migrated while on-premises a
 
 ### **AWS DataSync**
 
-**AWS DataSync** is an online data transfer service used to move data between on-premises storage and AWS.
-- Transfers data over a network.
-- Supports migrating existing files and stored data to AWS.
-- Useful for ongoing data transfers and synchronization.
-
-**Exam clue: Transfer and synchronize data from on-premises storage to AWS over a network - AWS DataSync**
+For a managed transfer of files or objects over a network, use **AWS DataSync**. The detailed transfer example is in section 4.
 
 ### **AWS Data Transfer Terminal**
 
@@ -371,7 +359,7 @@ The lesson also mentions two services historically used for offline data transfe
 - **AWS Snowcone** - Portable device for transferring data.
 - **AWS Snowball Edge** - Physical device for transferring large datasets.
 
-The instructor states that the **AWS Snow Family** services have been discontinued and presents **AWS Data Transfer Terminal** as a newer approach.
+**Availability:** AWS Snowball Edge closed to new customers on November 7, 2025 and remains available to existing customers. AWS points new customers to **DataSync** for online moves, **Data Transfer Terminal** for high-speed physical uploads at an AWS facility, or AWS Partner solutions. [Snowball Edge availability](https://docs.aws.amazon.com/snowball/latest/developer-guide/snowball-edge-availability-change.html)
 
 For this lesson, prioritize understanding the distinction between **offline data transfer** and **online data transfer using AWS DataSync**.
 

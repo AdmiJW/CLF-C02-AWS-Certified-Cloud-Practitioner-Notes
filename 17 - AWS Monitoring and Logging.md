@@ -17,50 +17,13 @@ The four services covered in this section are:
 
 ## **1.2 Amazon CloudWatch vs AWS CloudTrail**
 
-### **Amazon CloudWatch - Monitoring**
-
-**Amazon CloudWatch** is a monitoring service that provides visibility into the **performance and operational health of AWS resources**.
-- Collects **metrics** from AWS services and resources.
-- Provides **dashboards** to visualize resource performance and health.
-- Helps monitor the operational status of AWS infrastructure.
-
-**Example scenario:**
-
-A company wants to monitor the performance and health of its Amazon EC2 instances.
-
-**Use Amazon CloudWatch** to collect metrics and visualize resource performance.
-
-### **AWS CloudTrail - Auditing**
-
-**AWS CloudTrail** records **AWS API activity** performed within an AWS account.
-- Tracks actions performed by users and other identities.
-- Records activities such as:
-    - Creating an **Amazon EC2 instance**.
-    - Deleting an **EC2 instance**.
-    - Modifying an **Amazon EBS volume**.
-- Helps identify **who performed an action** within an AWS account.
-- Supports **security auditing, governance, and accountability**.
-
-**Example scenario:**
-
-An EC2 instance was deleted, and an administrator needs to determine which user performed the action.
-
-**Use AWS CloudTrail** to investigate the recorded API activity.
-
-### **Key Differences**
-
-|Feature|Amazon CloudWatch|AWS CloudTrail|
-|---|---|---|
-|**Primary purpose**|Monitoring|Auditing|
-|**Focus**|Resource performance and health|AWS API activity|
-|**Information collected**|Metrics and operational data|API activity records|
-|**Key question**|How are my resources performing?|Who performed an action?|
-|**Typical use case**|Monitor EC2 performance|Identify who deleted an EC2 instance|
-
-**Key distinction:**
-
-- **CloudWatch** - What is happening with resource performance and health?
-- **CloudTrail** - Who performed an action in the AWS account?
+| Question | AWS service |
+| --- | --- |
+| What is happening to the application or resource now? | **CloudWatch** for metrics, logs, and alarms. |
+| Who called an AWS API, and when? | **CloudTrail** for AWS activity and API auditing. |
+| How was a resource configured, and does it meet a rule? | [AWS Config](./16%20-%20Infrastructure%20Management%20&%20Compliance.md) for configuration history and compliance. |
+| Which component slowed a distributed request? | **AWS X-Ray** for tracing. |
+| Is an AWS event affecting a service or my account? | **AWS Health Dashboard** for public status and account-specific events. |
 
 ## **1.3 Exam Focus**
 
@@ -471,70 +434,15 @@ An EC2 instance was unexpectedly terminated, and an administrator needs to deter
 
 ## **4.3 AWS CloudTrail Event History and Log Storage**
 
-CloudTrail provides different ways to access and analyze recorded AWS API activities.
+**Event history** shows the past **90 days of management events** in the selected Region. It is available without configuring a trail. S3 object access and other data events do not appear there.
 
-### **CloudTrail Event History**
+Create a **trail** to deliver selected events as log files to S3 for ongoing retention. Configure event selectors for the required management and data events and set the bucket’s retention policy to meet your needs. Athena can query the retained logs.
 
-**CloudTrail Event History** allows users to view recent AWS account activities directly from the AWS Management Console.
-- Available by default.
-- Provides access to the **last 90 days of management events**.
-- Allows administrators to investigate recent API activity.
-- Does not require creating a trail to view recent management events.
-
-### **CloudTrail Integration with Other AWS Services**
-
-CloudTrail events can also be delivered to other AWS services for storage and analysis.
-
-| AWS Service                      | Purpose                                               |
-| -------------------------------- | ----------------------------------------------------- |
-| **AWS CloudTrail Event History** | View recent account activity for the last 90 days     |
-| **Amazon S3**                    | Store CloudTrail logs for longer-term retention       |
-| **Amazon CloudWatch Logs**       | Analyze and monitor CloudTrail log events             |
-| **Amazon Athena**                | Query and analyze CloudTrail logs stored in Amazon S3 |
-
-### **Long-Term Log Storage**
-
-To retain CloudTrail events beyond the default Event History window, a **CloudTrail Trail** can be configured to deliver log files to an **Amazon S3 bucket**.
-- **Amazon S3** provides storage for historical CloudTrail logs.
-- **Amazon Athena** can query CloudTrail logs stored in S3.
-- **Amazon CloudWatch Logs** can be used for log monitoring and analysis.
-
-**Key distinction:**
-
-- **Recent API activity (last 90 days) - CloudTrail Event History**
-- **Long-term API activity retention - CloudTrail logs stored in Amazon S3**
-- **Query historical CloudTrail logs in S3 - Amazon Athena**
+[CloudTrail Event history](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html) · [Working with trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-trails.html)
 
 ## **4.4 Amazon CloudWatch vs AWS CloudTrail**
 
-Both services provide visibility into AWS environments, but they serve different purposes.
-
-| Feature               | Amazon CloudWatch                                  | AWS CloudTrail                            |
-| --------------------- | -------------------------------------------------- | ----------------------------------------- |
-| **Primary purpose**   | Monitoring and observability                       | API activity tracking and auditing        |
-| **Focus**             | Resource performance and operational health        | Actions performed within AWS accounts     |
-| **Data collected**    | Metrics, logs, and events                          | AWS API activity records                  |
-| **Common use case**   | Monitor EC2 CPU utilization                        | Identify who terminated an EC2 instance   |
-| **Security use case** | Monitor operational conditions and generate alarms | Investigate suspicious account activities |
-| **Key question**      | How are my resources performing?                   | Who did what, and when?                   |
-
-### **Example Exam Scenarios**
-
-**Scenario 1:** A company wants to monitor CPU utilization for its EC2 instances.
-
-**Correct service - Amazon CloudWatch**
-
-**Scenario 2:** A security administrator wants to determine which IAM user deleted an S3 bucket.
-
-**Correct service - AWS CloudTrail**
-
-**Scenario 3:** An organization needs to retain AWS API activity logs for long-term auditing.
-
-**Correct solution - AWS CloudTrail with Amazon S3**
-
-**Scenario 4:** An administrator wants to query historical CloudTrail logs stored in an S3 bucket.
-
-**Correct service - Amazon Athena**
+The section 1.2 comparison distinguishes operational metrics from activity auditing. CloudTrail can also deliver selected trail events to CloudWatch Logs for monitoring. For example, retain the API record in CloudTrail and use a CloudWatch alarm to alert on a metric derived from the log.
 
 ## **4.5 Exam Focus**
 
@@ -741,6 +649,10 @@ The disruption may appear in general **AWS Service Health**, but it may not dire
 
 **Amazon CloudWatch** primarily helps monitor your AWS resources and applications, while **AWS Health Dashboard** provides information about service disruptions occurring on the AWS provider side.
 
+### AWS Health API
+
+The **AWS Health API** returns health events programmatically, including events that may affect your AWS services and resources. AWS documents API access for **Business Support+**, **Enterprise Support**, and **Unified Operations**. See [the current Support plans](./26%20-%20AWS%20Support.md). [AWS Health API and concepts](https://docs.aws.amazon.com/health/latest/ug/aws-health-concepts-and-terms.html)
+
 ## **6.4 Exam Focus**
 
 - **Monitor AWS service availability and outages - AWS Health Dashboard**
@@ -766,23 +678,7 @@ The disruption may appear in general **AWS Service Health**, but it may not dire
 
 ## **7.1 AWS Monitoring and Logging - Section Summary**
 
-| Scenario / Requirement                                                           | AWS Service                         |
-| -------------------------------------------------------------------------------- | ----------------------------------- |
-| Check for **current AWS service outages** across Regions                         | **AWS Health Dashboard**            |
-| Audit **who performed actions** in an AWS account                                | **AWS CloudTrail**                  |
-| Troubleshoot **slow application responses** across microservices                 | **AWS X-Ray**                       |
-| Automatically scale EC2 instances when **CPU utilization exceeds 80%**           | **Amazon CloudWatch**               |
-| **Query and filter application error logs**                                      | **Amazon CloudWatch Logs Insights** |
-| Receive notifications about **AWS service disruptions** affecting your resources | **AWS Health Dashboard**            |
-
-### **Key Service Distinctions**
-
-| AWS Service              | Primary Purpose                           | Exam Keywords                                         |
-| ------------------------ | ----------------------------------------- | ----------------------------------------------------- |
-| **Amazon CloudWatch**    | Resource and application monitoring       | Metrics, logs, alarms, dashboards, Auto Scaling       |
-| **AWS CloudTrail**       | AWS API activity auditing                 | Who did what, when, API calls, security auditing      |
-| **AWS X-Ray**            | Distributed application tracing           | Microservices, debugging, latency, bottlenecks        |
-| **AWS Health Dashboard** | AWS service health and outage information | Service disruptions, regional outages, account impact |
+Use the service comparison in section 1.2. Combine signals in an incident. An alarm shows that a metric changed, a trace shows which request path slowed down, and an audit event can identify an API action near the same time. For estimated billing metrics and budget alerts, see [cost control tools](./24%20-%20AWS%20Billing%20and%20Cost%20Management.md).
 
 ## **7.2 Exam Focus**
 

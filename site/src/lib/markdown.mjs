@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { access } from 'node:fs/promises';
-import { REPO_ROOT } from './discovery.mjs';
+import { describeNote, REPO_ROOT } from './discovery.mjs';
 import { withBase } from './config.mjs';
 
 export function walk(node, visit) {
@@ -49,6 +49,22 @@ export function publishImages() {
       asset.node.url = asset.url;
       if (asset.node.type === 'image' && !asset.node.alt) asset.node.alt = path.basename(asset.relative).replace(/\.[^.]+$/, '').replaceAll('-', ' ');
     }
+  };
+}
+
+export function linkChapters() {
+  return tree => {
+    walk(tree, node => {
+      if (node.type !== 'link') return;
+      const [pathname] = node.url.split(/[?#]/);
+      if (!/^(?:\.\/)?\d{2}(?: |%20)-(?: |%20)[^/\\]+\.md$/.test(pathname)) return;
+
+      const filename = decodeURIComponent(pathname.replace(/^\.\//, ''));
+      if (!/^\d{2} - [^/\\]+\.md$/.test(filename)) return;
+
+      const { route } = describeNote(filename, '');
+      node.url = withBase(route) + node.url.slice(pathname.length);
+    });
   };
 }
 

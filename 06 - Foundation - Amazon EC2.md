@@ -117,30 +117,7 @@ EC2 instances are deployed within the **AWS Global Infrastructure**
 
 ## 2.3 - Amazon EC2 and the AWS Shared Responsibility Model
 
-Amazon EC2 follows the **AWS Shared Responsibility Model**, which divides responsibilities between AWS and the customer.
-
-| **Responsibility**                      | **AWS**                    | **Customer**    |
-| --------------------------------------- | -------------------------- | --------------- |
-| Physical servers and hardware           | **Responsible**            | Not responsible |
-| Underlying physical infrastructure      | **Responsible**            | Not responsible |
-| EC2 instance operating system selection | Provides available options | **Responsible** |
-| EC2 instance configuration              | Provides compute resources | **Responsible** |
-| Installing and running applications     | Not responsible            | **Responsible** |
-
-### Key Distinction
-
-#### AWS Responsibilities
-
-- Owns and manages the physical servers
-- Maintains the underlying hardware and infrastructure
-
-#### Customer Responsibilities
-
-- Chooses the operating system and instance configuration
-- Connects to and uses the virtual machine
-- Installs and manages applications running on the instance
-
-**Important**: Customers have access to their **EC2 instances**, but do not have direct access to the **underlying physical servers**.
+AWS operates the hardware, physical facilities, and virtualization layer. The EC2 customer configures the instance and network access and patches the guest operating system and applications. See [Shared Responsibility across AWS services](./22%20-%20AWS%20Shared%20Responsibility%20Model.md) for what changes with managed services.
 
 ## 2.4 - Exam Focus
 
@@ -207,7 +184,7 @@ Common operating system options include:
 
 ### Networking: Amazon VPC
 
-**Amazon Virtual Private Cloud (Amazon VPC)** provides a logically isolated virtual network for EC2 instances.
+**Amazon Virtual Private Cloud (Amazon VPC)** provides a logically isolated virtual network for EC2 instances. See [VPC subnets and route tables](./09%20-%20Foundation%20-%20Amazon%20VPC%20and%20Networking.md) for how a subnet gains public or private connectivity.
 
 - EC2 instances are launched within a **VPC subnet** in an Availability Zone
 - Instances receive **private IP addresses** for communication within the network
@@ -672,38 +649,7 @@ The appropriate EC2 instance type depends on the application's resource requirem
 
 ## 7.1 - Amazon Elastic Block Store (Amazon EBS)
 
-**Amazon Elastic Block Store (Amazon EBS)** provides **persistent block storage** for Amazon EC2 instances.
-- EBS volumes act like virtual hard disks attached to EC2 instances
-- Storage is **independent of the EC2 instance lifecycle**
-- An EC2 instance can have one or more EBS volumes attached
-- EBS volumes are network-attached storage rather than disks located directly on the EC2 physical host
-
-### Key Characteristics
-
-#### Persistent Storage
-- EBS data can persist even after an EC2 instance is terminated
-- When terminating an instance, EBS volumes can be configured to be **retained or deleted**
-- This allows storage and compute resources to have separate lifecycles.
-
-#### Root and Data Volumes
-- **Root Volume** - Contains the operating system
-- **Data Volume** - Stores additional application data and files
-
-#### Elastic Storage Capacity
-- EBS volumes can be expanded when additional storage is required
-- Example: Increase an EBS volume from **100GB** to **200GB**
-- EBS volumes **cannot be directly reduced in size**
-- After increasing a volume, the operating system's file system may need to be extended.
-
-#### EBS Snapshots
-- **EBS Snapshots** provide backups of EBS volume data
-- Used to preserve and recover stored information
-
-#### Storage Pricing
-- EBS storage is billed separately from EC2 compute resources
-- Storage charges depend on the provisioned volume capacity and other storage characteristics
-
-**Exam Clue: Persistent block storage for EC2 - Amazon EBS**
+An **EBS volume** is persistent block storage for EC2 in the same Availability Zone. Check **Delete on termination** to see whether the root or data volume will survive termination. EBS is billed separately from compute. See [EBS volume types, snapshots, and resizing](./11%20-%20Foundation%20-%20AWS%20Storage%20Services.md) for storage details.
 
 ## 7.2 - EC2 Instance Store
 
@@ -1130,29 +1076,7 @@ An EC2 instance can also have **multiple Security Groups** associated with it.
 
 ## 10.5 - Security Groups vs. Network ACLs
 
-AWS provides two important network traffic filtering mechanisms within a VPC.
-
-| **Feature**              | **Security Group**                                | **Network ACL (NACL)**                       |
-| ------------------------ | ------------------------------------------------- | -------------------------------------------- |
-| **Protection Level**     | Instance/network interface level                  | Subnet level                                 |
-| **Rules**                | Allow only                                        | Allow and Deny                               |
-| **Stateful / Stateless** | **Stateful**                                      | **Stateless**                                |
-| **Return Traffic**       | Automatically allowed for established connections | Must be explicitly permitted                 |
-| **Primary Use**          | Control traffic for EC2 instances                 | Control traffic entering and leaving subnets |
-
-### Key Distinction
-
-#### Security group
-- Instance-level virtual firewall
-- Supports **allow-only rules**
-- **Stateful** - Automatically permits return traffic
-
-#### Network ACL
-- Subnet-level traffic filter
-- Supports **allow and deny rules**
-- **Stateless** - Requires rules for traffic in both directions
-
-**Exam clue: Explicitly deny traffic from a specific IP address - Network ACL** 
+An EC2 security group is a stateful, allow-only filter at the network interface. A network ACL is a stateless subnet filter with allow and deny rules. See [Security Groups vs Network ACLs](./09%20-%20Foundation%20-%20Amazon%20VPC%20and%20Networking.md) for the comparison and return-traffic examples.
 
 ## 10.6 - Exam Focus
 
@@ -1499,6 +1423,8 @@ Suppose an application running on EC2 needs to upload images to an S3 bucket.
 **Key Concept**: IAM Roles allow EC2 applications to access AWS services without storing long-term AWS credentials on the instance
 
 ## 14.2 - Key Characteristics of IAM Roles for EC2
+
+See [IAM roles and temporary credentials](./05%20-%20Foundation%20-%20AWS%20IAM.md) for how the trust and permissions policies fit together. The exercise in section 15 applies this to EC2 accessing an S3 bucket.
 
 ### Permissions Through IAM Policies
 
@@ -2212,7 +2138,13 @@ Savings Plans may be less suitable for:
 - Provide lower discounts than Standard RIs in exchange for greater flexibility
 - Suitable for long-term workloads where computing requirements may evolve
 
-**Important**: Reserved Instances do not automatically guarantee physical capacity. Capacity reservation depends on whether the RI is regional or zonal.
+### Regional and Zonal Reserved Instances
+
+- **Regional RI** applies a billing discount to matching usage in the Region. Eligible Linux/Unix default-tenancy RIs can apply across sizes within the same family. A Regional RI does not reserve capacity.
+- **Zonal RI** discounts matching usage and reserves matching capacity in the specified Availability Zone.
+- **On-Demand Capacity Reservation** holds matching capacity in an Availability Zone and bills unused capacity at the equivalent On-Demand rate. An eligible Regional RI or Savings Plan can discount it. Immediate-use reservations are cancelable. Future-dated reservations may carry a commitment.
+
+See [Organizations billing and discount sharing](./23%20-%20AWS%20Account%20Management.md) for discounts across eligible accounts. [RI scope](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/reserved-instances-scope.html) · [Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html)
 
 ### Savings Plans vs. Reserved Instances
 
@@ -2237,19 +2169,13 @@ Savings Plans may be less suitable for:
 | **Compute Savings Plans**          | 1 or 3 years   | Flexible compute discounts      | EC2, Lambda, and Fargate usage                  |
 | **Standard Reserved Instances**    | 1 or 3 years   | Higher RI discounts             | Stable EC2 requirements                         |
 | **Convertible Reserved Instances** | 1 or 3 years   | More flexible RI configurations | Long-term EC2 usage with changing requirements  |
+| **On-Demand Capacity Reservation** | Varies by start type | Capacity held in one AZ | Ensure capacity for matching workloads |
+| **Dedicated Host** | Varies | Physical host with placement visibility | Host-based licensing or isolation |
+| **Dedicated Instance** | Varies | Single-account tenancy on dedicated hardware | Instance-level isolation |
 
 ### AWS Pricing Calculator
 
-**AWS Pricing Calculator** helps estimate and compare AWS infrastructure costs.
-
-For Amazon EC2, customers can configure:
-- Operating system and instance type
-- Number of EC2 instances
-- Required compute capacity
-- Pricing models and commitment terms
-- Payment options
-
-The calculator provides estimated costs for the selected configurations, helping customers compare pricing options
+Use [AWS Pricing Calculator](./24%20-%20AWS%20Billing%20and%20Cost%20Management.md) to estimate the cost of a selected configuration and purchasing option.
 
 **Important:** Spot pricing is dynamic, so actual Spot costs can vary with available capacity and market conditions
 

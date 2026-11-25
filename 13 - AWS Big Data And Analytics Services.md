@@ -329,7 +329,7 @@ AWS provides two important services for data transformation and processing.
 
 ### **Amazon QuickSight**
 
-**Amazon QuickSight** is an AWS **Business Intelligence (BI)** service.
+**AWS Quick Sight**, called **Amazon QuickSight** in the lecture, is the BI service covered in section 8.
 - Used for analyzing and visualizing data.
 - Creates interactive dashboards, graphs, and reports.
 - Helps users interpret data and identify trends.
@@ -370,28 +370,15 @@ AWS provides two important services for data transformation and processing.
 
 **Important:** Amazon Athena can query data directly in S3 without first loading it into Amazon Redshift.
 
+## 2.5.1 Amazon OpenSearch Service
+
+**Amazon OpenSearch Service** is a managed service for indexing and searching data. Use it for full-text application search or near-real-time log analytics and dashboards. For example, Amazon Data Firehose can deliver application logs into OpenSearch for investigation.
+
+**Exam cue:** Search across indexed text or explore operational logs → **Amazon OpenSearch Service**. Querying data directly in S3 with SQL points to Athena. [OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html)
+
 ## **2.6 Exam Focus**
 
-| Exam Scenario / Keyword                     | AWS Service             |
-| ------------------------------------------- | ----------------------- |
-| **Real-time data streaming**                | **Amazon Kinesis**      |
-| **Managed Apache Kafka**                    | **Amazon MSK**          |
-| **Managed ETL processing**                  | **AWS Glue**            |
-| **Big Data processing using frameworks**    | **Amazon EMR**          |
-| **Petabyte-scale data warehouse**           | **Amazon Redshift**     |
-| **Low-cost storage for a data lake**        | **Amazon S3**           |
-| **SQL queries directly on S3**              | **Amazon Athena**       |
-| **BI dashboards and data visualization**    | **Amazon QuickSight**   |
-| **Relational application databases (OLTP)** | **Amazon RDS / Aurora** |
-| **NoSQL application database (OLTP)**       | **Amazon DynamoDB**     |
-
-**Key Exam Distinctions:**
-
-- **Kinesis vs MSK - AWS-native streaming vs managed Apache Kafka.**
-- **Glue vs EMR - Managed ETL vs flexible Big Data framework processing.**
-- **Redshift vs Athena - Data warehouse vs SQL queries directly on S3.**
-- **Redshift vs QuickSight - Data analytics and warehousing vs BI visualization.**
-- **S3 vs Redshift - Data lake storage vs analytical data warehouse.**
+Follow the pipeline exercise in section 9 from ingestion to visualization. For exam scenarios, identify the stage the question describes, then match the service in the section summary.
 
 # 3 - Amazon Kinesis
 
@@ -1081,11 +1068,13 @@ Both services support SQL-based analytics but are designed for different scenari
 - **Automatically scaling serverless data warehouse - Amazon Redshift Serverless**
 - **Business intelligence dashboards - Amazon QuickSight**
 
-# 8 - Amazon QuickSight (Now part of Amazon Quick Suite)
+<span id="8---amazon-quicksight-now-part-of-amazon-quick-suite"></span>
+
+# 8 - AWS Quick Sight (formerly Amazon QuickSight)
 
 ## **8.1 Amazon QuickSight Overview**
 
-**Amazon QuickSight (now part of Amazon Quick Suite)** is a **serverless, machine learning-powered Business Intelligence (BI) service** used to create interactive dashboards, reports, and data visualizations.
+**AWS Quick Sight** is the business intelligence capability in **AWS Quick**. It creates interactive dashboards, reports, and data visualizations. The course uses **Amazon QuickSight** and **Amazon Quick Suite**. The current CLF-C02 guide lists **Amazon Quick**. AWS renamed the workspace and BI capability in November 2026. [AWS rename announcement](https://aws.amazon.com/about-aws/whats-new/2026/11/amazon-quick-aws-quick/)
 
 It enables organizations to analyze data from multiple sources and transform it into meaningful business insights.
 
@@ -1162,7 +1151,7 @@ Alternatively, QuickSight can connect directly to **Amazon Redshift** for data w
 ## **8.4 Exam Focus**
 
 - **Amazon QuickSight -** Serverless, machine learning-powered BI service.
-- **Amazon Quick Suite -** Suite that now includes Amazon QuickSight.
+- **AWS Quick** is the workspace that includes AWS Quick Sight. See [Generative AI](./28%20-%20Generative%20AI.md) for the application-layer context.
 - **Interactive Dashboards -** Amazon QuickSight.
 - **Business Intelligence (BI) -** Reporting, analytics, and data visualization.
 - **Embedded Analytics -** Integrate QuickSight dashboards into web applications.
@@ -1381,6 +1370,8 @@ Running an analytics pipeline can generate AWS charges.
 
 **Exam Takeaway:** Each AWS analytics service performs a specific function in the data pipeline: **storage, discovery, transformation, querying, or visualization**.
 
+**Follow the pipeline:** Collect and deliver events, catalog the data, query the data in S3, and visualize the results. To choose services for a different scenario, use the corresponding stage in the table below.
+
 # 10 - Section Summary
 
 ## **10.1 AWS Analytics Services Summary**
@@ -1399,7 +1390,8 @@ For the **AWS Certified Cloud Practitioner (CLF-C02)** exam, focus on identifyin
 | **Managed ETL (Extract, Transform, Load)**                        | **AWS Glue**                                |
 | **Big Data processing and custom ETL**                            | **Amazon EMR**                              |
 | **Ad hoc SQL queries on Amazon S3 data**                          | **Amazon Athena**                           |
-| **BI dashboards, graphs, and charts**                             | **Amazon QuickSight**                       |
+| **BI dashboards, graphs, and charts**                             | **AWS Quick Sight**                       |
+| Full-text search or log analytics | **Amazon OpenSearch Service** |
 | **Streaming ingestion using Apache Kafka**                        | **Amazon MSK**                              |
 | **Petabyte-scale data warehouse and OLAP**                        | **Amazon Redshift**                         |
 | **Automatic schema discovery and data cataloging**                | **AWS Glue**                                |
@@ -1587,7 +1579,7 @@ D. Amazon EMR
 **Amazon QuickSight** is a serverless Business Intelligence (BI) service used to create interactive dashboards, charts, and visualizations.
 - Integrates with **Amazon Redshift** as a data source.
 - Supports reporting and business analytics.
-- **Amazon Kinesis Data Analytics:** Real-time streaming analytics.
+- **Amazon Kinesis Data Analytics:** Historical name used here for streaming analytics. Recognize **Amazon Managed Service for Apache Flink** for the Flink-based workload.
 - **AWS Glue:** Data transformation and ETL.
 - **Amazon EMR:** Big Data processing.
 
@@ -1731,7 +1723,7 @@ D. Amazon EMR
 
 ### **Why?**
 
-**Amazon Kinesis Data Analytics** is the service name used in the quiz for real-time analytics on streaming data.
+**Amazon Kinesis Data Analytics** is the historical name used by this quiz. For the Flink-based workload, recognize **Amazon Managed Service for Apache Flink**. The separate Kinesis Data Analytics for SQL service has shut down. [AWS full shutdown list](https://docs.aws.amazon.com/general/latest/gr/full_shutdown_services.html)
 
 The lesson covers **Amazon Managed Service for Apache Flink** for this type of workload.
 - Processes continuously arriving streaming events.

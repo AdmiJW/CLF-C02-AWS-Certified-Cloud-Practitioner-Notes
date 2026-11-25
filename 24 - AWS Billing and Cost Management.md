@@ -67,77 +67,22 @@ A company wants to identify which AWS Region generates the highest EC2 costs and
 
 ### **AWS Data Exports**
 
-**AWS Data Exports** provides access to **detailed AWS billing and cost usage data** for advanced analysis and custom reporting.
-- Supports detailed cost and usage reporting, including **AWS Cost and Usage Reports (CUR)**.
-- Exports billing data to an **Amazon S3 bucket**.
-- Data can be delivered at regular intervals.
-- Useful for organizations requiring customized cost analysis across multiple AWS accounts or projects.
-
-Exported data can be analyzed using:
-
-| AWS Service           | Purpose                                                            |
-| --------------------- | ------------------------------------------------------------------ |
-| **Amazon S3**         | Stores exported billing data                                       |
-| **Amazon Athena**     | Queries billing data stored in S3 using SQL                        |
-| **Amazon Redshift**   | Enables SQL analytics on billing data loaded into a data warehouse |
-| **Amazon QuickSight** | Creates customized cost dashboards and visualizations              |
-
-**Example:**
-
-A large enterprise has hundreds of AWS accounts and wants each project manager to view detailed spending for their respective projects.
-
-**AWS Data Exports** provides the billing data needed to build customized cost dashboards.
-
-**Exam clue: Export detailed billing data to S3 for custom analysis and reporting - AWS Data Exports / AWS Cost and Usage Reports**
+Use **AWS Data Exports** to deliver detailed billing and usage line items to an S3 bucket. **Cost and Usage Report 2.0 (CUR 2.0)** is the recommended export. The exam also uses the name **AWS Cost and Usage Reports (CUR)**, which is the legacy format. [AWS Data Exports](https://docs.aws.amazon.com/cur/latest/userguide/what-is-data-exports.html)
 
 ## **1.3 AWS Free Tier Usage Dashboard**
 
-The **AWS Free Tier Usage Dashboard** helps monitor resource usage against AWS Free Tier limits.
-
-The transcript highlights two types of free usage:
-- **12 Months Free** - Certain AWS services offer limited free usage during the first 12 months.
-- **Always Free** - Certain services provide a limited amount of free usage every month.
-
-The dashboard helps users:
-- Monitor **Free Tier usage consumption**.
-- Identify how much free usage remains.
-- Recognize when usage is approaching or exceeding free limits.
-- Avoid unexpected charges from exceeding Free Tier allowances.
-
-**Important:** Usage beyond applicable AWS Free Tier limits may result in charges.
-
-**Example:**
-
-A beginner uses Amazon EC2 under a Free Tier allowance and wants to track remaining eligible usage to avoid unexpected charges.
-
-**Exam clue: Monitor AWS Free Tier usage and limits - AWS Free Tier Usage Dashboard**
+Use the Billing console to check the offers, actual usage, and credits for your account. The offers depend on the account’s creation date and plan. See [Free and Paid account plans](./02%20-%20Course%20Pre-requisites%20for%20Exercises.md). [AWS Free Tier](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html)
 
 ## **1.4 AWS Billing Tools Comparison**
 
-| AWS Tool                                  | Primary Purpose                        | When to Use                                            |
-| ----------------------------------------- | -------------------------------------- | ------------------------------------------------------ |
-| **AWS Pricing Calculator**                | Estimate future AWS costs              | Before deploying infrastructure                        |
-| **Billing and Cost Management Dashboard** | View actual bills and service charges  | Check monthly AWS spending                             |
-| **AWS Cost Explorer**                     | Analyze, visualize, and forecast costs | Investigate spending patterns and predict future costs |
-| **AWS Data Exports**                      | Export detailed billing and usage data | Build custom reports and cost dashboards               |
-| **AWS Free Tier Usage Dashboard**         | Track Free Tier consumption            | Monitor usage against free limits                      |
-
-### **Key Distinctions**
-
-**AWS Pricing Calculator vs AWS Cost Explorer**
-
-- **Pricing Calculator** - Estimates costs for planned AWS infrastructure.
-- **Cost Explorer** - Analyzes existing AWS costs and forecasts future spending based on usage.
-
-**Billing Dashboard vs Cost Explorer**
-
-- **Billing Dashboard** - Provides an overview of monthly bills and service charges.
-- **Cost Explorer** - Provides deeper analysis, filtering, visualizations, and forecasting.
-
-**Cost Explorer vs AWS Data Exports**
-
-- **Cost Explorer** - Uses built-in tools to analyze AWS spending.
-- **AWS Data Exports** - Provides detailed billing data for custom analysis and reporting.
+| Question | Tool |
+| --- | --- |
+| What might a planned workload cost? | **AWS Pricing Calculator** models expected usage. |
+| What have we spent and where are costs trending? | **AWS Bills** for billed charges and **AWS Cost Explorer** to filter, group, and forecast costs. |
+| How can I analyze the underlying usage and charge line items? | **AWS Data Exports** with **CUR 2.0** to S3. |
+| Is spending approaching a target? | **AWS Budgets** for actual or forecast thresholds. **CloudWatch billing alarms** monitor estimated charges. |
+| Is spending unusually high relative to past usage? | **AWS Cost Anomaly Detection**. |
+| Which resources could be resized? | **AWS Compute Optimizer**. **AWS Cost Optimization Hub** collects and prioritizes recommendations. |
 
 ## **1.5 Exam Focus**
 
@@ -338,94 +283,15 @@ The increase could be:
 
 ## **3.4 AWS Free Tier Usage Dashboard**
 
-The **AWS Free Tier Usage Dashboard** allows users to monitor consumption against applicable AWS Free Tier limits.
-
-### **Free Tier Usage Tracking**
-
-- Displays **Free Tier usage limits** for eligible services.
-- Shows how much free usage has already been consumed.
-- Helps identify remaining available usage.
-- Helps prevent unexpected charges when free usage limits are exceeded.
-
-### **Free Tier Categories Highlighted in the Demo**
-
-| Category           | Description                                                                                    |
-| ------------------ | ---------------------------------------------------------------------------------------------- |
-| **12 Months Free** | Certain services offer limited free usage during an initial 12-month eligibility period        |
-| **Always Free**    | Certain services provide monthly free usage allowances without an initial 12-month restriction |
-
-### **Example: Amazon CloudWatch**
-
-The demonstration uses a monthly allowance of **10 CloudWatch alarms**.
-- Free allowance - 10 alarms.
-- Already created - 4 alarms.
-- Remaining allowance - 6 alarms.
-
-### **Example: Amazon EC2**
-
-The demonstration references an older Free Tier offer of **750 hours per month** for eligible EC2 instances during the first 12 months.
-- The demonstrated AWS account is older than 12 months.
-- Its initial 12-month Free Tier eligibility has expired.
-- Therefore, the corresponding EC2 free usage allowance is no longer available.
-
-**Important:** Different AWS services can have different **Free Tier eligibility periods and usage limits**.
-
-**Exam clue: Monitor AWS Free Tier consumption and remaining allowances - AWS Free Tier Usage Dashboard**
+In the Billing console, open **Free Tier** and compare actual usage against offer limits. Check **Credits** for remaining eligible credits. Follow the account-plan details in [Course Pre-requisites](./02%20-%20Course%20Pre-requisites%20for%20Exercises.md) when interpreting the results.
 
 ## **3.5 AWS Data Exports**
 
-**AWS Data Exports** enables organizations to export **detailed AWS cost and usage data** for customized analysis and reporting.
-
-### **Key Capabilities**
-
-- Exports billing and usage data to **Amazon S3**.
-- Supports detailed reporting through **AWS Cost and Usage Reports (CUR)**.
-- Allows organizations to analyze exported billing data using other AWS services.
-- Supports customized cost dashboards and reporting.
-
-### **Integration with Other AWS Services**
-
-|AWS Service|Purpose|
-|---|---|
-|**Amazon S3**|Stores exported billing and usage files|
-|**Amazon Athena**|Queries exported billing data using SQL|
-|**Amazon Redshift**|Analyzes billing data loaded into a data warehouse|
-|**Amazon QuickSight**|Creates customized cost and usage dashboards|
-
-**Example:**
-
-A large enterprise wants detailed cost reports across multiple AWS accounts and projects.
-
-Using **AWS Data Exports**, it can store billing data in Amazon S3 and build customized reports.
-
-**Exam clue: Export detailed AWS billing data to S3 for custom reporting - AWS Data Exports / AWS Cost and Usage Reports**
+In **Data Exports**, choose a standard export for **CUR 2.0**. Select the columns and an S3 destination. Analyze the resulting files in Athena or another reporting tool. Include activated cost allocation tags or cost categories to report costs by team, environment, or application. [CUR 2.0 migration](https://docs.aws.amazon.com/cur/latest/userguide/dataexports-migrate.html)
 
 ## **3.6 AWS Billing Tools Comparison**
 
-| AWS Tool                          | Primary Purpose                        | Exam Scenario                                         |
-| --------------------------------- | -------------------------------------- | ----------------------------------------------------- |
-| **AWS Bills**                     | View monthly bills and charges         | Identify which service generated a charge             |
-| **AWS Cost Explorer**             | Analyze and forecast AWS spending      | Filter costs by service, account, region, or usage    |
-| **AWS Cost Anomaly Detection**    | Detect unusual spending patterns       | Receive notifications about unexpected cost increases |
-| **AWS Free Tier Usage Dashboard** | Monitor Free Tier usage                | Check remaining free usage allowances                 |
-| **AWS Data Exports**              | Export detailed billing and usage data | Build customized cost reports and dashboards          |
-
-### **Key Distinctions**
-
-**AWS Cost Explorer vs AWS Cost Anomaly Detection**
-
-- **Cost Explorer** - Used to investigate and forecast AWS costs.
-- **Cost Anomaly Detection** - Used to automatically identify unusual spending patterns and send notifications.
-
-**AWS Bills vs AWS Cost Explorer**
-
-- **AWS Bills** - Shows actual monthly charges and billing breakdowns.
-- **Cost Explorer** - Provides deeper filtering, visualizations, and forecasting.
-
-**AWS Cost Explorer vs AWS Data Exports**
-
-- **Cost Explorer** - Provides built-in cost analysis tools.
-- **Data Exports** - Provides detailed billing data for customized reporting.
+Use the comparison in section 1.4 to identify which tool answers the question. Start with Bills to see billed charges, use Cost Explorer to investigate a cost trend, and export CUR 2.0 when you need the detailed line items.
 
 ## **3.7 Exam Focus**
 
@@ -549,6 +415,8 @@ This helps identify how much the organization spends on its development and prod
 
 **Exam clue: Track AWS spending by project, department, or environment - AWS Cost Allocation Tags**
 
+Activate the tag keys you want in Billing and Cost Management so they can be used in cost reporting. Resource tags can appear in CUR 2.0 and help attribute line items to teams or environments. For a single bill across accounts, see [consolidated billing and discount sharing](./23%20-%20AWS%20Account%20Management.md). [Cost allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
+
 ## **4.5 AWS Cost Optimization Hub**
 
 **AWS Cost Optimization Hub** provides **centralized recommendations to identify AWS cost-saving opportunities**.
@@ -608,13 +476,7 @@ This process is known as **rightsizing**.
 
 ## **4.7 AWS Cost Control Tools Comparison**
 
-|AWS Tool|Primary Purpose|Exam Scenario|
-|---|---|---|
-|**Amazon CloudWatch Billing Alarms**|Monitor billing charges|Alert when total AWS charges exceed $100|
-|**AWS Budgets**|Track spending against budgets|Receive notifications when EC2 spending exceeds a budget|
-|**AWS Cost Allocation Tags**|Categorize AWS spending|Track costs by project or environment|
-|**AWS Cost Optimization Hub**|Centralize cost-saving recommendations|Identify Savings Plans and Reserved Instance opportunities|
-|**AWS Compute Optimizer**|Recommend resource rightsizing|Reduce costs from oversized EC2 instances|
+Use section 1.4 for tool selection. For example, use **AWS Budgets** to get an alert when projected EC2 spend exceeds a target. Use **AWS Compute Optimizer** to investigate resource sizing, and activate **cost allocation tags** to see which project incurred the charges.
 
 ## **4.8 Exam Focus**
 
@@ -808,16 +670,7 @@ The category can then be used in **AWS Cost Explorer** to analyze development sp
 
 ## **5.6 AWS Cost Control Tools Comparison**
 
-| AWS Tool                      | Primary Purpose                        | Exam Scenario                                          |
-| ----------------------------- | -------------------------------------- | ------------------------------------------------------ |
-| **CloudWatch Billing Alarms** | Monitor estimated billing charges      | Notify when AWS charges exceed $5                      |
-| **Amazon SNS**                | Deliver notifications                  | Send billing alarm notifications through email or SMS  |
-| **AWS Budgets**               | Track spending against budgets         | Create a $100 monthly budget with alerts               |
-| **AWS Cost Optimization Hub** | Centralize cost-saving recommendations | Review opportunities to reduce AWS spending            |
-| **AWS Compute Optimizer**     | Recommend resource rightsizing         | Identify oversized EC2 instances                       |
-| **Cost Allocation Tags**      | Categorize spending using tags         | Track costs by development and production environments |
-| **AWS Cost Categories**       | Create business-defined cost groupings | Analyze total development environment costs            |
-| **AWS Cost Explorer**         | Analyze costs using filters            | Filter spending by cost category or tag                |
+Use section 1.4 for tool selection. A budget sets a threshold for a known target. Cost Anomaly Detection looks for unusual changes relative to prior spending. Use the allocation tag and cost category demos above to attribute the resulting charges.
 
 ## **5.7 Exam Focus**
 
@@ -844,50 +697,22 @@ The category can then be used in **AWS Cost Explorer** to analyze development sp
 - **Cost Categories** - Group costs into business categories.
 - **Cost Explorer** - Analyze spending using those categories and tags.
 
+## 5.8 Data transfer pricing
+
+| Traffic path | What to check |
+| --- | --- |
+| **Internet to AWS** | Inbound data transfer is often free. A NAT gateway, load balancer, or another service on the path may still have processing charges. |
+| **AWS to the internet** | Data transfer out commonly has usage-based charges after any applicable allowance. |
+| **Within one Region** | Same-AZ transfer is often free for qualifying paths. Cross-AZ traffic can be billable, depending on the services and endpoints. |
+| **Between Regions** | Check inter-Region charges on the applicable service, including replication and the direction of the transfer. |
+
+For an estimate, trace each traffic leg. A private EC2 instance sending traffic through a NAT gateway can incur NAT processing charges as well as any applicable transfer charges. See [VPC routing](./09%20-%20Foundation%20-%20Amazon%20VPC%20and%20Networking.md) and [S3 storage and retrieval pricing](./11%20-%20Foundation%20-%20AWS%20Storage%20Services.md). [EC2 data transfer pricing](https://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer) · [AWS data transfer guidance](https://docs.aws.amazon.com/wellarchitected/latest/framework/cost04-bp03.html)
+
 # 6 - Section Summary
 
 ## **6.1 AWS Billing and Cost Management Summary**
 
-AWS provides tools to **estimate, monitor, analyze, and optimize cloud spending**.
-
-### **Cost Estimation and Analysis Tools**
-
-| AWS Tool                          | Primary Purpose                                                          |
-| --------------------------------- | ------------------------------------------------------------------------ |
-| **AWS Pricing Calculator**        | Estimate AWS costs before deployment; share estimates using public links |
-| **AWS Bills**                     | View monthly bills and service-level charges                             |
-| **AWS Cost Explorer**             | Analyze, filter, visualize, and forecast AWS spending                    |
-| **AWS Cost Anomaly Detection**    | Use machine learning and historical data to detect unusual spending      |
-| **AWS Data Exports**              | Export detailed cost and usage reports to Amazon S3                      |
-| **Amazon QuickSight**             | Build customized cost dashboards using billing data                      |
-| **AWS Free Tier Usage Dashboard** | Track Free Tier consumption and remaining allowances                     |
-
-### **Cost Control and Optimization Tools**
-
-| AWS Tool                      | Primary Purpose                                                                        |
-| ----------------------------- | -------------------------------------------------------------------------------------- |
-| **CloudWatch Billing Alarms** | Monitor estimated charges and trigger billing alerts                                   |
-| **AWS Budgets**               | Set spending budgets and receive threshold notifications                               |
-| **Cost Allocation Tags**      | Categorize costs using resource key-value tags                                         |
-| **AWS Cost Categories**       | Group spending into custom business categories                                         |
-| **AWS Cost Optimization Hub** | Centralize cost-saving recommendations, including Savings Plans and Reserved Instances |
-| **AWS Compute Optimizer**     | Recommend resource rightsizing using utilization metrics                               |
-
-### **Important Reminders**
-
-- **CloudWatch Billing Alarms** must be created in **US East (N. Virginia),** `us-east-1`.
-- **AWS Budgets** provides more flexible budget monitoring than basic CloudWatch billing alarms.
-- **Cost Allocation Tags** must be activated for cost allocation reporting.
-- **AWS Cost Categories** can be used to filter spending in **AWS Cost Explorer**.
-- **AWS Compute Optimizer** uses **Amazon CloudWatch metrics** to generate rightsizing recommendations.
-
-### **AWS Free Tier Categories**
-
-|Category|Description|
-|---|---|
-|**12 Months Free**|Limited free usage during an initial eligibility period|
-|**Always Free**|Ongoing free usage within specified service limits|
-|**Free Trials**|Free access to eligible services for a limited time or usage amount|
+Use section 1.4 as the main tool comparison. When estimating a workload, include compute, storage, retrieval, and data transfer. When investigating a bill, use tags and linked-account detail for attribution. Apply [EC2 purchasing options](./06%20-%20Foundation%20-%20Amazon%20EC2.md) to predictable compute usage and [consolidated billing](./23%20-%20AWS%20Account%20Management.md) for organization-wide billing.
 
 ## **6.2 Exam Focus**
 

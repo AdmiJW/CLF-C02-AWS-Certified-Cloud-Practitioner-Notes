@@ -7,22 +7,7 @@
 
 ## 1.1 - Cloud Computing and AWS Global Infrastructure
 
-**Cloud computing** is the **on-demand delivery of IT resources over the internet with pay-as-you-go pricing**. Resources such as compute, memory, and storage can be increased or reduced depending on demand, so customers pay based on what they use.
-
-A useful analogy is electricity:
-- Electricity is consumed when needed and billed based on usage.
-- Cloud computing provides computing resources in a similar **on-demand** model.
-- Applications and users access resources hosted in a cloud provider's data centers over the internet
-
-### AWS Regions and Availability Zones
-
-An **AWS Region** is a geographic area from which AWS services can be consumed.
-
-Each Region is made up of multiple **Availability Zones (AZs)**, which support **high availability** for applications.
-
-**Exam association:**
-- **Geographic area containing AWS infrastructure - AWS Region**
-- **Separate locations within a Region used for high availability - Availability Zones**
+In the diagrams, the application runs in an AWS Region. Its components can span Availability Zones (AZs) so one AZ failure need not take the application offline. See [Cloud Concepts](./03%20-%20Cloud%20Concepts.md) and [AWS Global Infrastructure](./04%20-%20AWS%20Global%20Infrastructure.md) for definitions and placement decisions.
 
 ## 1.2 - Core Application Architecture Concepts
 
@@ -79,126 +64,19 @@ This:
 
 These services map the traditional application components to managed AWS capabilities.
 
-### Amazon EC2 vs AWS Lambda
-
-#### Amazon EC2
-- Provides virtual machines
-- Suitable when the application requires continuously running servers
-- The server infrastructure must be configured and managed
-
-#### AWS Lambda
-- Runs code when triggered by an event
-- The example uses Lambda to process a newly uploaded video
-- If there is no event, no functions needs to be invoked
-- Considered **serverless** because the customer does not manage the underlying infrastructure.
-
-- **Exam clue: virtual server - Amazon EC2**
-- **Exam clue: run code without managing servers - AWS Lambda**
-
-### Amazon EBS vs Amazon S3
-
-| **Service**    | **Storage Type** | **Exam Association**                       |
-| -------------- | ---------------- | ------------------------------------------ |
-| **Amazon EBS** | Block storage    | Disk attached to EC2                       |
-| **Amazon S3**  | Object storage   | Images, videos, files, application objects |
-
-- **Need EC2 disk storage - Amazon EBS**
-- **Need object storage - Amazon S3**
+In this architecture, [EC2](./06%20-%20Foundation%20-%20Amazon%20EC2.md) hosts running application servers and [Lambda](./07%20-%20AWS%20Compute%20-%20Containers,%20ECS,%20EKS%20and%20Lambda.md) runs code in response to events. [EBS, EFS, and S3](./11%20-%20Foundation%20-%20AWS%20Storage%20Services.md) supply block, file, and object storage for different application needs.
 
 ## 1.4 - Messaging, Notifications, and Monitoring
 
-AWS provides separate services for different communication requirements:
-
-| **Requirement**                   | **AWS Service**       | **Purpose**                                          |
-| --------------------------------- | --------------------- | ---------------------------------------------------- |
-| Notifications / SMS / mobile push | **Amazon SNS**        | Notification and messaging service                   |
-| Email                             | **Amazon SES**        | Email sending service                                |
-| Message queue                     | **Amazon SQS**        | Queue-based messaging between application components |
-| Monitoring                        | **Amazon CloudWatch** | Monitors AWS resources and application health        |
-
-The lecture maps notification, email, queuing, and monitoring requirements directly to these AWS services.
-
-### SNS vs SES vs SQS
-
-#### Amazon SNS
-- Notifications
-- SMS and mobile push scenarios
-
-#### Amazon SES
-- Email
-
-#### Amazon SQS
-- Message queues
-- Useful when components need to exchange messages asynchronously
-
-#### Amazon CloudWatch
-- Monitoring application and AWS resource health
-
-- **Exam clue: notification service - Amazon SNS**
-- **Exam clue: email service - Amazon SES**
-- **Exam clue: message queue - Amazon SQS**
-- **Exam clue: monitor AWS resources - Amazon CloudWatch**
+A web tier can send work to **Amazon SQS** for a worker to process later, use **Amazon SNS** to notify subscribers, and use **Amazon SES** for application email. **Amazon CloudWatch** monitors metrics and can alarm when a threshold is breached. See [Application Integration](./14%20-%20AWS%20Application%20Integration%20Services.md) and [Monitoring and Logging](./17%20-%20AWS%20Monitoring%20and%20Logging.md).
 
 ## 1.5 - Data, Analytics, and Machine Learning
 
-The example application generates large amounts of operational and user data that can be collected, processed, analyzed, and visualized
-
-### Streaming and Analytics Pipeline
-
-A simplified AWS data flow from the lecture is:
-
-**Amazon Kinesis - Amazon S3 - Amazon EMR - Amazon Redshift - Amazon QuickSight**
-
-Supporting services include:
-
-| **Service**                     | **Main Purpose**                                   |
-| ------------------------------- | -------------------------------------------------- |
-| **Amazon Kinesis Data Streams** | Collects streaming data such as clickstream events |
-| **AWS Glue**                    | Extract, transform, and load (**ETL**) data        |
-| **Amazon EMR**                  | Runs big-data frameworks such as Hadoop and Spark  |
-| **Amazon Redshift**             | Data warehouse for large-scale analytics           |
-| **Amazon QuickSight**           | Business intelligence and data visualization       |
-
-The lecture describes ETL as collecting data from multiple sources, transforming it, and preparing it for analytics and a data warehouse.
-
-**Exam associations:**
-- **Streaming data - Amazon Kinesis**
-- **ETL - AWS Glue**
-- **Hadoop / Spark analytics - Amazon EMR**
-- **Data warehouse - Amazon Redshift**
-- **Business Intelligence dashboards - Amazon QuickSight**
-
-### Machine Learning and AI
-
-#### Amazon SageMaker
-- Platform for building and training custom machine learning models
-- Models can then be integrated into applications
-
-#### Amazon Rekognition
-- Prebuilt AI capability for analyzing images and videos
-
-The distinction is that **SageMaker** is used to build custom ML models, while services such as **Amazon Rekognition** provide ready-to-use AI capabilities.
-
-- **Need to build a custom ML model - Amazon SageMaker**
-- **Need image/video analysis using a prebuilt AI service - Amazon Rekognition**
+A streaming pipeline can use Kinesis Data Streams to collect events, Data Firehose to deliver them into S3, AWS Glue to catalog or transform the data, and Athena or Redshift to query it. A BI dashboard can visualize the results. The [analytics pipeline exercise](./13%20-%20AWS%20Big%20Data%20And%20Analytics%20Services.md) walks through these roles. For trained models and AI APIs, see [Machine Learning and AI](./18%20-%20Machine%20Learning%20and%20AI.md).
 
 ## 1.6 - Infrastructure as Code
 
-Manually creating a large AWS environment can involve many configurations across services.
-
-**Infrastructure as Code (IaC)** allows infrastructure to be defined in code or templates and deployed automatically.
-
-### AWS CloudFormation
-
-**AWS CloudFormation** allows AWS infrastructure to be described in a template and automatically created by AWS.
-
-Benefits highlighted in the lecture:
-- Reduces manual infrastructure configuration
-- Makes complex deployments easier to automate
-- Helps avoid repeatedly creating resources by hand
-- Fits into DevOps automation practices
-
-**Exam clue: deploy AWS infrastructure from templates - AWS CloudFormation**
+Use [CloudFormation](./15%20-%20Infrastructure%20&%20Application%20Deployment%20%28DevOps%29.md) to deploy the components in a repeatable stack from a template.
 
 ## 1.7 - Exam Focus
 
@@ -228,3 +106,14 @@ Benefits highlighted in the lecture:
 - **Message queues - Amazon SQS**
 - **Monitoring - Amazon CloudWatch**
 - **Infrastructure as Code - AWS CloudFormation**
+
+## 1.8 - End-user computing and IoT
+
+| Need                                                                                   | AWS service                                                                                                               |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Give users cloud-hosted desktops                                                       | **Amazon WorkSpaces**                                                                                                     |
+| Stream centrally hosted desktop apps to users                                          | **Amazon WorkSpaces Applications**, listed as **AppStream 2.0** in the exam guide                                         |
+| Give users a managed browser session that isolates web content from their local device | **Amazon WorkSpaces Secure Browser**. Closed to new customers October 29, 2026. Existing customers can continue using it. |
+| Connect devices securely and route telemetry to AWS services                           | **AWS IoT Core**. A fleet of sensors can publish readings for routing to downstream storage or processing.                |
+
+[CLF-C02 Domain 3](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02-domain3.html) · [WorkSpaces Applications](https://aws.amazon.com/workspaces/applications/) · [Secure Browser availability](https://docs.aws.amazon.com/workspaces-web/latest/adminguide/workspaces-secure-browser-maintenance-mode.html) · [AWS IoT Core](https://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html)

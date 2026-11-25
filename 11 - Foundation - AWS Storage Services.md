@@ -673,40 +673,11 @@ Actual savings depend on the **volume type, snapshot storage usage, and applicab
 
 # 10 - Elastic Block Storage (EBS) - Summary
 
-## 10.1 Amazon EBS - Key Concepts
+**Exam cues**
 
-**Amazon Elastic Block Store (Amazon EBS)** provides persistent **block-level storage for Amazon EC2 instances**.
-- **Availability Zone (AZ)** - EBS volumes are AZ-scoped and must be attached to EC2 instances in the same AZ.
-- **Volume Types** - SSD (gp2, gp3, io1, io2) and HDD (st1, sc1), selected based on performance and cost requirements.
-- **Attach and Detach** - EBS volumes can be detached and attached to another EC2 instance within the same AZ.
-- **EBS Snapshots** - Point-in-time, incremental backups stored in AWS-managed Amazon S3 storage.
-- **Cross-AZ Data Movement** - Create an EBS snapshot and restore it as a new volume in the target AZ.
-- **Delete on Termination** - Determines whether EBS volumes are automatically deleted when an EC2 instance is terminated.
-- **Cost Optimization** - Create a snapshot and delete unused EBS volumes to reduce storage costs.
-
-### EBS vs Instance Store
-
-| Feature          | Amazon EBS                                      | EC2 Instance Store                            |
-| ---------------- | ----------------------------------------------- | --------------------------------------------- |
-| **Storage Type**     | Persistent block storage                        | Storage from the underlying EC2 host hardware |
-| **Data Persistence** | Independent of instance lifecycle when retained | Temporary storage tied to the instance        |
-| **Cost**             | Separate EBS storage charges                    | No separate EBS volume charge                 |
-| **Primary Use**      | Persistent EC2 storage                          | Temporary local storage                       |
-
-## 10.2 Exam Focus
-
-- **Persistent block storage for EC2 - Amazon EBS**.
-- **Temporary storage from EC2 host hardware - Instance Store**.
-- **General-purpose SSD - gp2 / gp3.**
-- **High-performance Provisioned IOPS SSD - io1 / io2.**
-- **Throughput Optimized HDD - st1**.
-- **Cold HDD - sc1**.
-- **Same AZ - Detach and attach EBS volume**.
-- **Different AZ - Create snapshot and restore as a new volume**.
-- **Incremental Backup - EBS Snapshot**.
-- **Root Volume** - Typically deleted on EC2 termination.
-- **Additional EBS Volume** - Typically retained on EC2 termination.
-- **Cost Optimization** - Delete unused EBS volumes; retain snapshots when only backup data is needed.
+- Persistent, AZ-scoped block storage for EC2 → **EBS volume**.
+- Point-in-time volume backup that can restore a volume → **EBS snapshot**. See section 6 for incremental storage and restore behavior.
+- Centrally managed backup schedules and retention for multiple services → [AWS Backup](./21%20-%20Disaster%20Recovery%20and%20Backup.md).
 
 # 11 - Introduction to Amazon S3
 
@@ -1102,46 +1073,17 @@ Provides flexible retrieval options based on the required recovery speed.
 
 ## 14.4 S3 Storage Pricing and Cost Optimization
 
-S3 storage costs vary depending on the **storage class, storage duration,** and **retrieval requirements**.
+Compare storage cost with request, retrieval, and early-deletion charges. Standard suits frequently accessed data. Standard-IA suits infrequent access when data must span AZs. One Zone-IA stores data in a single AZ and is a fit for recreatable data. For archives, compare Glacier retrieval latency as well as retrieval fees.
 
-### Storage Cost Comparison
+| Storage class | Minimum billed storage duration |
+| --- | --- |
+| S3 Standard-IA and S3 One Zone-IA | 30 days |
+| S3 Glacier Instant Retrieval and S3 Glacier Flexible Retrieval | 90 days |
+| S3 Glacier Deep Archive | 180 days |
 
-The lecture provides the following illustrative storage prices:
+Deleting, overwriting, or transitioning an object before the minimum duration can incur charges for the remaining days. S3 Intelligent-Tiering charges a monitoring fee for eligible objects and automatically moves them between access tiers. Retrieval from its optional archive tiers may require a restore.
 
-| Storage Class                     | Approximate Storage Cost (USD/GB/Month)  |
-| --------------------------------- | ---------------------------------------- |
-| **S3 Standard**                   | $0.023                                   |
-| **S3 Standard-IA**                | Approximately half of S3 Standard        |
-| **S3 One Zone-IA**                | Lower than Standard-IA                   |
-| **S3 Intelligent-Tiering**        | Depends on tier, plus monitoring charges |
-| **S3 Glacier Instant Retrieval**  | $0.004                                   |
-| **S3 Glacier Flexible Retrieval** | $0.0036                                  |
-| **S3 Glacier Deep Archive**       | $0.00099                                 |
-
-*These are illustrative prices from the lecture, not universal rates. Actual prices depend on the AWS Region and applicable pricing.*
-
-### Minimum Storage Duration
-
-Certain S3 storage classes have **minimum storage duration charges**.
-
-| Storage Class                     | Minimum Duration |
-| --------------------------------- | ---------------- |
-| **S3 Standard-IA**                | 30 days          |
-| **S3 One Zone-IA**                | 30 days          |
-| **S3 Glacier Instant Retrieval**  | 90 days          |
-| **S3 Glacier Flexible Retrieval** | 90 days          |
-| **S3 Glacier Deep Archive**       | 180 days         |
-
-**Important**: Deleting an object before its minimum storage duration expires can result in charges for the remaining minimum duration.
-
-### Storage Cost vs Retrieval Cost
-
-- **Frequently Accessed Data** - S3 Standard is suitable when objects are retrieved regularly.
-- **Infrequently Accessed Data** - IA classes reduce storage costs but may incur retrieval charges.
-- **Archived Data** - Glacier classes offer lower storage costs, with retrieval time and charges varying by class.
-- **Unpredictable Access** - S3 Intelligent-Tiering automatically optimizes storage placement based on access patterns.
-
-**Key distinction**: The cheapest storage class is not always the cheapest overall option. Retrieval frequency, retrieval charges, and minimum storage durations must also be considered.
+[S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) · [S3 pricing](https://aws.amazon.com/s3/pricing/)
 
 ## 14.5 Exam Focus
 
@@ -1515,31 +1457,7 @@ For example, a bucket policy can deny access when a request does not originate f
 
 ## 18.5 S3 Data Security and Encryption
 
-Amazon S3 protects data at two stages:
-- **Encryption in Transit** - Protects data while being uploaded or downloaded.
-- **Encryption at Rest** - Protects objects stored in S3.
-
-### **Encryption in Transit**
-
-**HTTPS/TLS** provides encrypted communication between clients and Amazon S3.
-- Protects data during uploads and downloads.
-- Prevents data from being transmitted over an unencrypted connection when HTTPS is used.
-
-### **Encryption at Rest**
-
-Amazon S3 supports **Server-Side Encryption** and **Client-Side Encryption**.
-
-| Encryption Type            | Description                                         | Key Management                                     |
-| -------------------------- | --------------------------------------------------- | -------------------------------------------------- |
-| **SSE-S3**                 | Amazon S3 encrypts and decrypts the objects         | Keys managed by Amazon S3                          |
-| **SSE-KMS**                | Server-side encryption using AWS KMS keys           | AWS Key Management Service                         |
-| **SSE-C**                  | Server-side encryption using customer-provided keys | Customer provides encryption keys                  |
-| **Client-Side Encryption** | Client encrypts objects before uploading them to S3 | Encryption and decryption controlled by the client |
-
-- **Server-Side Encryption** - Amazon S3 performs encryption when storing the object and decryption when an authorized client retrieves it.
-- **Client-Side Encryption** - The client encrypts data before uploading it and is responsible for decrypting the data after retrieval.
-
-**Key distinction:** Server-side encryption is performed by S3, while client-side encryption is performed before data reaches S3.
+See section 17.4 for encryption at rest and in transit. A bucket policy can enforce HTTPS for requests. Use the correct KMS key permissions when the data is encrypted with SSE-KMS.
 
 ## 18.6 Exam Focus
 
@@ -1788,28 +1706,12 @@ The specific format depends on the AWS Region.
 
 ## 21.3 HTTPS and Custom Domain Names
 
-Although S3 provides static website hosting, its website endpoint has limitations.
+| Origin pattern | Access and TLS |
+| --- | --- |
+| S3 static website endpoint | Treat it as a CloudFront custom origin if using a distribution. Viewers can connect to CloudFront over HTTPS, but the website origin uses HTTP and requires public content. |
+| S3 bucket REST endpoint with CloudFront OAC | Keep the bucket private, allow the distribution to fetch objects, and configure CloudFront for HTTPS. Use a CloudFront default root object for the home page. |
 
-| Requirement                           | AWS Service       |
-| ------------------------------------- | ----------------- |
-| **Host static website files**         | Amazon S3         |
-| **Provide HTTPS access**              | Amazon CloudFront |
-| **Configure DNS for a custom domain** | Amazon Route 53   |
-
-### Amazon CloudFront
-
-**Amazon CloudFront** can be used with Amazon S3 to provide **HTTPS access** to a static website.
-- Supports secure website access using **HTTPS**.
-- Can deliver static website content stored in S3.
-- Helps serve websites through a custom domain configuration.
-
-### Amazon Route 53
-
-**Amazon Route 53** provides DNS capabilities for custom domain names.
-- Allows users to access websites through domain names such as `example.com`.
-- Can route domain requests to a website delivered through **Amazon CloudFront**.
-
-**Exam clue: Host a static website with HTTPS and a custom domain - Amazon S3 + Amazon CloudFront + Amazon Route 53**
+For a custom domain, use a certificate in CloudFront and direct DNS to the distribution. See [Route 53 and CloudFront](./10%20-%20DNS%20and%20Edge%20Networking.md) for the DNS and edge side of the design. [CloudFront origin types](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistS3AndCustomOrigins.html)
 
 ## 21.4 Exam Focus
 
@@ -2148,67 +2050,11 @@ Administrators can use the **Amazon S3 Console** to:
 
 # 26 - Amazon S3 - Summary
 
-## 26.1 Amazon S3 - Key Concepts
+**Exam cues**
 
-**Amazon Simple Storage Service (Amazon S3)** provides highly durable, scalable, and web-accessible **object storage**.
-- **Object Storage** - Stores objects inside S3 buckets.
-- **Web Access** - Objects can be accessed using HTTP/HTTPS APIs, subject to permissions.
-- **Storage Capacity** - Virtually unlimited number of objects per bucket.
-- **Durability** - Designed for **99.999999999% (11 nines)** durability.
-- **Storage Classes** - Different options based on access frequency, retrieval latency, durability requirements, and cost.
-
-### S3 Storage Classes
-
-| Storage Class                     | Primary Use Case                                         |
-| --------------------------------- | -------------------------------------------------------- |
-| **S3 Standard**                   | Frequently accessed data; default storage class          |
-| **S3 Standard-IA**                | Infrequently accessed data requiring immediate retrieval |
-| **S3 One Zone-IA**                | Low-cost, single-AZ storage for re-creatable data        |
-| **S3 Intelligent-Tiering**        | Unknown or changing access patterns                      |
-| **S3 Glacier Instant Retrieval**  | Archived data requiring millisecond retrieval            |
-| **S3 Glacier Flexible Retrieval** | Archival data retrieved within minutes to hours          |
-| **S3 Glacier Deep Archive**       | Lowest-cost, long-term archival storage                  |
-
-### S3 Security
-
-|Security Control|Purpose|
-|---|---|
-|**Block Public Access**|Prevent unintended public access|
-|**IAM Policies**|Control permissions for IAM users and roles|
-|**S3 Bucket Policies**|Resource-based permissions controlling access to buckets and objects|
-|**ACLs**|Legacy bucket and object permissions; generally avoided|
-|**Server-Side Encryption**|S3 encrypts objects using S3-managed, AWS KMS, or customer-provided keys|
-|**Client-Side Encryption**|Client encrypts objects before uploading them|
-
-### **S3 Features**
-
-| Feature                    | Purpose                                                                          |
-| -------------------------- | -------------------------------------------------------------------------------- |
-| **S3 Lifecycle Policies**  | Automatically transition or expire objects based on configured rules             |
-| **Static Website Hosting** | Host static HTTP websites without server-side processing                         |
-| **S3 Versioning**          | Maintain multiple versions of objects for recovery                               |
-| **S3 Replication**         | Asynchronously replicate objects across buckets in the same or different Regions |
-| **IAM Access Analyzer**    | Identify publicly accessible buckets and unintended cross-account access         |
-
-**Important:** S3 Replication requires **versioning enabled on both source and destination buckets**.
-
-## 26.2 Exam Focus
-
-- **Amazon S3** - Web-accessible object storage with virtually unlimited capacity.
-- **Durability - 11 nines (99.999999999%)**.
-- **Frequently Accessed Data - S3 Standard**.
-- **Unpredictable Access Patterns - S3 Intelligent-Tiering**.
-- **Infrequent Access with Multi-AZ Resilience - S3 Standard-IA**.
-- **Infrequent, Re-creatable Data - S3 One Zone-IA**.
-- **Long-Term Archival - S3 Glacier**.
-- **Prevent Public Exposure - S3 Block Public Access**.
-- **Resource-Based Access Control - S3 Bucket Policy**.
-- **Automatic Transitions and Expiration - S3 Lifecycle**.
-- **Host Static HTTP Website - S3 Static Website Hosting**.
-- **Recover Previous Object Versions - S3 Versioning**.
-- **Same-Region Replication - S3 SRR**.
-- **Cross-Region Replication - S3 CRR**.
-- **Identify Public and Cross-Account Access - IAM Access Analyzer**.
+- Identify the access pattern and the retrieval needs, then use the storage-class comparison in section 14.
+- Transition or expire objects automatically with **S3 Lifecycle**. Keep older copies with **Versioning** and copy objects to a second bucket with **Replication**.
+- Evaluate a bucket’s public or cross-account access with **IAM Access Analyzer**. Use the security and bucket-policy examples in sections 17–19.
 
 # 27 - Introduction to EFS
 

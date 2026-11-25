@@ -533,24 +533,7 @@ The exercise connects to EC2 A first, then uses an SSH private key to connect to
 
 ## 6.4 Internet Connectivity for Private EC2 Instances
 
-In the exercise, **EC2 B cannot directly access the internet** because:
-- It resides in a **Private Subnet** without a direct route to an Internet Gateway.
-- It does not have a **Public IP Address**.
-
-Even if EC2 B were assigned a public IP, it would still lack direct internet connectivity without an appropriate Internet Gateway route.
-
-### Solution: NAT Gateway
-
-A **NAT Gateway (Network Address Translation Gateway)** enables resources in private subnets to initiate **outbound internet connections** without requiring direct inbound internet access.
-
-Common use cases include:
-- Application servers downloading software packages or updates.
-- Backend services accessing external APIs.
-- Private EC2 instances requiring outbound internet connectivity.
-
-**Important distinction:**
-- **Internet Gateway** - Enables direct internet connectivity for appropriately configured resources in public subnets.
-- **NAT Gateway** - Enables outbound internet connectivity for resources in private subnets without exposing them to unsolicited inbound internet connections.
+The instance stays in its private subnet. For the lab’s outbound IPv4 traffic, add a NAT gateway and point the private subnet’s default route at it using sections 7 and 8.
 
 ## 6.5 Exam Focus
 
@@ -804,7 +787,7 @@ Regional NAT Gateway supports two deployment modes:
 
 ## 9.3 Exam Focus
 
-The instructor indicates Regional NAT Gateway is informational and is not expected to be tested in CLF-C02 through the end of 2026.
+**Lecture context (November 2026):** The exam guide emphasizes subnets and gateways. Focus on the routing purpose of NAT and recognize Regional NAT Gateway as a deployment option. [Regional NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateways-regional.html)
 
 Prioritize these existing NAT Gateway concepts:
 - **Outbound internet access for Private Subnets - NAT Gateway**
@@ -1117,17 +1100,7 @@ If AZ-1 becomes unavailable:
 
 ## 12.4 NAT Gateway for Private Application Servers
 
-Application servers in private subnets may require **outbound internet access** to download packages or communicate with external APIs.
-
-A **NAT Gateway** provides this connectivity without allowing unsolicited inbound internet connections.
-- Traditional NAT Gateways are deployed in **Public Subnets**.
-- Each NAT Gateway uses an **Elastic IP Address**.
-- Private subnet route tables direct outbound internet traffic through the NAT Gateway.
-- Deploying NAT Gateways across multiple AZs improves availability.
-
-NAT Gateways can share public subnets with the load balancer or use dedicated public subnets.
-
-**Key concept**: Application servers can remain private while accessing external internet services through a NAT Gateway.
+Use the private route table from the NAT Gateway exercise in section 8. The application tier can reach package repositories or external APIs without accepting unsolicited connections from the internet. If those servers only need supported AWS services, consider the private endpoints in section 13.
 
 ## 12.5 Security Groups for Multi-Tier Applications
 
@@ -1206,44 +1179,16 @@ Consider an EC2 application server in a private subnet that needs to upload or d
 
 ## 13.2 Types of VPC Endpoints
 
-There are two important VPC Endpoint types covered in this lesson.
+| Feature | Gateway endpoint | Interface endpoint |
+| --- | --- | --- |
+| **Example destination** | Amazon S3 or DynamoDB | Supported services such as Amazon SQS, AWS Lambda, or a provider’s endpoint service |
+| **Connectivity** | Add routes to the selected route tables | Create network interfaces with private IPs in the selected subnets |
+| **Technology** | VPC gateway endpoint | AWS PrivateLink |
+| **Endpoint fees** | No endpoint-hour or per-GB processing fee for the endpoint itself | Endpoint-hour and data processing charges typically apply |
 
-| Feature                   | Gateway Endpoint                  | Interface Endpoint                                  |
-| ------------------------- | --------------------------------- | --------------------------------------------------- |
-| **Purpose**               | Private access to S3 and DynamoDB | Private access to supported AWS services            |
-| **Supported Services**    | Amazon S3, Amazon DynamoDB        | Amazon SQS, Amazon SNS, AWS Lambda, and others      |
-| **Connectivity**          | Uses VPC route tables             | Uses private network interfaces                     |
-| **Underlying Technology** | Gateway VPC Endpoint              | AWS PrivateLink                                     |
-| **Pricing**               | No additional endpoint charge     | Hourly endpoint charges and data processing charges |
+Both types can provide service access without NAT or an internet gateway. For an EC2 fleet in a VPC that needs to reach S3, a gateway endpoint is a common match. S3 also offers interface endpoints for use cases such as access from on premises over VPN or Direct Connect.
 
-### Gateway VPC Endpoint
-
-A **Gateway VPC Endpoint** provides private connectivity to:
-- **Amazon Simple Storage Service (Amazon S3)**
-- **Amazon DynamoDB**
-
-Key characteristics:
-- Uses **Route Tables** to direct traffic to supported AWS services.
-- Does not require a NAT Gateway or Internet Gateway.
-- Has **no additional hourly or data processing charges** for the gateway endpoint itself.
-
-**Exam clue: Free private connectivity from a VPC to Amazon S3 or DynamoDB - Gateway VPC Endpoint**
-
-### Interface VPC Endpoint
-
-An **Interface VPC Endpoint** enables private connectivity to supported AWS services through **AWS PrivateLink**.
-
-Examples include:
-- **Amazon Simple Queue Service (Amazon SQS)**
-- **Amazon Simple Notification Service (Amazon SNS)**
-- **AWS Lambda**
-
-Key characteristics:
-- Provides private access through network interfaces with private IP addresses in the VPC.
-- Does not require a NAT Gateway or Internet Gateway.
-- Incurs endpoint usage charges.
-
-**Exam clue: Private connectivity to supported AWS services such as SQS, SNS, or Lambda - Interface VPC Endpoint**
+[Gateway endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html) · [S3 interface endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/privatelink-interface-endpoints.html)
 
 ## 13.3 AWS PrivateLink
 

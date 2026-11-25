@@ -131,21 +131,9 @@ This allows organizations to provide different levels of access to different use
 
 ## 2.5 - Root User Best Practice
 
-The **root user should not be used for everyday AWS operations**.
+Protect the root user with MFA, secure the account email, and avoid creating root access keys. Use federated roles with temporary credentials for routine workforce access. Reserve root for required tasks, such as changing the root password or activating IAM access to the billing console. Review the AWS list for exceptions involving accounts managed through Organizations.
 
-For example, routine activities such as launching **Amazon EC2 instances** should normally be performed using an IAM identity rather than root credentials.
-
-The root user should be reserved for **special account-level actions**.
-
-Examples highlighted in this lesson include:
-- Changing the **AWS Support plan**
-- Closing the **AWS account**
-
-For normal day-to-day administration, the recommended approach presented in the lesson is:
-1. Create the AWS account and root user.
-2. Sign in as the root user initially
-3. Create an administrative **IAM user**.
-4. Use the IAM identity for normal AWS operations.
+[IAM root user tasks](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html) · [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 
 ## 2.6 - Root User vs IAM User Summary
 
@@ -227,14 +215,7 @@ The alias must be unique because it forms part of the account's IAM sign-in URL.
 
 ## 3.5 - Root User vs IAM User for Daily Operations
 
-A common setup process is:
-1. Create the AWS account using the **root user**
-2. Use the root user initially to configure access
-3. Create an **IAM user** with the permissions required for administration
-4. Sign out of the root user
-5. Use the IAM identity for normal AWS activities
-
-The key security principle is to avoid using **root user credentials for routine operations**.
+Sign out of root after any root-only setup. The IAM user here is a standalone lab identity. Use workforce federation as described in section 9.7 when it is available. Remove the exercise user and any lab credentials after completing the course exercises.
 
 ## 3.6 - Exam Focus
 
@@ -311,11 +292,7 @@ After MFA is configured, the user must supply an MFA code during future sign-ins
 
 ## 4.5 - MFA for IAM and Root Users
 
-MFA can be configured for:
-- **IAM users**
-- The **AWS account root user**
-
-Adding MFA provides extra protection for AWS sign-in credentials and is recommended as an additional security measure.
+Enroll root and any lab IAM users individually. MFA on root protects only that identity. Revisit section 2.5 for root account protection.
 
 ## 4.6 - Exam Focus
 
@@ -790,17 +767,17 @@ After the trusted identity assumes the role, it can perform actions allowed by t
 
 ## 9.7 - Federated Users
 
-IAM roles can also be used with **federated users**
+A federated user signs in with an identity provider and receives temporary AWS credentials for an IAM role. **AWS STS** issues temporary role credentials.
 
-Federation allows users to authenticate through an external identity provider and then access AWS through an IAM role.
+| Identity need | AWS service or concept |
+| --- | --- |
+| Give employees access to AWS accounts and roles through a central portal | **IAM Identity Center**. Assign a user or group to an AWS account with a **permission set**, which defines the permissions available in that account. IAM Identity Center provisions the corresponding IAM role for that assignment. |
+| Use an existing Microsoft Active Directory environment | **AWS Directory Service**, including AWS Managed Microsoft AD, provides managed directory capabilities and can integrate with IAM Identity Center. |
+| Let customers sign in to a web or mobile application | **Amazon Cognito**. User pools handle app sign-up and sign-in. Identity pools can provide temporary AWS credentials to app users. |
 
-The lesson uses authentication providers such as:
-- Google
-- Facebook
+AWS account assignments require an Identity Center **organization instance**. Standalone account instances support assignments to compatible applications. See [Free Plan implications](./02%20-%20Course%20Pre-requisites%20for%20Exercises.md) before enabling Organizations for a lab.
 
-The external provider authenticates the user, while an IAM role provides the permissions needed to access AWS resources.
-
-**Externally authenticated user needs AWS access - Federation with an IAM role**
+[Configure AWS account access](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html) · [Directory Service](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html) · [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html)
 
 ## 9.8 - Common IAM Role Use Cases
 
@@ -830,17 +807,7 @@ The major advantage is that IAM roles provide **temporary credentials** rather t
 
 ## 10.1 - IAM Access Keys
 
-**Access keys** are long-term credentials used for **programmatic access** to AWS.
-
-Different access methods use different credentials:
-
-| **Access Method**          | **Credentials**                       |
-| -------------------------- | ------------------------------------- |
-| **AWS Management Console** | Username and password, optionally MFA |
-| **AWS CLI**                | Access keys                           |
-| **AWS SDKs**               | Access keys                           |
-
-Access keys allow applications and command-line tools to authenticate when making requests to AWS APIs.
+An **IAM user access key** is a long-term credential for signing programmatic AWS requests. Role sessions use an access key ID, secret access key, and a temporary session token. Prefer temporary credentials from IAM Identity Center for people and IAM roles for workloads. Use an IAM user key only when the lab calls for it or temporary credentials are impractical. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 
 ## 10.2 - Components of an Access Key
 
@@ -852,7 +819,7 @@ Both values are required for programmatic access.
 
 **Access Key ID + Secret Access Key - IAM access key credentials**
 
-Access keys are **long-term credentials**, similar in concept to a username and password.
+The IAM user keys in this exercise are long-term credentials.
 
 ## 10.3 - Programmatic Access to AWS
 
@@ -871,7 +838,7 @@ Access keys can be generated for:
 - **IAM users**
 - The **root user**
 
-According to the exercise, a user can have a maximum of **two active access keys** at the same time.
+An IAM user can have up to **two access keys** at a time, including inactive keys. [IAM quotas](https://docs.aws.amazon.com/general/latest/gr/iam-service.html)
 
 Because access keys are long-term credentials, they should be **stored securely**.
 
@@ -891,7 +858,7 @@ The key exam distinction is recognizing that **console credentials and programma
 
 ## 10.6 - Exam Focus
 
-- **AWS CLI / AWS SDK programmatic access - Access keys**
+- **Programmatic access - Temporary credentials are preferred. This exercise demonstrates IAM user access keys.**
 - **AWS Management Console - Username and password**
 - **Access key - Long-term credential**
 - **Access Key ID - Identifies the associated user**
@@ -907,7 +874,7 @@ The key exam distinction is recognizing that **console credentials and programma
 
 The **AWS Command Line Interface (AWS CLI)** allows users to access and manage AWS services from a command line.
 
-For programmatic access through the AWS CLI, the CLI uses **IAM access keys** rather than a console username and password.
+The AWS CLI signs requests using AWS credentials. A profile can obtain temporary credentials through IAM Identity Center or use an IAM user access key for the lab.
 
 Before using the CLI, it must first be installed on the local operating system, such as:
 - Windows
@@ -916,23 +883,17 @@ Before using the CLI, it must first be installed on the local operating system, 
 
 ## 11.2 - Configuring the AWS CLI
 
-After installation, the AWS CLI can be configured using:
+**With existing IAM Identity Center access**
 
-`aws configure`
+1. Run **aws configure sso --profile course** in AWS CLI v2 and select the authorized account and role.
+2. Run **aws sso login --profile course** when you need to sign in.
+3. Run **aws sts get-caller-identity --profile course** to confirm which identity the profile uses. Add **--profile course** to lab commands.
 
-The configuration includes:
-- **Access Key ID**
-- **Secret Access Key**
-- **Default AWS Region**
-- **Default output format**
+**For the standalone access-key exercise**
 
-The output format can be configured as formats such as:
-- JSON
-- Text
+Use **aws configure --profile course-lab** to set the scoped lab user’s access key, Region, and output format. Use the named profile when running the lab. Delete the IAM access key and remove its local profile credentials at the end. Avoid using root access keys or putting any key in source code.
 
-The **default Region** determines which regional endpoint CLI commands use when no Region is explicitly specified.
-
-A different Region can be provided for an individual command using the `--region` option.
+The CLI uses the configured default Region unless you override it with **--region**. [AWS CLI and IAM Identity Center authentication](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
 
 ## 11.3 - Using AWS CLI Commands
 
@@ -940,15 +901,15 @@ Once configured, AWS CLI commands can perform operations against AWS services.
 
 Examples from the exercise include:
 
-`aws ec2 describe-instances`
+`aws ec2 describe-instances --profile course-lab`
 
 Used to list EC2 instance information in the account.
 
-`aws ec2 start-instances --instance-id <instance-id>`
+`aws ec2 start-instances --instance-id <instance-id> --profile course-lab`
 
 Used to start a specified EC2 instance.
 
-`aws ec2 stop-instances --instance-id <instance-id>`
+`aws ec2 stop-instances --instance-id <instance-id> --profile course-lab`
 
 Used to stop a specified EC2 instance.
 
@@ -958,7 +919,7 @@ The exact syntax for commands can be found in the AWS documentation or command-l
 
 Using the AWS CLI does **not bypass IAM permissions**.
 
-The permissions available through the CLI are determined by the IAM identity associated with the configured access keys.
+The CLI has the permissions granted to the identity behind the active profile. The lab uses an IAM user. A federated profile uses the assigned role.
 
 In this exercise, the `automation` IAM user's access keys are used. That user has permission to:
 
@@ -986,15 +947,15 @@ What matters is whether the identity has the required **IAM permissions** for th
 | **Access Method**          | **Main Authentication Method**    | **Interface** |
 | -------------------------- | --------------------------------- | ------------- |
 | **AWS Management Console** | Username/password, optionally MFA | Web browser   |
-| **AWS CLI**                | IAM access keys                   | Command line  |
+| **AWS CLI**                | Temporary credentials or IAM user access keys | Command line  |
 
 Both ultimately interact with AWS services, but the method of authentication and interaction is different.
 
 ## 11.7 - Exam Focus
 
 - **AWS CLI - Command-line interface for programmatic AWS access**
-- **AWS CLI authentication - Uses IAM access keys**
-- **`aws configure` - Sets access key, secret key, default Region, and output format**
+- **AWS CLI authentication - Use a credential profile. Prefer temporary credentials.**
+- **`aws configure sso`** sets up a temporary Identity Center credential profile. **`aws configure`** can set a named access-key profile for the standalone lab.
 - **Default Region - Used when a command does not specify another Region**
 - **`--region` - Overrides the default Region for a command**
 - **`describe-instances` - Lists EC2 instance information**
@@ -1339,6 +1300,8 @@ IAM policies can be attached to **users, groups, and roles**
 | **AWS CloudTrail**        | Record AWS API activity for auditing                                  |
 
 These tools help identify unnecessary permissions, unused credentials, and potential security risks
+
+**Identity Center** gives people centralized AWS account access with permission sets and temporary role sessions. **Cognito** gives app users sign-in. **AWS Directory Service** supports Microsoft Active Directory workloads.
 
 ## 15.4 - Exam Focus
 

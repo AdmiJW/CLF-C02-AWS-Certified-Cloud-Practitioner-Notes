@@ -69,50 +69,25 @@ This includes:
 
 ## **1.3 Shared Responsibility Across AWS Services**
 
-The division of responsibilities **depends on the AWS service being used**.
+| Service | AWS secures or operates | Customer secures or configures |
+| --- | --- | --- |
+| **Amazon EC2** | Physical infrastructure, host OS, and hypervisor | Guest OS and patches, application software, security groups, credentials, and data |
+| **Amazon RDS** | Database infrastructure, underlying OS, and the managed maintenance and backup mechanisms | Database users and access, network exposure, data and encryption configuration, and available backup and maintenance settings |
+| **AWS Lambda** | Infrastructure and managed runtime operation. AWS delivers updates for managed runtimes according to their update mode. | Function code, bundled dependencies or container image, IAM role, data, and runtime selection or update settings |
+| **Amazon S3** | Storage infrastructure, built-in redundancy for the chosen storage class, and default server-side encryption | Bucket and object access, encryption choice and key permissions, retention, replication if needed, and data classification |
+| **Amazon ECS** | Container orchestration control plane and the underlying compute when using Fargate | Application containers and access. For self-managed EC2 capacity, also manage the instances and guest OS. |
 
-With more managed services, AWS generally handles more of the underlying infrastructure and operational management.
+[AWS shared responsibility model](https://docs.aws.amazon.com/wellarchitected/latest/framework/sec-shared-responsibility.html) · [Lambda runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html)
 
-### **Compute Services**
+### Inherited, shared, and customer-specific controls
 
-| Service                                           | AWS Responsibility                                                | Customer Responsibility                                                                              |
-| ------------------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| **Amazon Elastic Compute Cloud (Amazon EC2)**     | Physical hardware, host OS, hypervisor, underlying infrastructure | Guest OS, OS patching, installed software, applications, security groups, IAM                        |
-| **AWS Lambda**                                    | Underlying infrastructure and managed runtime environment         | Application code, data, IAM permissions, application security                                        |
-| **Amazon Elastic Container Service (Amazon ECS)** | AWS-managed orchestration and infrastructure components           | Application containers, access controls, and infrastructure management depending on deployment model |
+| Control type | Example |
+| --- | --- |
+| **Inherited** | AWS handles physical access and environmental controls for its data centers. |
+| **Shared** | AWS patches its infrastructure. On EC2, the customer applies guest OS and application patches. Each party implements the control at its own layer. |
+| **Customer-specific** | The customer configures a workload’s security group rules or manages application data classification. |
 
-**Important distinction:**
-
-- **Amazon EC2** provides virtual servers where customers manage the guest operating system and installed software.
-- **AWS Lambda** is more fully managed, reducing the customer's infrastructure management responsibilities.
-- **Amazon ECS** responsibilities depend on the deployment model and which components AWS manages.
-
-### **Storage Services**
-
-| Service                                       | AWS Responsibility                                                         | Customer Responsibility                                               |
-| --------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **Amazon Simple Storage Service (Amazon S3)** | Underlying storage infrastructure, physical disks, managed data redundancy | Data access permissions, encryption settings, security configurations |
-| **Amazon Elastic Block Store (Amazon EBS)**   | Underlying physical storage infrastructure and storage management          | Data access and encryption configurations                             |
-
-**Key distinction:**
-
-AWS manages the underlying storage hardware, while customers remain responsible for **controlling access to their data** and configuring applicable security settings.
-
-### **Database Services**
-
-For **Amazon Relational Database Service (Amazon RDS)**, AWS manages much of the underlying database infrastructure.
-
-| AWS Responsibility                              | Customer Responsibility                               |
-| ----------------------------------------------- | ----------------------------------------------------- |
-| Hosting and maintaining database infrastructure | Configuring database access                           |
-| Managing underlying operating system            | Configuring security groups                           |
-| Operating system and managed database patching  | Controlling public accessibility                      |
-| Performing managed automated backups            | Configuring encryption and applicable backup settings |
-
-**Key distinction:**
-
-- **AWS** manages the underlying database infrastructure and managed maintenance operations.
-- **Customers** manage database accessibility, permissions, and relevant security configurations.
+[AWS security controls](https://docs.aws.amazon.com/wellarchitected/latest/framework/sec-shared-responsibility.html)
 
 ## **1.4 Exam Focus**
 
@@ -169,6 +144,8 @@ AWS provides a mechanism to report suspected misuse of its infrastructure.
 **Exam association:**
 
 **Suspected illegal or abusive use of AWS resources - AWS Report Abuse**
+
+Send reports of suspected misuse of AWS resources to **AWS Trust & Safety**. For a support case about your workload or account, see [AWS Support Center](./26%20-%20AWS%20Support.md). [Report abuse of AWS resources](https://repost.aws/knowledge-center/report-aws-abuse)
 
 ## **2.3 Exam Focus**
 

@@ -190,6 +190,10 @@ For example:
 
 **Key distinction:** Session Manager provides secure remote access, while Run Command executes commands remotely without requiring an interactive login session.
 
+### Parameter Store
+
+**Systems Manager Parameter Store** stores settings such as endpoint names or configuration values. A **SecureString** uses AWS KMS encryption for sensitive values. If a workload needs managed rotation of credentials such as a database password, see [Secrets Manager rotation](./19%20-%20AWS%20Security.md). [Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
+
 ## **2.4 Exam Focus**
 
 - **Centralized server management - AWS Systems Manager**
@@ -462,6 +466,15 @@ Charges may apply for:
 - **AWS Config Aggregator** - Consolidates data across accounts and Regions.
 - **AWS Config Advanced Queries** - Searches recorded resource configuration data
 
+## 4.6 Approved deployments and license tracking
+
+| Requirement | Service |
+| --- | --- |
+| Let teams deploy approved products with preconfigured constraints | **AWS Service Catalog**. An administrator can give developers a portfolio containing an approved stack. |
+| Track and enforce eligible software license rules | **AWS License Manager**. Use it to monitor license consumption under a BYOL arrangement. |
+
+See [Control Tower](./23%20-%20AWS%20Account%20Management.md) for account governance and [cloud economics](./03%20-%20Cloud%20Concepts.md) for BYOL. [Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/) · [License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/)
+
 # 5 - Section Summary
 
 ## **5.1 Infrastructure Management & Compliance Summary**
@@ -472,6 +485,8 @@ Two key AWS services covered in this section:
 |---|---|---|
 |**AWS Systems Manager**|Centrally manage and automate administrative tasks across EC2 instances and on-premises servers|Manage servers, execute remote commands, apply patches, and establish secure sessions|
 |**AWS Config**|Track AWS resource configurations and evaluate compliance with defined rules|Detect configuration changes, identify noncompliant resources, and query configuration data|
+
+Use **Config** for configuration history and rules. To identify who made a change or to alarm on a metric, see [CloudTrail and CloudWatch](./17%20-%20AWS%20Monitoring%20and%20Logging.md).
 
 ## **5.2 Exam Focus**
 

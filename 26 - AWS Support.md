@@ -16,19 +16,7 @@ All AWS customers receive **24/7 access to customer service** and self-help reso
 
 ## **1.2 AWS Support Plans**
 
-The five AWS Support plans covered in this lesson, in order of increasing support levels, are:
-
-| Support Plan           |
-| ---------------------- |
-| **Basic**              |
-| **Developer**          |
-| **Business**           |
-| **Enterprise On-Ramp** |
-| **Enterprise**         |
-
-Higher-level support plans provide access to additional support resources, services, and capabilities.
-
-**Customer service** available to all customers should not be confused with technical support, which depends on the selected support plan.
+The current plan comparison is in section 2.5. **Basic** includes account and billing help and self-service resources. Technical cases with AWS engineers depend on the support plan. For AWS-event alerts, see [AWS Health Dashboard and API](./17%20-%20AWS%20Monitoring%20and%20Logging.md).
 
 ## **1.3 AWS Trusted Advisor**
 
@@ -52,143 +40,49 @@ Customers can request **quota increases** for adjustable quotas when they antici
 
 ## **1.5 Exam Focus**
 
-| Exam Scenario                                       | Answer                    |
-| --------------------------------------------------- | ------------------------- |
-| Obtain professional assistance with AWS issues      | **AWS Support**           |
-| Receive recommendations based on AWS best practices | **AWS Trusted Advisor**   |
-| View resource and service usage limits              | **AWS Service Quotas**    |
-| Request an increase in resource limits              | **AWS Service Quotas**    |
-| Determine available Trusted Advisor checks          | **AWS Support plan**      |
-| Access customer service 24/7                        | **All AWS Support plans** |
-
-**Remember:** Trusted Advisor provides recommendations, while Service Quotas manages service usage limits.
+- Account and billing assistance → **Basic Support**.
+- Technical cases and troubleshooting → choose a paid plan based on response and guidance needs.
+- Best-practice checks → **Trusted Advisor**.
+- View limits and request increases → **Service Quotas**.
 
 # 2 - AWS Support Plans
 
 ## **2.1 AWS Support Plans**
 
-AWS provides different support plans based on customer requirements, workload criticality, and the level of technical assistance needed.
-
-Higher-tier support plans offer additional benefits, including:
-- Faster technical support response times.
-- Additional communication channels.
-- More comprehensive **AWS Trusted Advisor** checks.
-- Access to a **Technical Account Manager (TAM)**.
+Use the [AWS Support Center](https://console.aws.amazon.com/support/home) to open or manage cases. Account and billing cases are available with Basic. Access to technical cases depends on the plan. For reporting suspected misuse of AWS resources, see [AWS Trust & Safety and the Acceptable Use Policy](./22%20-%20AWS%20Shared%20Responsibility%20Model.md).
 
 ## **2.2 Types of AWS Support Plans**
 
-### **Basic Support**
+The current CLF-C02 exam guide names **Basic**, **Business Support+**, **Enterprise Support**, and **Unified Operations**. See the comparison in section 2.5.
 
-- **Free** and enabled by default for all AWS accounts.
-- 24/7 access to customer service.
-- Access to AWS documentation, whitepapers, and support forums.
-- Account, billing, and service quota increase assistance.
-- Access to core Trusted Advisor security and service quota checks.
-- Access to **AWS Health Dashboard**, including personalized account health information.
-- **No technical support cases.** 
+### Legacy plan transition
 
-### **Developer Support**
+As of November 25, 2026, **Developer Support**, **Business Support**, and **Enterprise On-Ramp** are legacy plans in transition. AWS lists **January 1, 2027** as the discontinuation date and says the three plans remain available in **AWS GovCloud (US)**. Older lecture examples may refer to Developer for business-hours technical help, Business for around-the-clock engineer access, or Enterprise On-Ramp for access to a pool of TAMs.
 
-- Minimum **$29/month**.
-- Includes all Basic Support benefits.
-- Ability to create **technical support cases**.
-- Web-based technical support.
-- Recommended for **development, experimentation, and testing environments**.
-
-### **Business Support**
-
-- Includes lower-tier support benefits.
-- **24/7 technical support**.
-- Access to technical support through additional channels, including phone calls.
-- Faster response times than Developer Support.
-- Access to the **full set of AWS Trusted Advisor checks**.
-- Recommended for customers running **production workloads** on AWS.
-
-### **Enterprise On-Ramp Support**
-
-- Minimum **$5,500/month**.
-- Recommended for enterprises running **business-critical workloads**.
-- Faster technical support response times.
-- Access to a **pool of Technical Account Managers (TAMs)**.
-
-### **Enterprise Support**
-
-- Minimum **$15,000/month**.
-- Recommended for large enterprises running **mission-critical workloads**.
-- Technical support response time as fast as **15 minutes** for critical cases.
-- Access to a **dedicated Technical Account Manager (TAM)**.
+[AWS Support plan changes](https://docs.aws.amazon.com/awssupport/latest/user/aws-support-plans.html) · [CLF-C02 Domain 4](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02-domain4.html)
 
 ## **2.3 Technical Account Manager (TAM)**
 
-A **Technical Account Manager (TAM)** provides technical guidance and acts as a point of contact between the customer and AWS.
-
-Common responsibilities include:
-- Providing guidance during production issues.
-- Assisting with planning for major application launches.
-- Coordinating anticipated large-scale capacity requirements.
-- Coordinating with internal AWS teams to resolve customer issues.
-
-|Support Plan|TAM Access|
-|---|---|
-|Basic|No|
-|Developer|No|
-|Business|No|
-|Enterprise On-Ramp|**Pool of TAMs**|
-|Enterprise|**Dedicated TAM**|
+A **Technical Account Manager (TAM)** helps a customer plan, operate, and improve AWS workloads. **Enterprise Support** includes a designated TAM. **Unified Operations** includes a designated TAM and a Domain Specialist Engineer (DSE).
 
 ## **2.4 AWS Support Pricing**
 
-**Basic Support** is free, while other support plans have a minimum monthly fee.
-
-Paid support plans use **tiered pricing** based on monthly AWS charges.
-
-The support fee is generally the higher of:
-- The minimum monthly support fee.
-- The applicable percentage-based fee calculated from monthly AWS charges.
-
-Therefore, support costs can increase as AWS usage increases.
+Basic is included with an AWS account. Paid Support plans use pricing that varies by plan and applicable AWS spend or agreement. [AWS Support pricing](https://aws.amazon.com/premiumsupport/pricing/)
 
 ## **2.5 AWS Support Plans Comparison**
 
-| Feature                 | Basic         | Developer               | Business   | Enterprise On-Ramp | Enterprise       |
-| ----------------------- | ------------- | ----------------------- | ---------- | ------------------ | ---------------- |
-| Recommended use         | General usage | Development and testing | Production | Business-critical  | Mission-critical |
-| Technical support       | No            | Yes                     | Yes        | Yes                | Yes              |
-| 24/7 technical support  | No            | No                      | Yes        | Yes                | Yes              |
-| Phone technical support | No            | No                      | Yes        | Yes                | Yes              |
-| Trusted Advisor checks  | Core          | Core                    | Full       | Full               | Full             |
-| TAM                     | No            | No                      | No         | Pool               | Dedicated        |
+| Plan | Cases and engineering access | Fastest applicable technical response | Guidance and checks |
+| --- | --- | --- | --- |
+| **Basic** | Account and billing help, documentation, and community resources | — | Core Trusted Advisor checks |
+| **Business Support+** | 24/7 access to Cloud Support Engineers by phone, web, and chat | Under 30 minutes for a business-critical system down | Expanded Trusted Advisor access and AWS Support API |
+| **Enterprise Support** | 24/7 technical support | Up to 15 minutes for a production-critical case | Designated TAM, Trusted Advisor, and Security Incident Response |
+| **Unified Operations** | 24/7 technical support and incident management | Five minutes for eligible severity-5 Incident Detection and Response cases | Designated TAM and DSE, workload reviews, and operational guidance |
 
-### **Important Distinction**
-
-**Customer service vs Technical support**
-
-- **Customer service** - Available 24/7 to all AWS customers for non-technical issues such as account and billing inquiries.
-- **Technical support** - Requires a paid support plan, starting with Developer Support.
+**Response targets** depend on severity and case type. They measure initial response or human engagement, not resolution time. [AWS Support plans](https://docs.aws.amazon.com/awssupport/latest/user/aws-support-plans.html) · [AWS Support FAQ](https://aws.amazon.com/premiumsupport/faqs/)
 
 ## **2.6 Exam Focus**
 
-| Exam Scenario                                   | Answer                 |
-| ----------------------------------------------- | ---------------------- |
-| Free support plan enabled by default            | **Basic**              |
-| Account and billing assistance                  | **All support plans**  |
-| Development, testing, and experimentation       | **Developer**          |
-| Minimum plan for technical support              | **Developer**          |
-| Minimum plan for 24/7 technical support         | **Business**           |
-| Minimum plan for phone technical support        | **Business**           |
-| Minimum plan for full Trusted Advisor checks    | **Business**           |
-| Running production workloads                    | **Business**           |
-| Business-critical workloads with a pool of TAMs | **Enterprise On-Ramp** |
-| Mission-critical workloads with a dedicated TAM | **Enterprise**         |
-| Critical issue response time of 15 minutes      | **Enterprise**         |
-
-**Remember:**
-
-- **Basic - Free**
-- **Developer - Development and testing**
-- **Business - Production workloads**
-- **Enterprise On-Ramp - Pool of TAMs**
-- **Enterprise - Dedicated TAM**
+Use the comparison in section 2.5. **Business Support+** is the first current broad-availability plan with 24/7 engineer access. **Enterprise Support** adds a designated TAM. **Unified Operations** adds deeper operational engagement and the five-minute target for eligible incident cases.
 
 # 3 - AWS Trusted Advisor
 
@@ -319,19 +213,7 @@ AWS Trusted Advisor helps customers identify when their resource usage is approa
 
 ## **3.4 AWS Trusted Advisor and Support Plans**
 
-The number and types of Trusted Advisor checks available depend on the AWS Support plan.
-
-| Support Plan       | Trusted Advisor Access |
-| ------------------ | ---------------------- |
-| Basic              | Limited checks         |
-| Developer          | Limited checks         |
-| Business           | Full set of checks     |
-| Enterprise On-Ramp | Full set of checks     |
-| Enterprise         | Full set of checks     |
-
-Basic and Developer Support provide access to core security and service limit checks.
-
-**Business Support** is the minimum support plan covered in the course that provides access to the full set of Trusted Advisor checks.
+Basic includes a limited set of core checks. Business Support+, Enterprise Support, and Unified Operations provide expanded checks. Use the current [Trusted Advisor documentation](https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html) for the checks and entitlements available to your plan.
 
 ## **3.5 AWS Trusted Advisor vs AWS Service Quotas**
 
@@ -354,7 +236,7 @@ Basic and Developer Support provide access to core security and service limit ch
 | Identify resources approaching quotas                      | **Service Limits**         |
 | Recommend access logging and deletion protection           | **Operational Excellence** |
 | Request a quota increase                                   | **AWS Service Quotas**     |
-| Minimum support plan for full Trusted Advisor checks       | **Business Support**       |
+| First current paid tier with expanded Trusted Advisor checks | **Business Support+** |
 
 **Remember the six Trusted Advisor categories:**
 
@@ -442,33 +324,11 @@ For example, if an organization plans to launch a large number of Amazon EC2 ins
 
 ## **5.1 AWS Support Plans**
 
-All AWS customers receive **24/7 customer service** and access to documentation, technical whitepapers, and support forums.
-
-| Support Plan           | Key Exam Distinction                         |
-| ---------------------- | -------------------------------------------- |
-| **Basic**              | Free, no technical support                   |
-| **Developer**          | Development, testing, and experimentation    |
-| **Business**           | Production workloads, 24/7 technical support |
-| **Enterprise On-Ramp** | Business-critical workloads, pool of TAMs    |
-| **Enterprise**         | Mission-critical workloads, dedicated TAM    |
-
-**Business Support** is the recommended minimum support plan for production workloads, but it is **not mandatory**.
+Use the plan comparison in section 2.5. Start with the type of help, severity, and ongoing guidance the scenario requires.
 
 ## **5.2 AWS Trusted Advisor**
 
-**AWS Trusted Advisor** performs checks and provides recommendations based on AWS best practices across six categories:
-
-- **Cost Optimization** - Reduce unnecessary costs.
-- **Performance** - Improve application performance.
-- **Security** - Identify security risks.
-- **Fault Tolerance** - Improve workload resilience.
-- **Service Limits** - Identify resources approaching quotas.
-- **Operational Excellence** - Improve operational practices.
-
-|Support Plans|Trusted Advisor Checks|
-|---|---|
-|Basic and Developer|Core checks|
-|Business and Enterprise plans|Full set of checks|
+Trusted Advisor checks AWS resources for improvements across cost, performance, security, fault tolerance, service limits, and operational excellence. Section 3 has the category examples.
 
 ## **5.3 AWS Service Quotas**
 
@@ -480,10 +340,7 @@ All AWS customers receive **24/7 customer service** and access to documentation,
 
 ## **5.4 Exam Focus**
 
-- **Development and testing - Developer Support**
-- **Production workloads - Business Support**
-- **Pool of TAMs - Enterprise On-Ramp Support**
-- **Dedicated TAM - Enterprise Support**
-- **Minimum plan for full Trusted Advisor checks - Business Support**
-- **AWS best practice recommendations - AWS Trusted Advisor**
-- **View and request quota increases - AWS Service Quotas**
+- **Support Center** → Open an account, billing, or plan-eligible technical case.
+- **Trusted Advisor** → Find recommendations and potential issues.
+- **Service Quotas** → View service limits and request increases.
+- [AWS Health](./17%20-%20AWS%20Monitoring%20and%20Logging.md) → Check service status, account impact, or programmatic events.

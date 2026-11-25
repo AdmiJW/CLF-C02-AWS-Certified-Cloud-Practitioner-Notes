@@ -18,12 +18,7 @@ Set up an **AWS Budget** to help monitor AWS spending
 
 ## 1.3 - IAM User
 
-Create an **AWS Identity and Access Management (IAM) user** for regular AWS access.
-- The course recommends using an **IAM user instead of the AWS account root user** for routine activities.
-- The **root user** is the identity originally used to create the AWS account.
-- Avoid using the root user for normal day-to-day AWS tasks.
-
-**Exam clue: Manage AWS users and permissions - AWS IAM**
+Use a non-root identity for the exercises. The standalone lab in section 4 demonstrates an IAM user. If you already have federated workforce access, use the access portal and temporary credentials described in [IAM](./05%20-%20Foundation%20-%20AWS%20IAM.md).
 
 ## 1.4 - EC2 SSH Key Pair
 
@@ -77,36 +72,24 @@ The credentials created during signup are associated with the **AWS account root
 
 ## 2.3 - AWS Free Plan and Credits
 
-The course describes the current signup benefit for an eligible first AWS account as:
-- **$100 AWS credit** when creating the account under the Free Plan.
-- Up to an **additional $100 AWS credit** by completing certain AWS activities
-- Potential total credit of **$200**
-- The **Free Plan** lasts for up to **six months**, according to the course material.
-
-The credits can offset charges generated while performing course exercises.
+For eligible new customers, either account plan starts with **USD $100** in credits. Completing eligible activities can earn up to **USD $100** more.
 
 ### Free Plan vs Paid Plan
 
-The **Free Plan** has restrictions on which AWS services can be used.
+| Account plan | What it means for exercises |
+| --- | --- |
+| **Free Plan** | Access to a subset of AWS services. The plan ends after six months or when credits are used up, whichever comes first. AWS closes the account at the end of the Free Plan unless you upgrade. |
+| **Paid Plan** | Standard charges apply when credits or free usage do not cover the resources used. Check the price and eligibility of each lab resource before creating it. |
 
-The **Paid Plan** removes those Free Plan service restrictions, but AWS usage can generate normal service charges.
+Accounts created before **July 15, 2025** follow the legacy Free Tier offer rules. Check the Billing and Cost Management console for the offers and credits that apply to your account. The six-month Free Plan period and credit expiration are separate.
 
-The course specifically notes that **Amazon Route 53** exercises may require switching to a paid plan because Route 53 is not included in the Free Plan described in the lesson.
+**Course account:** Joining AWS Organizations or setting up an AWS Control Tower landing zone automatically upgrades a Free Plan account to Paid. Follow the standalone lab in section 4 if you want to keep your Free Plan. The IAM Identity Center organization instance used for AWS account access requires Organizations.
 
-**Exam association: AWS Free Tier / Free Plan - reduced or covered costs do not mean every AWS service is free**
+[AWS Free Tier account plans](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html) · [Free Tier program change](https://aws.amazon.com/blogs/aws/aws-free-tier-update-new-customers-can-get-started-and-explore-aws-with-up-to-200-in-credits/) · [Identity Center instances](https://docs.aws.amazon.com/singlesignon/latest/userguide/identity-center-instances.html)
 
 ## 2.4 - AWS Support Plan During Signup
 
-During account creation, AWS asks you to select a support plan.
-
-For the course, select **AWS Basic Support**, which the transcript identifies as the free support option.
-
-Other support levels mentioned include:
-- Developer
-- Business
-- Enterprise
-
-For the exercises, **Basic Support** is sufficient.
+**Basic Support** is included and is sufficient for the exercises. See [AWS Support Plans](./26%20-%20AWS%20Support.md) for the current options.
 
 ## 2.5 - Verify Account Activation
 
@@ -120,16 +103,7 @@ The course verifies activation by opening the **Amazon EC2 console.**
 
 ## 2.6 - AWS Service Quotas
 
-AWS applies **service quotas** to resources that can be created in an account.
-
-For **Amazon EC2 On-Demand Instances**, the course demonstrates a quota measured in **vCPUs**.
-
-Important distinction:
-- A **quota** limits how much of a resource you are allowed to use
-- Increasing a quota does **not itself create a charge**
-- Charges depend on the AWS resources that are actually used
-
-**Exam clue: Account-level limits on AWS resource usage - Service Quotas**
+If an EC2 launch is blocked by a quota, check the Service Quotas console in the selected Region. The course demonstrates an On-Demand EC2 quota measured in vCPUs. See [Service Quotas](./26%20-%20AWS%20Support.md) for adjustable and fixed quotas.
 
 ## 2.7 - Exam Focus
 
@@ -156,16 +130,7 @@ For example, an **Amazon EC2 instance** can continue generating hourly charges w
 
 ## 3.2 - Course Cost and AWS Credits
 
-The course estimates that completing the exercises while **deleting resources after use** should result in approximately **$10 - $15** of total AWS usage.
-
-For eligible new accounts, the course describes:
-- **$100 initial AWS credit**
-- Up to an **additional $100 credit** for completing specified AWS activities
-- Credits available for the first **six months** after account creation
-
-The course expects these credits to cover the exercise costs if resources are cleaned up appropriately
-
-Creating an **AWS Budget** is also described as one of the activities that contribute toward earning the additional credit.
+Course cost depends on your account plan, Region, services, and cleanup. Check the estimate in [AWS Pricing Calculator](./24%20-%20AWS%20Billing%20and%20Cost%20Management.md) and review your credit balance as you work. Stop or delete each lab resource when you finish and check for dependent resources such as volumes and snapshots.
 
 ## 3.3 - Monthly Cost Budget
 
@@ -193,14 +158,9 @@ A common course scenario is forgetting to delete a resource that is **not covere
 
 ## 3.5 - Root User Usage
 
-The exercise signs in using the **AWS account root user** to configure billing and cost management.
+Use an identity with billing permissions to create and manage the budget. Billing console access for IAM identities may require a one-time root account setting. Protect the root user with MFA and reserve it for tasks that require it. See [root user protection](./05%20-%20Foundation%20-%20AWS%20IAM.md).
 
-The course emphasizes that root-user should be exceptional:
-- Use the **root user** only when necessary.
-- Use an **IAM user** for normal AWS activities
-
-- **Exam association: Routine AWS access - IAM user**
-- **Exam association: Account-level tasks requiring the root identity - AWS account root user**
+[Activating IAM access to the billing console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/control-access-billing.html)
 
 ## 3.6 - Exam Focus
 
@@ -217,14 +177,7 @@ The course emphasizes that root-user should be exceptional:
 
 ## 4.1 - AWS Account Root User
 
-The **AWS account root user** is the identity associated with the email address used to create the AWS account.
-- It has **unrestricted access** to the AWS account.
-- It is **not recommended for day-to-day activities**
-- The course uses the root user only when necessary and uses an **IAM user** for regular exercises
-
-The course notes that the root user also has certain account-level capabilities that an administrator IAM user does not, such as some **billing-related actions** and closing the AWS account.
-
-**Exam association: Full account-level access - AWS account root user**
+Set up root-user MFA before performing the exercises. Use the following IAM user walkthrough for a standalone lab account. See [root access and workforce federation](./05%20-%20Foundation%20-%20AWS%20IAM.md) for the full comparison.
 
 ## 4.2 - Create an IAM User
 
@@ -260,15 +213,11 @@ According to the course:
 
 **Exam distinction: Root user and an administrator IAM user are not the same identity.**
 
+**Lab permissions:** The lecture uses broad administrator permissions for the walkthrough. Use them only in a dedicated lab environment. For individual exercises, grant only the permissions they require and remove the lab user or its permissions when you finish.
+
 ## 4.4 - Multi-Factor Authentication (MFA)
 
-On root-user login, AWS may prompt you to improve security by configuring **multi-factor authentication (MFA)**
-
-**MFA** adds an additional authentication factor beyond the password.
-
-The transcript postpones MFA configuration because it is covered later in the IAM section.
-
-**Exam association: Additional protection for AWS identities - MFA**
+Enable MFA on the root user and the lab IAM user. The MFA exercise in [AWS IAM](./05%20-%20Foundation%20-%20AWS%20IAM.md) explains device options and enrollment.
 
 ## 4.5 - IAM User Sign-In
 
@@ -306,15 +255,7 @@ The course distinguishes two situations:
 
 ## 5.1 - EC2 Key Pairs
 
-When launching **Amazon Elastic Compute Cloud (Amazon EC2)** instances, you may need credentials to connect to the instance.
-
-For a **Linux EC2 instance**, the course uses **SSH** for remote access.
-
-- SSH authentication uses an **EC2 key pair**
-- To connect using SSH, you need the **private key** associated with the key pair
-- The private key can be downloaded when the key pair is created
-
-**Exam association: SSH authentication for a Linux EC2 instance - EC2 key pair**
+Create the key pair required by the Linux or Windows lab in its target Region. Keep the private key in a secure location. See [EC2 SSH Key Pair](./06%20-%20Foundation%20-%20Amazon%20EC2.md) for how SSH and Windows password retrieval use key pairs.
 
 ## 5.2 - `.pem` and `.ppk` Key Formats
 
@@ -429,17 +370,7 @@ This allows DNS records for AWS-hosted applications to be managed directly in AW
 
 ## 6.4 - Public vs Private Hosted Zones
 
-Route 53 uses **hosted zones** to manage DNS records.
-
-| **Hosted Zone**         | **Purpose**                                                            |
-| ----------------------- | ---------------------------------------------------------------------- |
-| **Public hosted zone**  | DNS records for a public domain that can be resolved over the internet |
-| **Private hosted zone** | DNS records that can be resolved within an **Amazon VPC**              |
-
-For the course's public domain, create a **public hosted zone**
-
-- **Exam clue: Internet-resolvable DNS records - Route 53 public hosted zone**
-- **Exam clue: DNS records available only within a VPC - Route 53 private hosted zone**
+Create a **public hosted zone** for the course’s public domain. See [Route 53 Hosted Zones](./10%20-%20DNS%20and%20Edge%20Networking.md) for public and private DNS.
 
 ## 6.5 - DNS Name Servers
 
@@ -458,14 +389,7 @@ Using multiple name servers supports DNS availability.
 
 ## 6.6 - Registrar vs DNS Management
 
-The company where the domain is purchased does not necessarily have to manage its DNS records.
-
-In the course:
-- **GoDaddy** remains the domain registrar
-- **Amazon Route 53** manages DNS resolution
-- The registrar is configured to delegate DNS handling to Route 53 by using the Route 53 name servers
-
-**Important distinction: Domain registration and DNS hosting can be handled by different providers.**
+If you bought the domain from a third-party registrar, keep the registration there and delegate DNS to Route 53 using the name servers from section 6.5.
 
 ## 6.7 - Connecting a Domain to an AWS Application
 
@@ -477,9 +401,7 @@ The detailed DNS record configuration is covered later in the course
 
 ## 6.8 - Cost Considerations
 
-The course highlights two costs:
-- Purchasing the **public domain name**
-- Creating a **Route 53 public hosted zone**, which the course states costs approximately **$0.50 per month**
+Check the domain registration, hosted zone, and query charges before starting. Delete the lab hosted zone when finished if you no longer need its DNS records. Domain registration and renewal are billed separately. [Route 53 pricing](https://aws.amazon.com/route53/pricing/)
 
 ## 6.9 - Exam Focus
 

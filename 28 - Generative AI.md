@@ -8,7 +8,7 @@ AWS provides **Generative AI (GenAI)** services across three main layers, depend
 | ------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | **Infrastructure Layer** | Build and train your own Foundation Models (FMs) and Large Language Models (LLMs) | AWS Compute Infrastructure, Amazon SageMaker                             |
 | **Platform Layer**       | Access existing models and build AI-powered applications or agents                | Amazon Bedrock, Amazon Bedrock AgentCore                                 |
-| **Application Layer**    | Use ready-made AI applications and agents                                         | Amazon Q, Kiro, AWS DevOps Agent, AWS Security Agent, Amazon Quick Suite |
+| **Application Layer**    | Use ready-made AI applications and agents                                         | Amazon Q, Kiro, AWS DevOps Agent, AWS Security Agent, AWS Quick |
 
 **Key Distinction:**
 
@@ -103,58 +103,26 @@ Organizations can use AI capabilities without building or managing the underlyin
 
 ### **Amazon Q**
 
-**Amazon Q** is an AWS generative AI assistant with different capabilities for developers and businesses.
+The CLF-C02 guide lists **Amazon Q**. Recognize it as the name used for AWS generative AI assistants that help with AWS tasks or answer questions using business data.
 
-| Service                | Purpose                                | Example                                           |
-| ---------------------- | -------------------------------------- | ------------------------------------------------- |
-| **Amazon Q Developer** | AI assistance for software development | Generate code and assist with development tasks   |
-| **Amazon Q Business**  | AI assistance using enterprise data    | Ask questions about internal business information |
+| Name encountered in the course | Role and current status |
+| --- | --- |
+| **Amazon Q Developer in the AWS console** | Provides AWS guidance and assistance in the Management Console. AWS renamed this console and mobile experience **the AWS assistant** on November 5, 2026. |
+| **Amazon Q Developer IDE plugins** | Provide coding assistance. New sign-ups ended May 15, 2026. AWS lists April 30, 2027 as the end of support for the plugins and paid subscriptions. Kiro is the AWS-recommended transition for IDE use. |
+| **Amazon Q Business** | Answers questions and summarizes information from enterprise data. Closed to new customers on July 31, 2026. Existing customers can continue using it. |
 
-Amazon Q capabilities are also integrated with AWS services such as:
-- **Amazon QuickSight** - Business intelligence and data analytics.
-- **Amazon Connect** - Customer contact center service.
-- **AWS Supply Chain** - Supply chain management.
+[AWS assistant rename](https://aws.amazon.com/about-aws/whats-new/2026/11/q-developer-renamed-aws-assistant/) · [Q Developer IDE transition](https://aws.amazon.com/blogs/devops/amazon-q-developer-end-of-support-announcement/) · [Q Business availability](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/doc-history.html)
 
 ### **Ready-to-Use AI Agents**
 
-AWS also provides specialized AI agents designed for particular tasks.
+**Lecture context:** AWS DevOps Agent assists with incident investigation. AWS Security Agent supports software security work. Kiro is an AI-assisted development environment.
 
-| AI Agent               | Main Purpose                                                                        |
-| ---------------------- | ----------------------------------------------------------------------------------- |
-| **AWS DevOps Agent**   | Investigate production incidents, identify root causes, and assist with remediation |
-| **AWS Security Agent** | Assist with security activities throughout the software development lifecycle       |
-| **Kiro**               | AI-powered coding and debugging assistance                                          |
+<span id="amazon-quick-suite"></span>
 
-**AWS DevOps Agent** can help identify production issues, investigate their root causes, prepare remediation steps, and potentially take corrective actions.
+### **AWS Quick**
 
-**Kiro** provides AI-assisted software development capabilities, including code generation and debugging.
-
-### **Amazon Quick Suite**
-
-**Amazon Quick Suite** is an AI-powered productivity solution designed to connect different business and productivity tools.
-
-Examples of connected tools include:
-- Email
-- Slack
-- Other productivity applications
-
-Its purpose is to **improve productivity by connecting information and workflows across applications**.
+**AWS Quick** is a workspace that helps teams find answers, analyze data, and work with connected applications. AWS announced the new name in November 2026. The course calls the workspace **Amazon Quick Suite**, and the CLF-C02 guide lists **Amazon Quick**. See [AWS Quick Sight for BI dashboards](./13%20-%20AWS%20Big%20Data%20And%20Analytics%20Services.md). [AWS Quick rename](https://aws.amazon.com/about-aws/whats-new/2026/11/amazon-quick-aws-quick/)
 
 ## **1.5 Exam Focus**
 
-**Exam Relevance:** This is a bonus overview rather than a core CLF-C02 lesson. Prioritize recognizing the general purpose of the services instead of memorizing detailed agent frameworks or protocols.
-- **Build and train custom AI models - AWS Infrastructure and Amazon SageMaker**
-- **Access existing Foundation Models through APIs - Amazon Bedrock**
-- **Customize AI models and apply safety guardrails - Amazon Bedrock**
-- **Deploy and operate AI agents - Amazon Bedrock AgentCore**
-- **AI-powered coding assistance - Amazon Q Developer / Kiro**
-- **AI assistant using enterprise business data - Amazon Q Business**
-- **AI-powered business productivity - Amazon Quick Suite**
-- **AI-assisted DevOps incident investigation - AWS DevOps Agent**
-- **AI-assisted software security - AWS Security Agent**
-
-**Most Important Distinction:**
-
-- **Infrastructure Layer** - Build models.
-- **Platform Layer** - Use models and build agents.
-- **Application Layer** - Use ready-made AI applications.
+**CLF-C02 priority:** Recognize **Amazon Q** assistant use cases and review SageMaker AI in [Machine Learning and AI](./18%20-%20Machine%20Learning%20and%20AI.md). The lecture’s three layers show where AWS compute, managed foundation models such as those offered through Bedrock, and ready-to-use assistants fit. AgentCore and the agent examples are lecture context at this level. [CLF-C02 in-scope services](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/clf-02-in-scope-services.html)

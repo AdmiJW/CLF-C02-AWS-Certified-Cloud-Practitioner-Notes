@@ -48,7 +48,7 @@ This enables **failover** if one AZ becomes unavailable
 
 Some AWS services automatically store multiple copies of data across AZs.
 
-For example, **Amazon Simple Storage Service (Amazon S3)** maintains copies of data across multiple AZs, contributing to its high durability.
+For example, **Amazon S3 Standard** stores data redundantly across multiple AZs. S3 also offers Single-AZ classes for different placement and availability needs. See [S3 storage classes](./11%20-%20Foundation%20-%20AWS%20Storage%20Services.md).
 
 #### Scalability and Load Distribution
 
@@ -61,6 +61,17 @@ This helps with:
 - Avoiding dependency on capacity in a single AZ
 
 **Exam clue: protect an application from failure of a single data center/location - deploy across multiple AZs**
+
+### Multi-AZ and Multi-Region decisions
+
+| Requirement | Placement decision |
+| --- | --- |
+| Keep a workload available during an AZ failure | Distribute serving capacity and data across AZs in one Region. |
+| Recover from a Region-wide event | Plan replication, backups, and failover to a separate Region. See [disaster recovery strategies](./21%20-%20Disaster%20Recovery%20and%20Backup.md). |
+| Serve users in widely separated locations | Use multiple Regions when latency requirements call for regional application placement. See [edge delivery](./10%20-%20DNS%20and%20Edge%20Networking.md) for caching or edge routing. |
+| Meet data sovereignty or residency requirements | Choose allowed Regions for data, replicas, and backups. Check what each service replicates and where. |
+
+[CLF-C02 Domain 3](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02-domain3.html)
 
 ## 1.3 -  AWS Local Zones
 

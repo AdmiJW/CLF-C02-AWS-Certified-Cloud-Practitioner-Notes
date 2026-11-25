@@ -27,7 +27,7 @@ AWS offers several database services designed for specific use cases.
 | **Graph**             | **Amazon Neptune**                                           | Social networks, fraud detection                     |
 | **Time Series**       | **Amazon Timestream**                                        | IoT data, timestamp-based data                       |
 | **Data Warehouse**    | **Amazon Redshift**                                          | Large-scale data analytics                           |
-| **Ledger**            | **Amazon Quantum Ledger Database (QLDB)**                    | Immutable transaction records, supply chain tracking |
+| **Ledger**            | **Amazon Quantum Ledger Database (QLDB, retired)**           | Immutable transaction records, supply chain tracking |
 | **Vector**            | **Amazon OpenSearch Service**, other supported AWS databases | Generative AI, vector embeddings                     |
 
 ### **Relational Databases**
@@ -161,7 +161,7 @@ Databases can be deployed using two general approaches:
 - **Graph relationships / Fraud detection - Amazon Neptune**
 - **Time-stamped IoT data - Amazon Timestream**
 - **Data warehousing / Petabyte-scale analytics - Amazon Redshift**
-- **Immutable transaction history - Amazon QLDB**
+- **Immutable transaction history - Amazon QLDB (retired lecture example)**
 - **Vector embeddings / Generative AI similarity search - Amazon OpenSearch Service or supported database services**
 
 ### **Key Exam Distinctions**
@@ -172,6 +172,8 @@ Databases can be deployed using two general approaches:
 - **Managed Database vs. EC2 Database:** AWS handles much of the database maintenance vs. the customer manages database software and operations.
 
 **Remember:** For CLF-C02, focus on identifying the **appropriate AWS database service based on the workload and use case**, rather than detailed database implementation.
+
+For moving databases and converting schemas, see [AWS DMS and AWS SCT](./20%20-%20AWS%20Migration%20and%20Hybrid%20Storage.md).
 
 # 2 - Amazon RDS
 
@@ -362,47 +364,17 @@ If the primary database fails, a read replica can be **manually promoted** to be
 
 ## **4.2 Amazon RDS Multi-AZ Deployment**
 
-**Amazon RDS Multi-AZ Deployment** improves **high availability** by maintaining a standby database in a different Availability Zone.
-
-### **Key Features**
-
-- **Primary Database:** Handles application read and write operations.
-- **Standby Database:** Maintains a synchronized copy of the primary database.
-- **Synchronous Replication:** Data is replicated synchronously between the primary and standby.
-- **Automatic Failover:** If the primary database fails, RDS automatically switches to the standby.
-- **Endpoint Management:** Applications continue using the same database endpoint without manually updating connection configurations.
-- **Higher Cost:** Additional database infrastructure increases deployment costs.
-
-### **Common Use Cases**
-
-- Production databases requiring **high availability**.
-- Applications requiring **automatic failover**.
-- Workloads that need protection against Availability Zone failures.
-
-**Important:** In a traditional Multi-AZ DB instance deployment, the standby database is not used to serve read queries.
-
-**Key Concept:** Multi-AZ is designed for **high availability and automatic failover**, not read scalability.
+Multi-AZ deployments increase availability within a Region. A **Multi-AZ DB instance** pairs one writer with one synchronous standby in another AZ. The standby is reserved for failover. A **Multi-AZ DB cluster** has one writer and two readable standby instances across three AZs. If the writer fails, RDS can promote a standby. [RDS Multi-AZ architectures](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
 
 ## **4.3 Read Replicas vs. Multi-AZ Deployment**
 
-| Feature                   | Read Replicas            | Multi-AZ Deployment                         |
-| ------------------------- | ------------------------ | ------------------------------------------- |
-| **Primary Purpose**       | Read scalability         | High availability                           |
-| **Replication**           | Asynchronous             | Synchronous                                 |
-| **Replica/Standby Usage** | Read-only queries        | Standby for failover                        |
-| **Write Operations**      | Primary database only    | Primary database only                       |
-| **Failover**              | Manual promotion         | Automatic failover                          |
-| **Data Consistency**      | May have replication lag | Synchronously replicated                    |
-| **Cross-Region Support**  | Yes                      | Standby in another AZ within the Region     |
-| **Primary Use Case**      | Read-heavy applications  | Production databases requiring availability |
+| Option | What it serves | Failover behavior |
+| --- | --- | --- |
+| **RDS read replica** | Read traffic with asynchronous replication. Can be cross-Region for supported engines. | Promote separately when needed. |
+| **Multi-AZ DB instance** | One writer and a standby that does not serve reads. | Automatic failover to the standby. |
+| **Multi-AZ DB cluster** | One writer and two readable standbys. | Automatic writer failover. Readers can also serve read traffic. |
 
-### **Exam Distinction**
-
-- **Improve database read performance - Read Replicas**
-- **Ensure automatic failover - Multi-AZ**
-- **Reduce the load on the primary database - Read Replicas**
-- **Protect against Availability Zone failure - Multi-AZ**
-- **Read data closer to users in another Region - Cross-Region Read Replica**
+**Exam cues** — Offload reads from a primary with a read replica. Protect against an AZ failure with Multi-AZ. When a question names the DB instance deployment, its standby does not serve reads.
 
 ## **4.4 Amazon RDS Backups and Snapshots**
 
@@ -1478,6 +1450,10 @@ However, when applications need to explore complex relationships across multiple
 
 # 12 - Amazon Timestream and QLDB
 
+**Lecture context:** Amazon QLDB reached end of support on July 31, 2025. Amazon Timestream for LiveAnalytics closed to new customers on June 20, 2025. Existing LiveAnalytics customers retain access. Timestream for InfluxDB is a separate engine offering.
+
+[QLDB retirement](https://aws.amazon.com/jp/blogs/news/migration-from-amazon-qldb/) · [Timestream for LiveAnalytics availability](https://docs.aws.amazon.com/timestream/latest/developerguide/AmazonTimestreamForLiveAnalytics-availability-change.html)
+
 ## **12.1 Amazon Timestream**
 
 **Amazon Timestream** is a **fully managed time series database service** designed to store and analyze data that changes over time.
@@ -1545,25 +1521,7 @@ However, **Amazon QLDB** is a centrally managed ledger database, whereas blockch
 
 ## **12.3 Exam Focus**
 
-### **Important Service Associations**
-
-- **Time series database - Amazon Timestream**
-- **Timestamped data / Real-time analytics - Amazon Timestream**
-- **IoT sensor data / Connected vehicle telemetry - Amazon Timestream**
-- **Managed InfluxDB engine - Amazon Timestream for InfluxDB**
-- **Immutable ledger database - Amazon QLDB**
-- **Verifiable transaction history - Amazon QLDB**
-- **Financial records / Supply chain tracking - Amazon QLDB**
-- **Insurance claim history / Tracking and tracing - Amazon QLDB**
-
-### **Key Exam Reminders**
-
-- **Amazon Timestream = Time Series Data + Timestamps + Real-Time Analytics.**
-- **Amazon QLDB = Immutable Records + Transaction History + Data Integrity.**
-- **Timestream vs. DynamoDB:** Timestream focuses on time-based analytics, while DynamoDB focuses on scalable NoSQL key-value access.
-- **QLDB vs. Traditional Databases:** QLDB preserves an immutable transaction history, while traditional databases generally allow records to be updated or deleted.
-
-**Remember:** If an exam scenario emphasizes **timestamped IoT data**, think of **Amazon Timestream**. If it emphasizes **immutable transaction records or supply chain tracking**, associate it with **Amazon QLDB**.
+**Lecture recognition** — Timestream stores timestamped data such as sensor readings. QLDB was a centrally managed, verifiable transaction ledger. Prioritize the current relational, NoSQL, cache, and migration tools in the CLF-C02 guide.
 
 # 13 - Section Summary
 
@@ -1612,7 +1570,7 @@ AWS provides **purpose-built database services** optimized for different data mo
 
 ### **Key Exam Distinctions**
 
-- **RDS Read Replicas vs. Multi-AZ:** Read scalability vs. high availability.
+- **RDS read replicas** offload reads. **Multi-AZ** provides automatic failover, and its DB cluster option also serves reads on the standbys.
 - **Aurora Global Database vs. DynamoDB Global Tables:** Primary-Region writes vs. multi-Region, multi-active writes.
 - **ElastiCache vs. DAX:** General-purpose in-memory caching vs. DynamoDB-specific caching.
 - **DynamoDB vs. DocumentDB:** Key-value access vs. MongoDB-compatible document storage.
@@ -1673,7 +1631,7 @@ D. Amazon RDS Global Database
 
 ### **Why?**
 
-**Amazon RDS Multi-AZ Deployment** provides **high availability and automatic failover** by maintaining a standby database in another Availability Zone.
+**Amazon RDS Multi-AZ** provides high availability and automatic failover. In a single-standby Multi-AZ DB instance deployment, the standby is in another AZ and does not serve reads. Multi-AZ DB clusters also provide automatic failover and have readable standbys.
 - Uses **synchronous replication** in a traditional Multi-AZ DB instance deployment.
 - Automatically fails over to the standby if the primary database becomes unavailable.
 - Applications continue using the same database endpoint.
@@ -1969,7 +1927,7 @@ D. Amazon DocumentDB
 ### **Key Exam Distinctions**
 
 - **AWS DMS vs. AWS Glue:** Database migration with minimal downtime vs. data integration and ETL.
-- **RDS Multi-AZ vs. Read Replicas:** High availability and automatic failover vs. read scalability.
+- **RDS Multi-AZ** provides automatic failover. Use **read replicas** to offload reads. A Multi-AZ DB cluster can also serve reads on its standbys.
 - **DynamoDB Global Tables vs. DAX:** Global multi-Region replication vs. in-memory read acceleration.
 - **Aurora Serverless vs. DynamoDB:** Serverless relational database vs. serverless NoSQL database.
 - **DocumentDB vs. Neptune:** JSON-like document storage vs. graph relationship analysis.

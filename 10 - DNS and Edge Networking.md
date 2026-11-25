@@ -859,18 +859,7 @@ With CloudFront:
 
 ### Cost Optimization
 
-CloudFront caching can help reduce costs by decreasing repeated data retrieval from origin servers.
-- Fewer requests reach the origin when content is served from cache.
-- Reduced origin traffic can lower origin-related data transfer and processing costs.
-- CloudFront provides a **Free Tier allowance** for eligible usage.
-
-**Pricing example from the lecture:**
-- Standard AWS data transfer out: Approximately **$0.09 per GB**.
-- CloudFront Free Tier: **1 TB of data transfer out per month**.
-
-These are lecture figures; actual charges and free allowances depend on current AWS pricing and eligibility.
-
-**Exam clue: Reduce origin load and improve global content delivery - Amazon CloudFront**
+CloudFront cache hits reduce requests to the origin. Compare the pay-as-you-go pricing dimensions with the available flat-rate plans for your traffic volume and feature needs. [CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/) · [Flat-rate plans](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/flat-rate-pricing-plan.html)
 
 ### Security Features
 
@@ -899,7 +888,7 @@ To address this, use **Origin Access Control (OAC)** or the older **Origin Acces
 - **OAC / OAI** - Helps restrict direct access to S3 content.
 - **AWS Shield** - Protects against DDoS attacks.
 
-**Exam clue: Allow users to access private S3 content only through CloudFront - Origin Access Control (OAC)**
+**Exam clue: Keep the S3 bucket private while CloudFront fetches content - Origin Access Control (OAC).** Use the S3 bucket’s REST origin with OAC. An S3 **website endpoint** is a custom origin that uses HTTP for communication from CloudFront to S3 and does not support OAC. See [S3 Static Website Hosting](./11%20-%20Foundation%20-%20AWS%20Storage%20Services.md). [CloudFront origin types](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistS3AndCustomOrigins.html)
 
 ## 8.4 Amazon CloudFront vs Direct Origin Access
 
@@ -1206,28 +1195,6 @@ Both services use **AWS Edge Locations**, but they serve different purposes.
 | **Amazon CloudFront**               | Global content delivery                 | CDN with edge caching                      |
 | **AWS Global Accelerator**          | Global application network optimization | Two static anycast IP addresses            |
 | **Amazon S3 Transfer Acceleration** | Accelerated S3 object transfers         | Faster long-distance uploads and downloads |
-
-### Key Service Distinctions
-
-**Amazon CloudFront**
-- **Content Delivery Network (CDN).**
-- Delivers static and dynamic content with low latency.
-- Caches static content such as images, videos, and HTML files.
-- Reduces repeated requests to origin servers.
-
-**AWS Global Accelerator**
-- Optimizes application traffic using AWS's global network.
-- Provides **two static anycast IP addresses**.
-- Supports **TCP and UDP** traffic.
-- Supports endpoints such as **ALB, NLB, and EC2**.
-- Useful when applications require fixed IP addresses for allowlisting.
-
-**Amazon S3 Transfer Acceleration**
-- Accelerates transfers to and from **Amazon S3**.
-- Particularly useful for **large file uploads over long distances**.
-- Uses AWS Edge Locations and optimized network paths.
-- Does **not cache content**.
-- Incurs additional transfer charges.
 
 ## 11.3 Exam Focus
 

@@ -161,6 +161,8 @@ AWS provides two services specifically suited for automating infrastructure prov
 
 **Key Distinction:** The **AWS Management Console, AWS CLI, and AWS SDKs** are useful for individual resource operations, while **AWS CloudFormation and AWS CDK** are designed for automated infrastructure provisioning.
 
+**Choose the operating method by the task.** The console is useful for a one-time action or exploration. The CLI can repeat commands in a script, and an SDK lets application code call AWS APIs. For a stack that teams need to recreate, use infrastructure as code and keep the template in version control. See [AWS access and credentials](./05%20-%20Foundation%20-%20AWS%20IAM.md). [CLF-C02 Domain 3](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02-domain3.html)
+
 ## **2.4 Exam Focus**
 
 - **Manual resource management - AWS Management Console**
@@ -691,11 +693,7 @@ AWS CodeCommit typically acts as the **source code repository** in a CI/CD workf
 
 ## **7.4 AWS CodeCommit Service Availability Update**
 
-Verified AWS service update
-- **July 25, 2024** - AWS stopped accepting new CodeCommit customers while existing customers could continue using the service.
-- **November 24, 2025** - AWS announced that CodeCommit returned to **General Availability (GA)**, reopening access to new customers.
-
-**Important:** AWS CodeCommit is available to both new and existing customers. It should not be considered a discontinued service.
+AWS reopened CodeCommit to new customers in November 2025. The lecture’s earlier restriction is historical. CodeCommit hosts source repositories in the course pipeline. [AWS CodeCommit availability announcement](https://aws.amazon.com/blogs/devops/aws-codecommit-returns-to-general-availability/)
 
 ## **7.5 Exam Focus**
 
@@ -804,6 +802,8 @@ AWS CodeBuild operates in the **build and testing stage** of the CI/CD workflow.
 Remember: **CodeBuild builds and tests the application; CodeDeploy deploys the application.**
 
 # 9 - AWS CodeDeploy
+
+> **Lecture context:** CodeDeploy appears in the course pipeline. AWS currently lists it as out of scope for CLF-C02. Focus on the difference between building with CodeBuild and orchestrating releases with CodePipeline. [CLF-C02 out-of-scope services](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/clf-02-out-of-scope-services.html)
 
 ## **9.1 AWS CodeDeploy**
 
@@ -1061,14 +1061,7 @@ AWS CodePipeline can automate both **application deployment** and **infrastructu
 
 ### **AWS DevOps Services Comparison**
 
-|Service|Primary Responsibility|Exam Clue|
-|---|---|---|
-|**AWS CodeCommit**|Source control|Store and version-control code|
-|**AWS CodeBuild**|Build and test|Compile code and produce artifacts|
-|**AWS CodeDeploy**|Application deployment|Deploy application updates|
-|**AWS CodePipeline**|CI/CD orchestration|Automate the entire software release workflow|
-|**AWS Device Farm**|Mobile application testing|Test applications on physical mobile devices|
-|**AWS CloudFormation**|Infrastructure provisioning|Deploy AWS infrastructure from templates|
+Use the stage map in section 6.4. CodePipeline coordinates stages and calls services that build, test, and deploy the application.
 
 ## **10.6 Exam Focus**
 
@@ -1201,6 +1194,12 @@ Amazon Lightsail offers **predefined resource bundles** with monthly pricing.
 - **AWS CloudFormation / AWS CDK** - Infrastructure as Code for provisioning and managing AWS resources.
 
 If an exam scenario emphasizes **quickly launching a small website or application with minimal configuration and predictable monthly pricing**, choose **Amazon Lightsail**.
+
+## 11.6 AWS Amplify
+
+**AWS Amplify** provides tools for building full-stack web and mobile applications. **Amplify Hosting** can build and host a web frontend from a source repository. Choose Lightsail for a bundled virtual server and Elastic Beanstalk for deploying application code on a managed platform.
+
+[AWS Amplify documentation](https://docs.aws.amazon.com/amplify/)
 
 # 12 - AWS Elastic Beanstalk
 

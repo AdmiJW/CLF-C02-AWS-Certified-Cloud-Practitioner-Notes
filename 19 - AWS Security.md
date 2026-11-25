@@ -335,15 +335,7 @@ Common use cases:
 
 ## **2.4 AWS Key Management Service (AWS KMS)**
 
-**AWS Key Management Service (AWS KMS)** is a managed AWS service for creating and controlling cryptographic keys used to protect data.
-
-Key characteristics:
-- Supports **symmetric encryption keys**.
-- Supports **asymmetric encryption keys**.
-- Helps manage encryption keys used to secure AWS data.
-- Commonly associated with **encryption at rest**.
-
-For Cloud Practitioner, the key concept is recognizing that **AWS KMS provides managed encryption key management**, rather than requiring customers to build their own key management infrastructure.
+Use **AWS KMS** to create and control keys used to protect data at rest. Section 3 covers key permissions, integrations, and multi-Region keys.
 
 ## **2.5 Exam Focus**
 
@@ -1614,6 +1606,8 @@ AWS Security Hub integrates with other services to support security monitoring a
 - **Exam distinction: Centralize security findings - AWS Security Hub**
 - **Exam distinction: Investigate root causes - Amazon Detective**
 
+**Current product names:** The course uses **AWS Security Hub** for security standards, posture checks, and aggregated findings. AWS now calls that posture management service **AWS Security Hub CSPM**. The current **AWS Security Hub** correlates and prioritizes security signals across services. Recognize the course’s terminology when reading older examples. [AWS security tooling guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/security-tooling.html)
+
 ## **11.6 Exam Focus**
 
 ### **AWS Security Hub Fundamentals**
@@ -1813,6 +1807,10 @@ Organizations can use **AWS Artifact** to obtain documentation required for:
 
 **Important distinction:** AWS Artifact provides **compliance documentation and agreements**. It does not automatically make customer workloads compliant with regulatory requirements.
 
+**Compliance depends on the workload.** Check that the selected AWS service and Region are covered by the relevant certification or program. Use Artifact to retrieve the applicable reports or agreements. Your own data handling, access controls, and workload configuration remain part of your compliance obligations. See [the shared responsibility model](./22%20-%20AWS%20Shared%20Responsibility%20Model.md).
+
+**Where to look:** Consult the [AWS Security Center](https://aws.amazon.com/security/) for AWS security and compliance resources, the [AWS Security Blog](https://aws.amazon.com/blogs/security/) for service guidance and updates, and the [AWS Knowledge Center](https://repost.aws/knowledge-center) for practical AWS support articles. For third-party tools, see [AWS Marketplace](./27%20-%20AWS%20Partners%20Network,%20AWS%20Professionals%20Services%20and%20AWS%20Community.md). [AWS services in scope by compliance program](https://aws.amazon.com/compliance/services-in-scope/)
+
 ## **13.4 Exam Focus**
 
 ### **AWS Artifact Fundamentals**
@@ -1944,22 +1942,7 @@ If AWS detects unusual activity that may indicate an unauthorized attack:
 
 ## **15.1 AWS Security Services Summary**
 
-|AWS Service|Main Purpose|Exam Clue|
-|---|---|---|
-|**AWS Certificate Manager (ACM)**|Manage public and private SSL/TLS certificates|HTTPS, SSL/TLS certificates|
-|**AWS Security Hub**|Centralize security findings and alerts|Aggregate security findings|
-|**AWS IAM**|Manage users, roles, and permissions|Access control|
-|**Amazon GuardDuty**|Detect threats using machine learning and AWS activity logs|Intelligent threat detection|
-|**Amazon Macie**|Identify sensitive data and PII in Amazon S3|Sensitive data discovery|
-|**Amazon Inspector**|Detect vulnerabilities in EC2, container images, and Lambda|Vulnerability scanning|
-|**AWS KMS**|Manage encryption keys|Managed encryption keys|
-|**AWS CloudHSM**|Provide dedicated hardware for cryptographic key management|Dedicated key control|
-|**AWS WAF**|Protect web applications against common Layer 7 attacks|SQL injection, XSS|
-|**AWS Artifact**|Access security and compliance reports and agreements|Compliance documentation|
-|**AWS Shield**|Protect infrastructure against DDoS attacks|DDoS protection|
-|**AWS Secrets Manager**|Securely store, retrieve, and rotate credentials|Passwords, API keys, tokens|
-|**AWS Network Firewall**|Provide network traffic inspection and intrusion prevention|Network-level protection|
-|**AWS Firewall Manager**|Centrally manage firewall and security policies|Centralized firewall management|
+Use the recognition tables in sections 1.2–1.4 and the worked examples in the service sections. For a VPC traffic question, see [security groups and network ACLs](./09%20-%20Foundation%20-%20Amazon%20VPC%20and%20Networking.md). For a compliance evidence question, see AWS Artifact in section 13.
 
 ## **15.2 Important Security Service Distinctions**
 

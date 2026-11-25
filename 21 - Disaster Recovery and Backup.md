@@ -124,18 +124,7 @@ There are three common Active-Passive strategies.
 
 ### **Cost vs Recovery Speed**
 
-As the disaster recovery strategy becomes more advanced:
-- **Recovery time decreases.**
-- **Potential data loss decreases.**
-- **Infrastructure costs increase.**
-
-From lowest to highest cost:
-
-**Backup and Restore - Pilot Light - Warm Standby - Active-Active**
-
-From slowest to fastest recovery:
-
-**Backup and Restore - Pilot Light - Warm Standby - Active-Active**
+Treat recovery times and potential data loss in the comparison as illustrative. Set specific RPO and RTO targets for the workload and validate them with a recovery drill. A warm standby generally costs more than a pilot light because more of the application is already running.
 
 ## **1.4 Exam Focus**
 
@@ -274,6 +263,14 @@ For example, **Amazon Elastic Block Store (Amazon EBS)** supports incremental sn
 - Reduces backup storage requirements and redundant data transfers.
 
 **Key distinction:** Incremental backups store changes rather than repeatedly backing up all unchanged data.
+
+### Backup vaults and restore testing
+
+A **backup vault** stores recovery points and lets you manage access to them. A backup plan schedules backups and sets retention. For example, put nightly recovery points into a dedicated vault and schedule a **restore test** to check that a selected recovery point can be restored. Check the restored application or data separately as part of the recovery drill.
+
+Use [EBS snapshots](./11%20-%20Foundation%20-%20AWS%20Storage%20Services.md) for the volume-level backup mechanism and [migration services](./20%20-%20AWS%20Migration%20and%20Hybrid%20Storage.md) when the goal is moving a workload. **Elastic Disaster Recovery** continuously replicates source disks to support workload recovery. **AWS Backup** centrally manages recovery points and restores.
+
+[AWS Backup vaults](https://docs.aws.amazon.com/aws-backup/latest/devguide/vaults.html) · [Restore testing](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing.html)
 
 ## **3.4 Supported Services and Environments**
 

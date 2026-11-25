@@ -74,7 +74,7 @@ AWS provides AI services across several categories.
 | Enterprise Search | **Amazon Kendra**         | Intelligent search across enterprise documents       |
 | Chatbots          | **Amazon Lex**            | Build conversational chatbots                        |
 | Recommendations   | **Amazon Personalize**    | Generate personalized recommendations                |
-| Forecasting       | **Amazon Forecast**       | Predict future demand using historical data          |
+| Forecasting       | **Amazon Forecast** (existing customers)       | Predict future demand using historical data          |
 | Fraud Detection   | **Amazon Fraud Detector** | Detect potentially fraudulent activities             |
 | Contact Center    | **Amazon Connect**        | Cloud-based contact center with AI integrations      |
 
@@ -221,25 +221,7 @@ Common use cases:
 
 ## **1.4 Exam Focus**
 
-1. **Three AWS AI/ML layers**
-	- Infrastructure - Maximum control and customization.
-	- ML Platform - Amazon SageMaker.
-	- AI Services - Ready-to-use AI capabilities.
-2. **Build, train, and deploy ML models - Amazon SageMaker**
-3. **Identify objects and faces in images/videos - Amazon Rekognition**
-4. **Text-to-Speech - Amazon Polly**
-5. **Speech-to-Text - Amazon Transcribe**
-6. **Extract text from scanned documents using OCR - Amazon Textract**
-7. **Translate languages - Amazon Translate**
-8. **Sentiment analysis and NLP - Amazon Comprehend**
-9. **Intelligent enterprise search - Amazon Kendra**
-10. **Build conversational chatbots - Amazon Lex**
-11. **Personalized product recommendations - Amazon Personalize**
-12. **Historical data forecasting - Amazon Forecast**
-13. **Detect fraudulent transactions - Amazon Fraud Detector**
-14. **Cloud contact center - Amazon Connect**
-
-**Key exam distinction:** Identify whether a question requires **custom ML model development (Amazon SageMaker)** or a **ready-to-use AI capability (AWS AI Services)**.
+Match the input and desired output. **Polly** turns text into speech. **Transcribe** turns audio into text. **Translate** changes the text language. **Textract** extracts document contents. **Comprehend** analyzes text. **Rekognition** analyzes images and video. **Lex** powers conversational interfaces and **Amazon Connect** is a cloud contact center. **SageMaker AI** supports building, training, and deploying ML models in section 12. For foundation models and AI assistants, see [Generative AI](./28%20-%20Generative%20AI.md).
 
 # 2 - \[Demo] Amazon Rekognition
 
@@ -842,6 +824,8 @@ Amazon Kendra searches indexed HR policy documents and returns the relevant answ
 
 **Exam clue: Intelligent enterprise search using natural-language queries - Amazon Kendra**
 
+**Lecture context:** Amazon Kendra entered maintenance mode on June 30, 2026 and closed to new customers on July 30, 2026. AWS continues supporting existing customers. [Amazon Kendra availability](https://docs.aws.amazon.com/kendra/latest/dg/kendra-availability-change.html)
+
 ## **8.2 How Amazon Kendra Works**
 
 Amazon Kendra uses **data connectors, document indexing, and natural-language search** to retrieve information from enterprise repositories.
@@ -1045,12 +1029,7 @@ This helps the company maintain sufficient inventory while minimizing excess sto
 
 ## **10.2 Amazon Forecast Availability and Exam Relevance**
 
-According to the lesson, **Amazon Forecast has been discontinued for new AWS customers**.
-- The service is no longer available to new AWS customers.
-- It may still appear in AWS Certified Cloud Practitioner (CLF-C02) exam questions.
-- Focus on recognizing its primary purpose rather than learning implementation details.
-
-**Key concept:** Amazon Forecast is associated with **time-series forecasting, demand prediction, and inventory optimization**.
+**Lecture context:** Amazon Forecast closed to new customers on July 29, 2024. Existing customers can continue to use it. AWS lists SageMaker Canvas as a transition option for forecasting. [Amazon Forecast availability](https://docs.aws.amazon.com/managedservices/latest/onboardingguide/forecast.html)
 
 ## **10.3 Exam Focus**
 
@@ -1060,7 +1039,7 @@ According to the lesson, **Amazon Forecast has been discontinued for new AWS cus
 4. **Forecast seasonal product demand - Amazon Forecast**
 5. **Financial and resource planning - Amazon Forecast**
 6. **Use historical sales, transactions, and seasonal trends - Forecasting Input Data**
-7. **Service discontinued for new AWS customers - Amazon Forecast**
+7. **Amazon Forecast closed to new customers. Existing customers can continue using it.**
 
 **Key exam distinction:** If a scenario involves **predicting future sales, estimating inventory requirements, or forecasting demand based on historical data and trends**, associate it with **Amazon Forecast**.
 

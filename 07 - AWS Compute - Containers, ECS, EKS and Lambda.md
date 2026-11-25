@@ -637,19 +637,7 @@ Amazon ECS and Amazon EKS can run containerized workloads using different comput
 
 ## 5.1 What Is Amazon ECS?
 
-**Amazon Elastic Container Service (Amazon ECS)** is a **fully managed container orchestration service** provided by AWS.
-
-It is used to **deploy, run, manage, and scale containerized applications** using Docker-compatible container images.
-
-### Key Features
-
-- **AWS-Native Service** - Built by AWS for container orchestration.
-- **Container Management** - Simplifies deploying and managing containers at scale.
-- **Managed Orchestration** - AWS manages the container orchestration control plane.
-- **Flexible Compute Options** - Supports Amazon EC2 and AWS Fargate.
-- **Native AWS Integrations** - Integrates with other AWS services for networking, monitoring, and deployment.
-
-**Key Concept**: Amazon ECS simplifies running containers at scale without requiring customers to manage Kubernetes.
+**Amazon Elastic Container Service (ECS)** orchestrates container applications on AWS. AWS manages the control plane that schedules tasks, maintains desired counts, and coordinates deployments. Section 6 walks through a deployment.
 
 ## 5.2 Amazon ECS Compute Options
 
@@ -917,29 +905,7 @@ Amazon ECS can integrate with:
 
 ## 7.1 What Is Amazon EKS?
 
-**Amazon Elastic Kubernetes Service (Amazon EKS)** is a **fully managed Kubernetes service** provided by AWS.
-
-It allows customers to deploy, run, and manage **Kubernetes-based containerized applications** without managing the Kubernetes control plane.
-
-### Key Features
-
-- **Managed Kubernetes** - AWS manages the Kubernetes control plane.
-- **Open-Source Compatibility** - Runs an upstream-certified, Kubernetes-conformant version of Kubernetes.
-- **Container Orchestration** - Automates container deployment, scheduling, and scaling.
-- **Flexible Compute Options** - Supports **Amazon EC2** and **AWS Fargate**.
-- **Kubernetes Ecosystem** - Supports standard Kubernetes tools and configurations.
-
-### What Is Kubernetes?
-
-**Kubernetes** is a widely adopted, open-source **container orchestration platform**.
-
-It automates:
-- Deployment of containerized applications.
-- Container scheduling and placement.
-- Application scaling.
-- Management of containerized workloads.
-
-**Key Concept**: Amazon EKS provides **managed Kubernetes on AWS**, allowing organizations to use familiar Kubernetes technologies while AWS manages the control plane.
+**Amazon Elastic Kubernetes Service (EKS)** runs conformant Kubernetes on AWS. AWS manages the Kubernetes control plane. Teams can use Kubernetes manifests, APIs, and tools to deploy and scale apps as described in section 8.
 
 ## 7.2 Kubernetes Pods
 
@@ -2017,14 +1983,9 @@ AWS provides different compute services depending on application architecture, s
 | **Amazon ECR**  | Container image registry           | Stores and manages container images for ECS and EKS              |
 | **AWS Fargate** | Serverless container compute       | Runs containers without managing servers                         |
 | **AWS Lambda**  | Serverless function execution      | Event-driven, stateless, automatic scaling                       |
+| **AWS Batch** | Managed batch job scheduling and execution | Queues jobs and runs containerized batch workloads on supported compute |
 
-### Key Distinctions
-
-- **EC2 vs Containers** - EC2 provides virtual machines, while containers offer lightweight, portable, and consistent application environments.
-- **ECS vs EKS** - ECS uses AWS-native orchestration; EKS uses Kubernetes.
-- **ECR vs ECS** - ECR stores container images; ECS runs and manages containers.
-- **EC2 vs Fargate** - EC2 requires instance management; Fargate provides serverless container compute.
-- **Fargate vs Lambda** - Fargate runs container workloads; Lambda executes event-driven functions.
+**Exam clue:** Queue and schedule thousands of non-interactive jobs, such as simulations or image-processing jobs, with **AWS Batch**. Use ECS or EKS when the primary task is operating containerized applications. [AWS Batch](https://docs.aws.amazon.com/batch/latest/userguide/)
 
 ## 13.2 Choosing the Right AWS Compute Service
 

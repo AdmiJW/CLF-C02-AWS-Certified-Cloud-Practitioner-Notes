@@ -7,7 +7,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import { createMarkdownProcessor, rehypeHeadingIds } from '@astrojs/markdown-remark';
 import { discoverNotes, describeNote, orderAndValidate } from '../src/lib/discovery.mjs';
-import { normalizeHeadings, readerElements, attachmentsFromTree, resolveAttachment } from '../src/lib/markdown.mjs';
+import { linkChapters, normalizeHeadings, readerElements, attachmentsFromTree, resolveAttachment } from '../src/lib/markdown.mjs';
 import { BASE_PATH } from '../src/lib/config.mjs';
 
 async function fixture(run) {
@@ -47,6 +47,15 @@ test('render-time normalization preserves text and yields unique static anchors'
 test('headings already below H1 retain their hierarchy', async () => {
   const renderer = await createMarkdownProcessor({ remarkPlugins: [normalizeHeadings], syntaxHighlight: false });
   assert.deepEqual((await renderer.render('## Section\n\n### Detail')).metadata.headings.map(heading => heading.depth), [2, 3]);
+});
+
+test('relative chapter links render as site routes and external links are preserved', async () => {
+  const renderer = await createMarkdownProcessor({ remarkPlugins: [linkChapters], syntaxHighlight: false });
+  const source = '[Deployment](./15%20-%20Infrastructure%20&%20Application%20Deployment%20%28DevOps%29.md#overview)\n\n'
+    + '[AWS](https://docs.aws.amazon.com/example.md)';
+  const { code } = await renderer.render(source);
+  assert.ok(code.includes(`href="${BASE_PATH}notes/infrastructure-and-application-deployment-devops/#overview"`));
+  assert.ok(code.includes('href="https://docs.aws.amazon.com/example.md"'));
 });
 test('attachments preserve case, spaces, Unicode and reference-image syntax', async () => fixture(async root => {
   await mkdir(path.join(root, 'Attachments'));

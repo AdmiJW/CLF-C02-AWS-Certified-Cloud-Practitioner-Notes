@@ -115,10 +115,12 @@ This is useful for broadcasting alerts or notifications.
 | **Amazon SQS**         | Message queuing for loosely coupled applications | Decouple components using message queues  |
 | **Amazon SNS**         | Publish messages to multiple subscribers         | Broadcast alerts and notifications        |
 | **Amazon EventBridge** | Event-driven integration using rules             | Route events based on specific conditions |
+| **AWS Step Functions** | Run a stateful workflow | Coordinate steps, branches, and retries |
+| **Amazon SES** | Send application email | Deliver receipts, password resets, or newsletters |
 
 **Important Distinctions:**
 
-- **API Gateway vs Cognito:** API Gateway handles API requests; Cognito manages user authentication and authorization.
+- **API Gateway vs Cognito:** API Gateway handles API requests. Cognito provides app sign-in and identity features. See [workforce federation and Cognito](./05%20-%20Foundation%20-%20AWS%20IAM.md).
 - **SNS vs EventBridge:** SNS distributes messages to subscribers; EventBridge routes events based on configured rules.
 - **SQS vs SNS:** SQS queues messages for processing; SNS distributes messages to multiple subscribers.
 
@@ -135,6 +137,14 @@ This is useful for broadcasting alerts or notifications.
 - **Event routing based on rules - Amazon EventBridge**
 - **Event-Driven Architecture - Applications automatically respond to events**
 - **Loosely Coupled Architecture - Components communicate with reduced dependencies**
+
+## 1.6 Workflow orchestration and application email
+
+**AWS Step Functions** runs a workflow defined as a state machine. For an order, it can validate payment, retry a failed call, branch on stock availability, and request shipment. **EventBridge** can start the workflow when the order arrives. **SQS** can buffer work for consumers. **SNS** can send a notification to multiple subscribers.
+
+**Amazon Simple Email Service (SES)** sends customer-facing email from applications. Use it for a receipt or password-reset message. A notification published to a topic with multiple subscriber types points to SNS.
+
+[Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html) · [Amazon SES](https://docs.aws.amazon.com/ses/latest/dg/Welcome.html)
 
 # 2 - Amazon API Gateway
 
@@ -1247,54 +1257,7 @@ Examples include:
 
 ## **11.1 AWS Application Integration Services Summary**
 
-AWS Application Integration Services support **API communication**, **asynchronous messaging**, and **loosely coupled, event-driven architectures**.
-
-### **API Services**
-
-| AWS Service            | Key Features                                                                                        | Exam Clue                                                |
-| ---------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| **Amazon API Gateway** | REST, HTTP, and WebSocket APIs; authentication, authorization, API keys, throttling, custom domains | Manage, secure, and expose APIs                          |
-| **AWS AppSync**        | GraphQL APIs, predefined schemas, selective data retrieval, real-time subscriptions                 | Retrieve specific data from multiple sources efficiently |
-
-**Key Distinction:**
-
-- **API Gateway:** General-purpose API management supporting REST, HTTP, and WebSocket APIs.
-- **AppSync:** GraphQL-based APIs that allow clients to request only the data they need.
-
-### **Messaging and Event-Driven Services**
-
-| AWS Service            | Key Features                                                       | Exam Clue                                         |
-| ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------- |
-| **Amazon SQS**         | Standard and FIFO queues, Visibility Timeout, message retention    | Asynchronous messaging and application decoupling |
-| **Amazon SNS**         | Publish/Subscribe, A2A and A2P notifications, multiple subscribers | Broadcast messages and notifications              |
-| **Amazon EventBridge** | Serverless event bus, event patterns, rules, targets, retries      | Route events based on conditions                  |
-| **Amazon MQ**          | Managed ActiveMQ and RabbitMQ, enterprise messaging protocols      | Migrate existing message brokers to AWS           |
-
-### **Important Messaging Distinctions**
-
-**Amazon SQS**
-- Stores messages until processed and deleted or until their retention period expires.
-- **Message Retention:** Configurable from **1 minute to 14 days**.
-- **Standard Queue:** Best-effort ordering.
-- **FIFO Queue:** Strict message ordering.
-- **Visibility Timeout:** Temporarily hides messages during processing.
-
-**Amazon SNS**
-- Uses the **Publish/Subscribe (Pub/Sub)** model.
-- **A2A:** Application-to-Application messaging.
-- **A2P:** Application-to-Person notifications.
-- Pushes messages to subscribers rather than retaining them in a queue for consumers to poll.
-- Supports delivery retries, but does not provide persistent message storage like SQS.
-
-**Amazon EventBridge**
-- Uses an **Event Bus** to receive events.
-- **Rules** evaluate events and route them to matching targets.
-- Supports retries for failed event delivery.
-- Enables loosely coupled communication between AWS services, custom applications, and third-party SaaS applications.
-
-**Amazon MQ**
-- Provides managed **Apache ActiveMQ** and **RabbitMQ** brokers.
-- Useful when migrating existing enterprise messaging applications with minimal code changes.
+Use the comparison in section 1.4 to match the requirement to the service. For an event-driven flow, identify whether the application needs a queue (**SQS**), fan-out (**SNS**), rule-based event routing (**EventBridge**), a stateful workflow (**Step Functions**), or application email (**SES**). For existing broker protocols, see the **Amazon MQ** examples in section 10.
 
 ## **11.2 Exam Focus**
 

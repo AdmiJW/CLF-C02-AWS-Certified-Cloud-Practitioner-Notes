@@ -188,15 +188,7 @@ This shared-resource model is a core characteristic of **public cloud computing*
 
 ## 3.5 - Rapid Elasticity and Scalability
 
-Cloud resources can be increased or decreased according to demand.
-
-- Customers can obtain additional resources when needed
-- Resources can often be added **automatically**
-- Resources can also be terminated when they are no longer required.
-
-This allows cloud environments to respond quickly when computing requirements change.
-
-**Exam clue: quickly add or remove resources as demand changes - rapid elasticity**
+**Scalability** is the ability to handle a change in workload by changing capacity. **Elasticity** is the ability to add and release capacity as demand changes, often automatically. For example, adding instances as a web store grows demonstrates scalability. Adding instances during a sale and removing them afterward demonstrates elasticity. See [EC2 Auto Scaling](./08%20-%20Load%20Balancer%20&%20Auto%20Scaling.md) for how this works on AWS.
 
 ## 3.6 - Measured Service
 
@@ -314,47 +306,7 @@ Benefits include:
 
 ## 4.8 - Additional Cloud Benefits
 
-### Scalability
-
-**Scalability** is the ability to increase or decrease computing capacity to meet changing requirements
-
-Because public cloud providers have large pools of resources, customers can request additional capacity when required.
-
-### Elasticity
-
-**Elasticity** is the ability to adjust resources according to demand, often automatically
-
-Resources can:
-- **Scale up or out** when demand increases
-- **Scale down or in** when demand decreases
-
-AWS can provide tools such as **Auto Scaling** to adjust Amazon EC2 capacity according to demand.
-
-### Scalability vs Elasticity
-
-| **Concept**     | **Main Idea**                                                      | **Exam Clue**                                         |
-| --------------- | ------------------------------------------------------------------ | ----------------------------------------------------- |
-| **Scalability** | Increase or decrease capacity to meet workload requirements        | Application needs more computing capacity             |
-| **Elasticity**  | Dynamically adjust capacity as demand changes, often automatically | Resources automatically expand and shrink with demand |
-
-### High Availability and Fault Tolerance
-
-Cloud infrastructure can support applications across multiple data centers or locations
-
-- **High availability** focuses on keeping applications and services accessible
-- **Fault tolerance** helps systems continue operating when a component or location experiences a failure
-- Redundant copies of data and workloads can reduce the impact of failures
-
-### Flexibility
-
-Cloud computing provides flexibility in choosing and changing resources.
-
-For example, an organization can:
-
-- Use different resource sizes as requirements change
-- Increase or decrease computing capacity
-- Select cloud services appropriate for a particular workload
-- Avoid being permanently tied to one fixed hardware configuration
+The scalability and elasticity definitions are in section 3.5. **High availability** reduces downtime, and **fault tolerance** keeps a system operating through component failures. Deploying across multiple Availability Zones is one way to improve availability. See [AWS Global Infrastructure](./04%20-%20AWS%20Global%20Infrastructure.md) and [Well-Architected design principles](./25%20-%20AWS%20Well-Architected%20and%20Cloud%20Adoption%20Framework%20%28CAF%29.md).
 
 ## 4.9 - Exam Focus
 
@@ -369,6 +321,17 @@ For example, an organization can:
 - **Keep applications accessible - high availability**
 - **Continue operating despite failures - fault tolerance**
 - **Choose and change resources as requirements evolve - flexibility**
+
+## 4.10 - Cloud Economics
+
+| Decision | What to consider |
+| --- | --- |
+| **Fixed and variable costs** | On-premises costs can include upfront servers and facilities, scheduled maintenance, power, and staffing. Cloud metering lets much of the bill vary with usage. A commitment can still introduce a predictable fixed portion. |
+| **License included or BYOL** | License-included pricing bundles a software license with usage. Bring Your Own License (BYOL) uses an eligible existing license. Check its terms and tenancy requirements. |
+| **Rightsizing** | Use workload metrics to fit instance size and storage to demand. Scale or shut down idle capacity where practical. |
+| **Automation** | Repeatable provisioning, scaling, and shutdown reduce manual effort and help avoid idle capacity. |
+
+See [Billing and Cost Management](./24%20-%20AWS%20Billing%20and%20Cost%20Management.md) for estimates and rightsizing tools. [CLF-C02 Domain 1](https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02-domain1.html)
 
 # 5 - Deployment Models of Cloud - Private, Public and Hybrid
 
